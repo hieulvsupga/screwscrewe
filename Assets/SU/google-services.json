@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "880260020738",
+    "project_id": "tap-away-4b41f",
+    "storage_bucket": "tap-away-4b41f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880260020738:android:ffd2aa0d818f23f6c4051b",
+        "android_client_info": {
+          "package_name": "com.sg.tap.away.tile3d.master.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880260020738-bnihdaf1mm1ami6mgi48schu67ipe4gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB55isAOTc2sPLnuZXOaqo5CxXRb3JLLko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880260020738-bnihdaf1mm1ami6mgi48schu67ipe4gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

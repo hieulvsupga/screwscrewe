@@ -1,0 +1,69 @@
+public enum EventName
+{
+    // các giá trị không được thay đổi
+	// các event paid_ad phải viết thường để bên marketing đọc được số liệu
+    paid_ad_impression_banner,
+    paid_ad_impression_interstitial,
+    paid_ad_impression_rewarded,
+    paid_ad_impression_native,
+	
+    Rating,
+    Purchase_Success,
+    Purchase_Fail,
+    //-------------------------------
+    First_RewardedAds,
+    Tuto_Start,
+    Tuto_Complete,
+    First_LevelComplete,
+    First_LevelUp,
+    Second_LevelComplete,
+    Second_LevelUp,
+    First_LevelRetry,
+    First_CloseSetting,
+    Level_Up,
+    Level_Complete,
+    Click_Retry,
+    Click_Undo,
+    Rewarded_Ads,
+    Close_Setting,
+    Use_VirtualCurrency,
+    Earn_VirtualCurrency,
+    Rewarded_Used,
+    D1_8_Minutes,
+    D1_10_Minutes,
+    D1_15_Minutes,
+    D1_30_Minutes,
+    D1_40_Minutes,
+    D1_50_Minutes,
+    Play_2_Times,
+    Play_3_Times,
+}
+public enum ParaName
+{
+    //-- các giá trị không được thay đổi
+	// các paraname viết thường là để cho bên marketing lấy được số liệu
+    valuemicros,
+    currency,
+    precision,
+    adunitid,
+    network,
+    Action_Show_Ads,
+    // ---------------------------------
+
+    Type,
+    Level,
+    Rewarded_Used,
+    Click_Shop,
+    Click_NoAds,
+    Click_Vibrate,
+    Click_Sound,
+    Star_Number,
+    Value,
+    Undo_Count,
+    VirtualCurrency,
+    Count,
+    ID,
+    Reason,
+    Revenue,
+
+}

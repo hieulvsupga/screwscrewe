@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c979dec2a2395e647833c76f6d705494
+  m_SerializeEntries:
+  - m_GUID: 59ec6424e2ee64b4d9078b684856b9c1
+    m_Address: Assets/Prefabs/ItemInMap/text.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 14eb20aff3837c248b3e4ff7ae292bb7
+    m_Address: Assets/Prefabs/ItemInMap/slot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 196dfd844f1e8a54b95cd0f3c5473e5a
+    m_Address: Assets/Prefabs/ItemInMap/nail.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 830288f416e0c354780ba828bb83f8d7
+    m_Address: Assets/Prefabs/ItemInMap/hint.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b0e449f8b9074084291910bca05874d6
+    m_Address: Assets/Prefabs/ItemInMap/bomb.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b3892ca55280cbb4db32e935f1932043
+    m_Address: Assets/Prefabs/ItemInMap/bg.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d858671c461cd974b996e9cdde6a6531
+    m_Address: Assets/Prefabs/ItemInMap/275x100.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ddd2ae7b568cc1043aaf132333d3396c
+    m_Address: Assets/Prefabs/ItemInMap/key.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f0d0a5d61677bae49a290e719a08cab8
+    m_Address: Assets/Prefabs/ItemInMap/lock.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bb3a9c5b2c3c3da4a9396bc25a8e2144
+    m_Address: Assets/Prefabs/ItemInMap/150x150.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9aa07a70092c13448a523c2284cb9d2e
+    m_Address: Assets/Prefabs/ItemInMap/550x100.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 74b95491bd482e4448703c57c0979815
+    m_Address: Assets/Prefabs/ItemInMap/400x100.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7690e6a34aaf80c468d9f89f7da5602b
+    m_Address: Assets/Prefabs/ItemInMap/ad.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ee67fe210111f384b807de9c0eadbba7
+    m_Address: Assets/Prefabs/ItemInMap/400x400.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cc5e3ff32548cb44ea9724630adb6b1f
+    m_Address: Assets/Prefabs/ItemInMap/board_L.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e5cf8b93c97ea504fa8fb4fd2e4bf529
+    m_Address: Assets/Prefabs/ItemInMap/board_W.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c43fbd5119cfddd458dd54141d2a7928
+    m_Address: Assets/Prefabs/ItemInMap/board_700x100.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3cd7903ed52476849a4d3a2e1ad8e1f2
+    m_Address: Assets/Prefabs/ItemInMap/board_400x175.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f2ba73f0cac4eb5479e3b0d03ba38c09
+    m_Address: Assets/Prefabs/ItemInMap/slotinboard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 9614d789b0cdf164f9d0f3535372ac79, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 2b206e6f67a0a8443a732dc7bba2fab3, type: 2}
+    - {fileID: 11400000, guid: f83e4296c59325a40a0482e653a9d71a, type: 2}
