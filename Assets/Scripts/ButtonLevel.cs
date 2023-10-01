@@ -28,6 +28,6 @@ public class ButtonLevel : MonoBehaviour
     public void ClickLevel()
     {
         PlayerPrefs.SetString("levelstart", $"Assets/_GameAssets/data_{level}.json");
-        SceneManager.LoadScene("GamePlay");
+        Controller.Instance.LoadLevel();
     }
 }

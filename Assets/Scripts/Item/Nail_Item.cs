@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Nail_Item : MonoBehaviour
+public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 {
+    //pool
+    private ObjectPool<Nail_Item> _pool;
+
+
+
+
     // public bool hasSlot = false;
     // Start is called before the first frame update
     public Nail nail;
@@ -71,5 +78,17 @@ public class Nail_Item : MonoBehaviour
         {
             gameObject.layer = (17 + (layercheck - 6));
         }
+    }
+
+    public void SetPool(ObjectPool<Nail_Item> pool){
+        _pool = pool;
+    }
+
+    public void ResetPool(){
+        _pool.Release(this);
+    }
+
+    public Nail_Item IGetComponentHieu(){
+        return this;
     }
 }

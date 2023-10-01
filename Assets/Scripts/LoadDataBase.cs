@@ -247,6 +247,7 @@ public class RootLevel
 
 public class LoadDataBase : MonoBehaviour
 {
+
     public int itemCount;
     public int boardCount;
 
@@ -334,24 +335,25 @@ public class LoadDataBase : MonoBehaviour
             Bounds boundnail = levelController.rootlevel.litsnail[i].ColiderNail.bounds;
             Vector2 size = boundnail.size;
 
-            int numColliders = Physics2D.OverlapBoxNonAlloc(levelController.rootlevel.litsnail[i].transform.position, size, 0, results, 1 << 6);
+            int numColliders = Physics2D.OverlapBoxNonAlloc(levelController.rootlevel.litsnail[i].transform.position, size, 0, results);
             //GameObject g = Instantiate(gameobjecttest, levelController.rootlevel.litsnail[i].transform.parent.transform.position, Quaternion.identity);
             //g.transform.localScale = size;
             int flag = 0;
             int layercheck = 0;
             for (int j = 0; j < numColliders; j++)
             {
-                Bounds bounds1 = results[j].GetComponent<Collider2D>().bounds;
-
-                if (bounds1.Intersects(boundnail))
+                Bounds bounds1 = results[j].GetComponent<Collider2D>().bounds;        
+                if (bounds1.Intersects(boundnail) && results[j].transform.CompareTag("Board"))
                 {
+                    
                     Bounds overlapBounds = boundnail;
                     overlapBounds.Encapsulate(bounds1.min);
                     overlapBounds.Encapsulate(bounds1.max);
                     float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
                     float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-                    if (overlapPercentage >= 90 && overlapPercentage <= 100)
+                    if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
                     {
+                        
                         boardCount++;
                         Board_Item board = results[j].GetComponent<Board_Item>();
                         LoadSlotBoardAddressAble(board,levelController.rootlevel.litsnail[i]);
@@ -689,24 +691,37 @@ public class LoadDataBase : MonoBehaviour
 
     public void LoadNailAddressAble(string str,  Nail nail)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z), Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z)));
-                a.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
-                Nail_Item nail_Item = a.GetComponent<Nail_Item>();
-                nail_Item.nail = nail;
-                levelController.rootlevel.Findslotfornail(nail_Item);
-                levelController.rootlevel.litsnail.Add(nail_Item);
-            }
-            else
-            {
-                // Handle the failure case
-            }
+        // AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
+        // asyncOperationHandle.Completed += (handle) =>
+        // {
+        //     if (handle.Status == AsyncOperationStatus.Succeeded)
+        //     {
+        //         GameObject a = Instantiate(handle.Result, new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z), Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z)));
+        //         a.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
+        //         Nail_Item nail_Item = a.GetComponent<Nail_Item>();
+        //         nail_Item.nail = nail;
+        //         levelController.rootlevel.Findslotfornail(nail_Item);
+        //         levelController.rootlevel.litsnail.Add(nail_Item);
+        //     }
+        //     else
+        //     {
+        //         // Handle the failure case
+        //     }
+        //     CheckTimeSetUpMap();
+        // };
+
+
+    
+        Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
+        if(nail_Item != null){
+            nail_Item.nail = nail;
+            nail_Item.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
+            nail_Item.transform.position = new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z);
+            nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z));
+            levelController.rootlevel.Findslotfornail(nail_Item);
+            levelController.rootlevel.litsnail.Add(nail_Item);
             CheckTimeSetUpMap();
-        };
+        }
     }
     public void LoadAdAddressAble(string str, Ad ad)
     {

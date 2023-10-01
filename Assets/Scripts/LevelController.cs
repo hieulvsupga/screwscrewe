@@ -28,6 +28,7 @@ public class LevelController : MonoBehaviour
     public RootLevel rootlevel;
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(17, 17, false);      
         rootlevel = new RootLevel();
         //loadDataBase.LoadLevelGame("Assets/_GameAssets/data_2.json");
         loadDataBase.LoadLevelGame(PlayerPrefs.GetString("levelstart"));
