@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Slot_Item : Item
+public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 {
+    //pool
+    private ObjectPool<Slot_Item> _pool;
+
     public bool hasNail;
     public bool hasLock;
     public Nail_Item nail_item;
@@ -15,8 +19,7 @@ public class Slot_Item : Item
     public void ActiveWhenDown()
     {
         if (ControllPlayGame.Instance.targetNail == nail_item)
-        {
-            Debug.Log("co chat nayyyyyyyyyyyyyyyyyyyyyyyyy");
+        {          
             return;
         }
 
@@ -54,4 +57,29 @@ public class Slot_Item : Item
         nail_Item2.transform.parent = transform;
         nail_Item2.slot_item = this;
     }
+
+
+    public void SetPool(ObjectPool<Slot_Item> pool)
+    {
+        _pool = pool;
+    }
+
+    public void ResetPool()
+    {
+        _pool.Release(this);
+    }
+
+    public Slot_Item IGetComponentHieu()
+    {
+        return this;
+    }
+
+    public void ResetAfterRelease()
+    {
+    }
+
+    public void StartCreate()
+    {
+    }
+
 }

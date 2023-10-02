@@ -9,6 +9,7 @@ using System;
 
 public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U : MonoBehaviour,TInterface<X> where X : MonoBehaviour
 {
+    public string name="";
     private static T instance;
     public static T Instance
     {
@@ -33,17 +34,16 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
         {
             instance = this.GetComponent<T>();
             DontDestroyOnLoad(this);
-            AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("nail"));
+            if (name == null || name == "") return;
+            AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(name));
             asyncOperationHandle.Completed += (handle) =>
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    Debug.Log("?????????????????1");
+                {                
                     Controller.Instance.LoadDataIndex++;
                     _poolItemPrefab = handle.Result.GetComponent<X>();
                 }
-            };
-            Debug.Log("?????????????????2");
+            };         
             _pool = new ObjectPool<X>(CreatePoolItem, OnTakePoolItemFromPool, OnReturnPoolItemToPool, OnDestroyPoolItem, true, 1000, 2000);
         }
         else
@@ -57,8 +57,7 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
     {
         X pool_Item = null;
         if (_poolItemPrefab != null)
-        {
-            Debug.Log("tao moi pool");
+        {       
             U u = Instantiate(_poolItemPrefab).GetComponent<U>();
             pool_Item = u.IGetComponentHieu();
             u.SetPool(_pool);
@@ -80,6 +79,7 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
         if (pool_Item == null) return;
         pool_Item.transform.parent = Controller.Instance.transform;
         pool_Item.gameObject.SetActive(false);
+        pool_Item.GetComponent<U>().ResetAfterRelease();
         //LevelController.Instance.rootlevel.litsnail.Remove(nail_Item);
     }
 

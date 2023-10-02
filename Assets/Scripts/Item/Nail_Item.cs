@@ -32,7 +32,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 
     public void ResetDisactiveListHingeJoint()
     {
-        for(int i=0; i<listHingeJoin.Count; i++)
+        for (int i = 0; i < listHingeJoin.Count; i++)
         {
             listHingeJoin[i].enabled = false;
         }
@@ -66,11 +66,11 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                 }
             }
         }
-        if(flag == 0)
+        if (flag == 0)
         {
             ColiderNail.isTrigger = false;
         }
-        else if(flag >=2)
+        else if (flag >= 2)
         {
             ColiderNail.isTrigger = true;
         }
@@ -80,15 +80,24 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
         }
     }
 
-    public void SetPool(ObjectPool<Nail_Item> pool){
+    public void SetPool(ObjectPool<Nail_Item> pool) {
         _pool = pool;
     }
 
-    public void ResetPool(){
+    public void ResetPool() {
         _pool.Release(this);
     }
 
-    public Nail_Item IGetComponentHieu(){
+    public Nail_Item IGetComponentHieu() {
         return this;
     }
+
+    public void ResetAfterRelease()
+    {
+        listHingeJoin.Clear();
+    }
+
+    public void StartCreate()
+    { 
+    } 
 }

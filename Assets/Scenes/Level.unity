@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -455,6 +455,16 @@ GameObject:
   - component: {fileID: 1249631152}
   - component: {fileID: 1249631154}
   - component: {fileID: 1249631153}
+  - component: {fileID: 1249631155}
+  - component: {fileID: 1249631156}
+  - component: {fileID: 1249631157}
+  - component: {fileID: 1249631158}
+  - component: {fileID: 1249631159}
+  - component: {fileID: 1249631160}
+  - component: {fileID: 1249631161}
+  - component: {fileID: 1249631162}
+  - component: {fileID: 1249631163}
+  - component: {fileID: 1249631164}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -489,7 +499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de8458796a0c054c93d908fb2e8e575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nail_ItemPrefab: {fileID: 0}
+  name: nail
+  _poolItemPrefab: {fileID: 0}
 --- !u!114 &1249631154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +515,146 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadDataIndex: 0
   nailSpawner: {fileID: 1249631153}
+--- !u!114 &1249631155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866e7fe6f94b65e4b898016fcbc7d5c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_550x100
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719f093d47bb95e4da7608cf22c627f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_400x175
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38afafef055bc034586b3dfdaa39f4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_700x100
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bf1294d99e46841ba24c1d59eb75b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_W
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19660b2b2eba80a4faf190ca76de9bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_L
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21aebcbb718fdf747b32df8f404579a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_400x400
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6157946a37eb0a4aafd210c9b921e20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_400x100
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882bab08ef91f374496a6093fb224ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_150x150
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5993978c8e18a4db429881778cf203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: board_275x100
+  _poolItemPrefab: {fileID: 0}
+--- !u!114 &1249631164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249631151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e0d65b16f40834ea464603ad69784b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: slot
+  _poolItemPrefab: {fileID: 0}
 --- !u!1 &1393772975
 GameObject:
   m_ObjectHideFlags: 0
