@@ -25,6 +25,8 @@ public class Controller : MonoBehaviour
 
     public int LoadDataIndex = 0;
     public NailSpawner nailSpawner;
+
+    public NailLayerController nailLayerController;
     // Start is called before the first frame update
     private void Awake() {
         if (instance == null)
