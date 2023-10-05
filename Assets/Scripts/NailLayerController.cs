@@ -5,29 +5,50 @@ using UnityEngine;
 public class NailLayerController : MonoBehaviour
 {
     public Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
-    private void Start() {
-       Debug.Log(InputNumber(new int[] { 1, 2, 3 }));
-    }
-    public int InputNumber(int[] inputs){
+    //private void Start()
+    //{
+    //    //Debug.Log(InputNumber(new int[] { 1, 2, 3 }));
+    //    ResetLayer(17);
+    //}
+    public int InputNumber(List<int> inputs){
         char[] numberArray = "xxxxxxxx".ToCharArray();
         foreach(int input in inputs){
             numberArray[input] = 'y';
         }     
+
         string numberString = string.Join("", numberArray);
         if(keyValuePairs.ContainsKey(numberString)){
+            Debug.Log(keyValuePairs[numberString]+"=="+numberString);
             return keyValuePairs[numberString];
         }else{
-            int m = keyValuePairs.Count +1;
+            int m = keyValuePairs.Count + 17;
             keyValuePairs[numberString] = m;
             ChangeLayer(inputs,m);
+            Debug.Log(m + "==???"+numberString);
             return m;
         }
     }
 
-    public void ChangeLayer(int[] inputs,int layer){
-        foreach(int input in inputs){
+    private void ChangeLayer(List<int> inputs, int layer){
+        ResetLayer(layer);
+        foreach (int input in inputs){
             Debug.Log("co chay");
-            Physics2D.IgnoreLayerCollision(16+layer, 6 + input, true);   
+            Physics2D.IgnoreLayerCollision(layer, 6 + input, true);   
         }   
+    }
+
+    public void ResetLayer(int layer)
+    {
+        int m = 6;
+        while(m <= 12)
+        {
+            Physics2D.IgnoreLayerCollision(layer, m, false);
+            m++;
+        }
+        Debug.Log("co chay");
+    }
+    public void ClearLayer()
+    {
+        keyValuePairs.Clear();
     }
 }

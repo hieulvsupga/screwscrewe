@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 {
@@ -42,44 +44,56 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 
     public void CheckOverlapBoxBoard()
     {
-        Collider2D[] results = new Collider2D[LevelController.Instance.rootlevel.listboard.Count];
+        StartCoroutine(checkover());
+    }
+    IEnumerator checkover()
+    {
+        yield return new WaitForSeconds(0);
         Bounds boundnail = ColiderNail.bounds;
-        int flag = 0;
-        int layercheck = 0;
         Vector2 size = boundnail.size;
-        int numColliders = Physics2D.OverlapBoxNonAlloc(transform.position, size, 0, results, 1 << 6);
-        for (int j = 0; j < numColliders; j++)
+       // Debug.Log(size + "=VLOVK");
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, size, 0);
+        List<int> layerboard = new List<int>();
+        foreach (Collider2D collider in colliders)
         {
-            Bounds bounds1 = results[j].GetComponent<Collider2D>().bounds;
-
-            if (bounds1.Intersects(boundnail))
+            Bounds bounds1 = collider.bounds;
+            if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
             {
-                Bounds overlapBounds = boundnail;
-                overlapBounds.Encapsulate(bounds1.min);
-                overlapBounds.Encapsulate(bounds1.max);
-                float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
+                CalculateOverlapPercentage(ColiderNail, collider);
+                boundnail.Encapsulate(bounds1.min);
+                boundnail.Encapsulate(bounds1.max);
+                float overlapArea = boundnail.size.x * boundnail.size.y;
                 float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-                if (overlapPercentage >= 90 && overlapPercentage <= 100)
+                if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
                 {
-                    layercheck = results[j].gameObject.layer;
-                    flag++;
+                    layerboard.Add(collider.gameObject.layer - 6);
+
                 }
+               // Debug.Log(overlapPercentage + "OKKAHE");
+
             }
         }
-        if (flag == 0)
-        {
-            ColiderNail.isTrigger = false;
-        }
-        else if (flag >= 2)
-        {
-            ColiderNail.isTrigger = true;
-        }
-        else
-        {
-            gameObject.layer = (17 + (layercheck - 6));
-        }
-    }
 
+        //Debug.Log("CHUYEN DOI" + string.Join(", ", layerboard));
+        gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
+        ColiderNail.isTrigger = false;
+    }
+    float CalculateOverlapPercentage(Collider2D colliderA, Collider2D colliderB)
+    {
+        Debug.Log("co chay ma");
+        Bounds boundsA = colliderA.bounds;
+        Bounds boundsB = colliderB.bounds;
+
+        float intersectionWidth = Mathf.Min(boundsA.max.x, boundsB.max.x) - Mathf.Max(boundsA.min.x, boundsB.min.x);
+        float intersectionHeight = Mathf.Min(boundsA.max.y, boundsB.max.y) - Mathf.Max(boundsA.min.y, boundsB.min.y);
+
+        float intersectionArea = Mathf.Max(0, intersectionWidth) * Mathf.Max(0, intersectionHeight);
+        float areaA = boundsA.size.x * boundsA.size.y;
+
+        float overlapPercentage = intersectionArea / areaA * 100f;
+        Debug.Log("okkekenfaweh" + overlapPercentage);
+        return overlapPercentage;
+    }
     public void SetPool(ObjectPool<Nail_Item> pool) {
         _pool = pool;
     }

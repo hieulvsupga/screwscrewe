@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1979848481051177011}
   - component: {fileID: 346583294324000744}
-  m_Layer: 6
+  - component: {fileID: 983021015527653223}
+  - component: {fileID: 5226417694251350561}
+  m_Layer: 29
   m_Name: slotinboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,3 +85,32 @@ SpriteMask:
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
+--- !u!58 &983021015527653223
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156650126443198359}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
+--- !u!114 &5226417694251350561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156650126443198359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0b59ac9da0b6dd41b0b7f0ee6b79e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask: {fileID: 346583294324000744}

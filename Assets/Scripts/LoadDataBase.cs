@@ -256,6 +256,7 @@ public class LoadDataBase : MonoBehaviour
     public GameObject gameobjecttest;
 
     public LevelController levelController;
+    public Collider2D[] results = new Collider2D[15];
     public void LoadLevelGame(string str)
     {
         LoadFileJsonLevel(str);
@@ -331,89 +332,36 @@ public class LoadDataBase : MonoBehaviour
         boardCount = 0;
         for (int i=0; i < levelController.rootlevel.litsnail.Count; i++)
         {           
-            m++;
-            //Collider2D[] results = new Collider2D[levelController.rootlevel.listboard.Count];
+            m++;       
             Bounds boundnail = levelController.rootlevel.litsnail[i].ColiderNail.bounds;
             Vector2 size = boundnail.size;
-
-            //int numColliders = Physics2D.OverlapBoxNonAlloc(levelController.rootlevel.litsnail[i].transform.position, size, 0, results);
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(levelController.rootlevel.litsnail[i].transform.position, size, 0);
-            int flag = 0;
-            int layercheck = 0;
+            List<int> layerboard = new List<int>();       
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(levelController.rootlevel.litsnail[i].transform.position, size, 0);           
+            
             foreach (Collider2D collider in colliders)
-            {              
-                Bounds bounds1 = collider.bounds;           
+            {
+                Bounds bounds1 = collider.bounds;
+                //Debug.Log(bounds1.Intersects(boundnail).ToString() + "h00000" + (collider.name));
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
                 {
-
                     Bounds overlapBounds = boundnail;
                     overlapBounds.Encapsulate(bounds1.min);
                     overlapBounds.Encapsulate(bounds1.max);
                     float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
-                    float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;                  
+                    float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
                     if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
                     {
 
                         boardCount++;
                         Board_Item board = collider.GetComponent<Board_Item>();
                         LoadSlotBoardAddressAble(board, levelController.rootlevel.litsnail[i]);
-                        flag++;
-                        layercheck = collider.gameObject.layer;
+                        layerboard.Add(collider.gameObject.layer - 6);
                     }
                 }
             }
-            
-            //GameObject g = Instantiate(gameobjecttest, levelController.rootlevel.litsnail[i].transform.parent.transform.position, Quaternion.identity);
-            //g.transform.localScale = size;
-
-            //Debug.Log("coddddddddddddddddddddddddddđ chay "+numColliders);
-            //for (int j = 0; j < numColliders; j++)
-            //{
-            //    Bounds bounds1 = results[j].GetComponent<Collider2D>().bounds;
-
-            //    if (bounds1.Intersects(boundnail))
-            //    {
-            //    //    Debug.Log("fffffffffffffffffffffffffffffffffffeeeeeeeeeeeeeeeeeeeeee" + results[j].name);
-            //    }
-            //    Debug.Log("fffffffffffffffffffffffffffffffffffeeeeeeeeeeeeeeeeeeeeee" + results[j].name);
-
-            //    if (results[j].transform.CompareTag("Board"))
-            //    {
-            //        Debug.Log("d2323"+ results[j].name);
-            //    }
-            //    if (bounds1.Intersects(boundnail) && results[j].transform.CompareTag("Board"))
-            //    {
-                    
-            //        Bounds overlapBounds = boundnail;
-            //        overlapBounds.Encapsulate(bounds1.min);
-            //        overlapBounds.Encapsulate(bounds1.max);
-            //        float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
-            //        float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-            //        Debug.Log("coddddddddddddddddddddddddddđ chayfffff "+ overlapPercentage);
-            //        if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
-            //        {
-                        
-            //            boardCount++;
-            //            Board_Item board = results[j].GetComponent<Board_Item>();
-            //            LoadSlotBoardAddressAble(board,levelController.rootlevel.litsnail[i]);
-            //            flag++;
-            //            layercheck = results[j].gameObject.layer;
-            //        }
-            //    }
-            //  }
-            if(flag == 0)
-            {
-                levelController.rootlevel.litsnail[i].ColiderNail.isTrigger = false;
-            }
-            else if (flag >= 2)
-            {
-                levelController.rootlevel.litsnail[i].ColiderNail.isTrigger = true;
-            }
-            else
-            {
-                levelController.rootlevel.litsnail[i].gameObject.layer = (17 + (layercheck - 6));
-            }
-        }   
+            //Debug.Log("==============================================================");
+            levelController.rootlevel.litsnail[i].gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
+        }
         StartCoroutine(CheckBoardSetupMap());
     }
 
@@ -428,24 +376,51 @@ public class LoadDataBase : MonoBehaviour
 
     public void LoadSlotBoardAddressAble(Board_Item board, Nail_Item nail_item)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("slot_board"));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, nail_item.transform.position, Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z)), board.transform);
-                a.transform.localScale = new Vector3(nail_item.nail.scale.X, nail_item.nail.scale.Y, nail_item.nail.scale.Z);
-                board.AddSlotforBoard(a);
-                HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
-                hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
-                nail_item.listHingeJoin.Add(hingeJoint);
-                boardCount --;
-            }
-            else
-            {
-                // Handle the failure case
-            }
-        };
+
+        //    boardItem = board_275x100_Spawner.Instance._pool.Get();
+        //    break;
+        //}
+        //    if (boardItem == null) return;
+        //    boardItem.transform.position = new Vector3(board.pos.X, board.pos.Y, board.pos.Z);
+        //boardItem.transform.rotation = Quaternion.Euler(new Vector3(board.rot.X, board.rot.Y, board.rot.Z));
+        //    boardItem.transform.parent = levelController.MainLevelSetupCreateMap;
+        //    boardItem.transform.localScale = new Vector3(board.scale.X, board.scale.Y, board.scale.Z);
+        //SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
+        //spriteRenderer.sortingOrder = board.layer;
+        //    boardItem.gameObject.layer = 6 + board.layer;
+        //    spriteRenderer.color = new Color(board.color.R, board.color.G, board.color.B, board.color.A);
+
+
+        //AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("slot_board"));
+        //    asyncOperationHandle.Completed += (handle) =>
+        //    {
+        //        if (handle.Status == AsyncOperationStatus.Succeeded)
+        //        {
+        //            GameObject a = Instantiate(handle.Result, nail_item.transform.position, Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z)), board.transform);
+        //            a.transform.localScale = new Vector3(nail_item.nail.scale.X, nail_item.nail.scale.Y, nail_item.nail.scale.Z);
+        //            board.AddSlotforBoard(a);
+        //            HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
+        //            hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
+        //            hingeJoint.enableCollision = true;
+        //            nail_item.listHingeJoin.Add(hingeJoint);
+        //            boardCount --;
+        //        }
+        //        else
+        //        {
+        //            // Handle the failure case
+        //        }
+        //    };
+        Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
+        slotboarditem.transform.position = nail_item.transform.position;
+        slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z));
+        slotboarditem.transform.SetParent(board.transform);
+        slotboarditem.transform.localScale = new Vector3(nail_item.nail.scale.X, nail_item.nail.scale.Y, nail_item.nail.scale.Z);
+        board.AddSlotforBoard(slotboarditem);
+        HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
+        hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
+       // hingeJoint.enableCollision = true;
+        nail_item.listHingeJoin.Add(hingeJoint);
+        boardCount--;
     }
 
 

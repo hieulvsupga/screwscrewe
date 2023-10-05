@@ -8,7 +8,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     //pool
     private ObjectPool<Board_Item> _pool;
 
-    public List<SpriteMask> listslot;
+    public List<Slot_board_Item> listslot;
     public SpriteRenderer spritemain;
     public Rigidbody2D rb;
     // Start is called before the first frame update
@@ -38,14 +38,13 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         return spritemain.sortingLayerID;
     }
 
-    public void AddSlotforBoard(GameObject a)
-    {
-        SpriteMask mask = a.GetComponent<SpriteMask>();    
-        if(mask != null)
+    public void AddSlotforBoard(Slot_board_Item slot_board)
+    {   
+        if(slot_board != null)
         {
-            mask.frontSortingOrder = spritemain.sortingLayerID + 11;
+            slot_board.mask.frontSortingOrder = spritemain.sortingLayerID + 11;
         }
-        listslot.Add(mask);
+        listslot.Add(slot_board);
     }
 
 
@@ -81,6 +80,11 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         foreach (HingeJoint2D hingeJoint in hingeJoints)
         {
             Destroy(hingeJoint);
+        }
+
+        foreach (Slot_board_Item slot_board_item in listslot)
+        {
+            slot_board_item.ResetPool();
         }
     }
 

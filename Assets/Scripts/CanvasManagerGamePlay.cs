@@ -21,18 +21,14 @@ public class CanvasManagerGamePlay : MonoBehaviour
         {           
             LevelController.Instance.rootlevel.litsnail[i].ResetPool();
         }
-
         for(int i=0; i < LevelController.Instance.rootlevel.listboard.Count; i++)
         {
             LevelController.Instance.rootlevel.listboard[i].ResetPool();
         }
-
         for (int i = 0; i < LevelController.Instance.rootlevel.litsslot.Count; i++)
         {
             LevelController.Instance.rootlevel.litsslot[i].ResetPool();
         }
-
-
         LevelController.Instance.rootlevel.litsnail.Clear();
         LevelController.Instance.rootlevel.listboard.Clear();
         LevelController.Instance.rootlevel.litsslot.Clear();
@@ -40,10 +36,11 @@ public class CanvasManagerGamePlay : MonoBehaviour
         // Nail_Item nail_Item3 = Controller.Instance.nailSpawner._pool_nail_item.Get();
         // Nail_Item nail_Item4 = Controller.Instance.nailSpawner._pool_nail_item.Get();
         SceneManager.LoadScene("Level");
+        Controller.Instance.nailLayerController.ClearLayer();
     }
 
     public void Test2(){
-          Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
+        Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
         Nail_Item nail_Item3 = Controller.Instance.nailSpawner._pool.Get();
         Nail_Item nail_Item4 = Controller.Instance.nailSpawner._pool.Get();
     }

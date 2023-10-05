@@ -28,7 +28,7 @@ public class LevelController : MonoBehaviour
     public RootLevel rootlevel;
     void Start()
     {
-        Physics2D.IgnoreLayerCollision(17, 17, false);    
+       // Physics2D.IgnoreLayerCollision(17, 17, false);    
         
 
         rootlevel = new RootLevel();
