@@ -7,6 +7,7 @@ public class Slot_board_Item : MonoBehaviour, TInterface<Slot_board_Item>
 {
     private ObjectPool<Slot_board_Item> _pool;
     public SpriteMask mask;
+    public HingeJoint2D hingeJointInSlot;
 
     public void SetPool(ObjectPool<Slot_board_Item> pool)
     {
@@ -25,6 +26,7 @@ public class Slot_board_Item : MonoBehaviour, TInterface<Slot_board_Item>
 
     public void ResetAfterRelease()
     {       
+        hingeJointInSlot = null;
     }
 
     public void StartCreate()
