@@ -72,6 +72,12 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                // Debug.Log(overlapPercentage + "OKKAHE");
 
             }
+            if(collider.gameObject.layer == 29){
+                Debug.Log("heeheeheheheheheheheheh"+collider.gameObject.name);
+                Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
+                listHingeJoin.Add(slotboardItem.hingeJointInSlot);
+                slotboardItem.hingeJointInSlot.enabled = true;
+            }
         }
 
         //Debug.Log("CHUYEN DOI" + string.Join(", ", layerboard));

@@ -421,6 +421,8 @@ public class LoadDataBase : MonoBehaviour
        // hingeJoint.enableCollision = true;
         nail_item.listHingeJoin.Add(hingeJoint);
         boardCount--;
+
+        slotboarditem.hingeJointInSlot = hingeJoint;
     }
 
 
