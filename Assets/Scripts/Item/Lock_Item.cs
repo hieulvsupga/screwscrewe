@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Lock_Item : MonoBehaviour
+public class Lock_Item : MonoBehaviour, TInterface<Lock_Item>
 {
-    // Start is called before the first frame update
-    void Start()
+    //pool
+    private ObjectPool<Lock_Item> _pool;
+    public void SetPool(ObjectPool<Lock_Item> pool)
     {
-        
+        _pool = pool;
+    }
+    public void ResetPool()
+    {
+        _pool.Release(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public Lock_Item IGetComponentHieu()
     {
-        
+        return this;
+    }
+
+    public void ResetAfterRelease()
+    {
+
+    }
+
+    public void StartCreate()
+    {
+
     }
 }

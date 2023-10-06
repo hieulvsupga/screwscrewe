@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Ad_Item : MonoBehaviour
+public class Ad_Item : MonoBehaviour, TInterface<Ad_Item>
 {
-    // Start is called before the first frame update
-    void Start()
+    //pool
+    private ObjectPool<Ad_Item> _pool;
+    public void SetPool(ObjectPool<Ad_Item> pool)
     {
-        
+        _pool = pool;
+    }
+    public void ResetPool()
+    {
+        _pool.Release(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public Ad_Item IGetComponentHieu()
     {
-        
+        return this;
+    }
+
+    public void ResetAfterRelease()
+    {
+
+    }
+
+    public void StartCreate()
+    {
+
     }
 }

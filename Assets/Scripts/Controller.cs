@@ -22,7 +22,7 @@ public class Controller : MonoBehaviour
             instance = value;
         }
     }
-
+    public RootLevel rootlevel;
     public int LoadDataIndex = 0;
     public NailSpawner nailSpawner;
 
@@ -40,6 +40,13 @@ public class Controller : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        rootlevel = new RootLevel();
+    }
+
+
     public void LoadLevel(){
         StartCoroutine(LoadAsset());
     }

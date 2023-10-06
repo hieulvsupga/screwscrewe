@@ -35,15 +35,14 @@ public class test : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K)) // Kiểm tra nút chuột trái được nhấn
-        {
-            Debug.Log("DAMG CJART");
-            for (int i = 0; i < LevelController.Instance.rootlevel.litsnail.Count; i++)
+        {       
+            for (int i = 0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
             {
                
-                Bounds boundnail = LevelController.Instance.rootlevel.litsnail[i].ColiderNail.bounds;
+                Bounds boundnail = Controller.Instance.rootlevel.litsnail[i].ColiderNail.bounds;
                 Vector2 size = boundnail.size;
                 List<int> layerboard = new List<int>();
-                Collider2D[] colliders = Physics2D.OverlapBoxAll(LevelController.Instance.rootlevel.litsnail[i].transform.position, size, 0);
+                Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);
 
                 foreach (Collider2D collider in colliders)
                 {
@@ -62,9 +61,7 @@ public class test : MonoBehaviour
                           
                         }
                     }
-                }
-                Debug.Log("==============================================================");
-                
+                }                
             }
         }
         if(Input.GetKeyDown(KeyCode.E)) {

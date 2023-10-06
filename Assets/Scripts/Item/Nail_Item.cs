@@ -36,7 +36,10 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     {
         for (int i = 0; i < listHingeJoin.Count; i++)
         {
-            listHingeJoin[i].enabled = false;
+            if (listHingeJoin[i]!=null)
+            {
+                listHingeJoin[i].enabled = false;
+            }         
         }
     }
 
@@ -72,8 +75,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                // Debug.Log(overlapPercentage + "OKKAHE");
 
             }
-            if(collider.gameObject.layer == 29){
-                Debug.Log("heeheeheheheheheheheheh"+collider.gameObject.name);
+            if(collider.gameObject.layer == 29){                
                 Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
                 listHingeJoin.Add(slotboardItem.hingeJointInSlot);
                 slotboardItem.hingeJointInSlot.enabled = true;
@@ -86,7 +88,6 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     }
     float CalculateOverlapPercentage(Collider2D colliderA, Collider2D colliderB)
     {
-        Debug.Log("co chay ma");
         Bounds boundsA = colliderA.bounds;
         Bounds boundsB = colliderB.bounds;
 
@@ -97,7 +98,6 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
         float areaA = boundsA.size.x * boundsA.size.y;
 
         float overlapPercentage = intersectionArea / areaA * 100f;
-        Debug.Log("okkekenfaweh" + overlapPercentage);
         return overlapPercentage;
     }
     public void SetPool(ObjectPool<Nail_Item> pool) {

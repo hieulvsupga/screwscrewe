@@ -37,7 +37,7 @@ TagManager:
   - Slot
   - Bg
   - HigleJoint2d
-  - 
+  - BoardCheck
   - 
   m_SortingLayers:
   - name: Bg

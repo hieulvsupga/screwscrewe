@@ -17,22 +17,19 @@ public class NailLayerController : MonoBehaviour
         }     
 
         string numberString = string.Join("", numberArray);
-        if(keyValuePairs.ContainsKey(numberString)){
-            Debug.Log(keyValuePairs[numberString]+"=="+numberString);
+        if(keyValuePairs.ContainsKey(numberString)){          
             return keyValuePairs[numberString];
         }else{
             int m = keyValuePairs.Count + 17;
             keyValuePairs[numberString] = m;
-            ChangeLayer(inputs,m);
-            Debug.Log(m + "==???"+numberString);
+            ChangeLayer(inputs,m);            
             return m;
         }
     }
 
     private void ChangeLayer(List<int> inputs, int layer){
         ResetLayer(layer);
-        foreach (int input in inputs){
-            Debug.Log("co chay");
+        foreach (int input in inputs){        
             Physics2D.IgnoreLayerCollision(layer, 6 + input, true);   
         }   
     }
@@ -45,7 +42,6 @@ public class NailLayerController : MonoBehaviour
             Physics2D.IgnoreLayerCollision(layer, m, false);
             m++;
         }
-        Debug.Log("co chay");
     }
     public void ClearLayer()
     {

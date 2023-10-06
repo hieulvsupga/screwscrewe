@@ -11,6 +11,7 @@ using UnityEngine.XR;
 using Spine;
 using System.Diagnostics.Contracts;
 using static Sirenix.OdinInspector.Editor.UnityPropertyEmitter;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public struct Pos
 {
@@ -138,9 +139,9 @@ public class RootLevel
     public List<Lock_Item> litslock;
     public List<Ad_Item> listad;
     public List<Board_Item> listboard;
-
-
-
+    public List<Key_Item> listkey;
+    public List<Hint_Item> listHint;
+    public Bg_Item bgItem;
     public RootLevel()
     {
         litsslot = new List<Slot_Item>();
@@ -148,8 +149,57 @@ public class RootLevel
         litslock = new List<Lock_Item>();
         listad   = new List<Ad_Item>();
         listboard = new List<Board_Item>();
+        listkey = new List<Key_Item>();
+        listHint = new List<Hint_Item>();
     }
 
+    public void ClearRoot()
+    {
+        for (int i = 0; i < litsnail.Count; i++)
+        {
+            litsnail[i].ResetPool();
+        }
+        for (int i = 0; i < listboard.Count; i++)
+        {
+            listboard[i].ResetPool();
+        }
+        for (int i = 0; i < litsslot.Count; i++)
+        {
+            litsslot[i].ResetPool();
+        }
+
+        for(int i = 0; i < listkey.Count; i++)
+        {
+            listkey[i].ResetPool();
+        }
+
+        for (int i = 0; i < litslock.Count; i++)
+        {
+            litslock[i].ResetPool();
+        }
+        
+        for(int i = 0; i< listad.Count; i++)
+        {
+            listad[i].ResetPool();
+        }
+
+        for(int i = 0; i < listHint.Count; i++)
+        {
+            listHint[i].ResetPool();
+        }
+
+        bgItem.ResetPool();
+        bgItem = null;
+
+        litsnail.Clear();
+        listboard.Clear();
+        litsslot.Clear();
+        litslock.Clear();
+        listad.Clear();
+        listkey.Clear();
+        litslock.Clear();
+        listHint.Clear();
+    }
 
     public bool Findslotfornail(Nail_Item nail)
     {
@@ -263,6 +313,7 @@ public class LoadDataBase : MonoBehaviour
     }
     private void LoadFileJsonLevel(string level)
     {
+        
         AsyncOperationHandle<TextAsset> asyncOperationHandle = Addressables.LoadAssetAsync<TextAsset>(level);
         asyncOperationHandle.Completed += (handle) =>
         {
@@ -313,7 +364,7 @@ public class LoadDataBase : MonoBehaviour
         itemCount--;
         if (itemCount == 0)
         {
-            CreatePhysic2dforboard();
+            StartCoroutine(CreatePhysic2dforboard());
         }
     }
 
@@ -326,22 +377,24 @@ public class LoadDataBase : MonoBehaviour
         ActivePhysic2dforboard();    
     }
 
-    public void CreatePhysic2dforboard()
+    public IEnumerator CreatePhysic2dforboard()
     {
+        yield return new WaitForSeconds(0);
         int m = 0;
         boardCount = 0;
-        for (int i=0; i < levelController.rootlevel.litsnail.Count; i++)
-        {           
+        for (int i=0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
+        {
             m++;       
-            Bounds boundnail = levelController.rootlevel.litsnail[i].ColiderNail.bounds;
+            Bounds boundnail = Controller.Instance.rootlevel.litsnail[i].ColiderNail.bounds;
             Vector2 size = boundnail.size;
             List<int> layerboard = new List<int>();       
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(levelController.rootlevel.litsnail[i].transform.position, size, 0);           
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);           
             
             foreach (Collider2D collider in colliders)
             {
+
+               
                 Bounds bounds1 = collider.bounds;
-                //Debug.Log(bounds1.Intersects(boundnail).ToString() + "h00000" + (collider.name));
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
                 {
                     Bounds overlapBounds = boundnail;
@@ -351,65 +404,30 @@ public class LoadDataBase : MonoBehaviour
                     float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
                     if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
                     {
-
                         boardCount++;
                         Board_Item board = collider.GetComponent<Board_Item>();
-                        LoadSlotBoardAddressAble(board, levelController.rootlevel.litsnail[i]);
+                        LoadSlotBoardAddressAble(board, Controller.Instance.rootlevel.litsnail[i]);
                         layerboard.Add(collider.gameObject.layer - 6);
                     }
                 }
             }
             //Debug.Log("==============================================================");
-            levelController.rootlevel.litsnail[i].gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
+            Controller.Instance.rootlevel.litsnail[i].gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
         }
         StartCoroutine(CheckBoardSetupMap());
     }
 
     public void ActivePhysic2dforboard()
     {
-        for(int i=0; i<levelController.rootlevel.listboard.Count; i++)
+        for(int i=0; i< Controller.Instance.rootlevel.listboard.Count; i++)
         {
-            levelController.rootlevel.listboard[i].SetupRb();
+            Controller.Instance.rootlevel.listboard[i].SetupRb();
         }
     }
 
 
     public void LoadSlotBoardAddressAble(Board_Item board, Nail_Item nail_item)
     {
-
-        //    boardItem = board_275x100_Spawner.Instance._pool.Get();
-        //    break;
-        //}
-        //    if (boardItem == null) return;
-        //    boardItem.transform.position = new Vector3(board.pos.X, board.pos.Y, board.pos.Z);
-        //boardItem.transform.rotation = Quaternion.Euler(new Vector3(board.rot.X, board.rot.Y, board.rot.Z));
-        //    boardItem.transform.parent = levelController.MainLevelSetupCreateMap;
-        //    boardItem.transform.localScale = new Vector3(board.scale.X, board.scale.Y, board.scale.Z);
-        //SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
-        //spriteRenderer.sortingOrder = board.layer;
-        //    boardItem.gameObject.layer = 6 + board.layer;
-        //    spriteRenderer.color = new Color(board.color.R, board.color.G, board.color.B, board.color.A);
-
-
-        //AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("slot_board"));
-        //    asyncOperationHandle.Completed += (handle) =>
-        //    {
-        //        if (handle.Status == AsyncOperationStatus.Succeeded)
-        //        {
-        //            GameObject a = Instantiate(handle.Result, nail_item.transform.position, Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z)), board.transform);
-        //            a.transform.localScale = new Vector3(nail_item.nail.scale.X, nail_item.nail.scale.Y, nail_item.nail.scale.Z);
-        //            board.AddSlotforBoard(a);
-        //            HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
-        //            hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
-        //            hingeJoint.enableCollision = true;
-        //            nail_item.listHingeJoin.Add(hingeJoint);
-        //            boardCount --;
-        //        }
-        //        else
-        //        {
-        //            // Handle the failure case
-        //        }
-        //    };
         Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
         slotboarditem.transform.position = nail_item.transform.position;
         slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z));
@@ -418,8 +436,9 @@ public class LoadDataBase : MonoBehaviour
         board.AddSlotforBoard(slotboarditem);
         HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
         hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
-       // hingeJoint.enableCollision = true;
+        hingeJoint.enableCollision = true;
         nail_item.listHingeJoin.Add(hingeJoint);
+       
         boardCount--;
 
         slotboarditem.hingeJointInSlot = hingeJoint;
@@ -458,24 +477,14 @@ public class LoadDataBase : MonoBehaviour
     }
     public void LoadHintAddressAble(string str, Hint hint)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, new Vector3(hint.pos.X, hint.pos.Y, hint.pos.Z), Quaternion.Euler(new Vector3(hint.rot.X, hint.rot.Y, hint.rot.Z)), levelController.MainLevelSetupCreateMap);
-                a.transform.localScale = new Vector3(hint.scale.X, hint.scale.Y, hint.scale.Z);
-                Hint_Item hintItem = a.GetComponent<Hint_Item>();
-                hintItem.SetUpTextIdHint(hint.hintId.ToString());
-
-
-                CheckTimeSetUpMap();
-            }
-            else
-            {
-                // Handle the failure case
-            }
-        };
+        Hint_Item hintItem = Hint_Spawner.Instance._pool.Get();
+        hintItem.transform.position = new Vector3(hint.pos.X, hint.pos.Y, hint.pos.Z);
+        hintItem.transform.rotation = Quaternion.Euler(new Vector3(hint.rot.X, hint.rot.Y, hint.rot.Z));
+        hintItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
+        hintItem.transform.localScale = new Vector3(hint.scale.X, hint.scale.Y, hint.scale.Z);
+        hintItem.SetUpTextIdHint(hint.hintId.ToString());
+        Controller.Instance.rootlevel.listHint.Add(hintItem);
+        CheckTimeSetUpMap();
     }
 
     public void HandTimeEditString(string str)
@@ -505,7 +514,7 @@ public class LoadDataBase : MonoBehaviour
     private void HandSprEditString_Key(string str)
     {
         Key key = JsonConvert.DeserializeObject<Key>(str);
-        LoadKeyAddressAble("key", key);
+        LoadKeyAddressAble(key);
     }
 
     public void HandSprEditString_Lock(string str)
@@ -513,52 +522,37 @@ public class LoadDataBase : MonoBehaviour
         Lock lock1 = JsonConvert.DeserializeObject<Lock>(str);
         LoadLockAddressAble("lock", lock1);
     }
-    public void LoadKeyAddressAble(string str, Key key)
+    public void LoadKeyAddressAble(Key key)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, new Vector3(key.pos.X, key.pos.Y, key.pos.Z), Quaternion.Euler(new Vector3(key.rot.X, key.rot.Y, key.rot.Z)), levelController.MainLevelSetupCreateMap);
-                a.transform.localScale = new Vector3(key.scale.X, key.scale.Y, key.scale.Z);
-                SpriteRenderer spriteRenderer = a.GetComponent<SpriteRenderer>();
-                spriteRenderer.sortingOrder = key.layer;
-                spriteRenderer.color = new Color(key.color.R, key.color.G, key.color.B, key.color.A);
-            }
-            else
-            {
-                // Handle the failure case
-            }
-            CheckTimeSetUpMap();
-        };
+        Key_Item keyItem = KeySpawner.Instance._pool.Get();
+        keyItem.transform.position = new Vector3(key.pos.X, key.pos.Y, key.pos.Z);
+        keyItem.transform.rotation = Quaternion.Euler(new Vector3(key.rot.X, key.rot.Y, key.rot.Z));
+        keyItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
+        keyItem.transform.localScale = new Vector3(key.scale.X, key.scale.Y, key.scale.Z);
+        SpriteRenderer spriteRenderer = keyItem.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = key.layer;
+        spriteRenderer.color = new Color(key.color.R, key.color.G, key.color.B, key.color.A);
+        Controller.Instance.rootlevel.listkey.Add(keyItem);
+        CheckTimeSetUpMap();
     }
 
     public void LoadLockAddressAble(string str, Lock lock1)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {          
-                GameObject a = Instantiate(handle.Result, new Vector3(lock1.pos.X, lock1.pos.Y, lock1.pos.Z), Quaternion.Euler(new Vector3(lock1.rot.X, lock1.rot.Y, lock1.rot.Z)));
-                a.transform.localScale = new Vector3(lock1.scale.X, lock1.scale.Y, lock1.scale.Z);
-                SpriteRenderer spriteRenderer = a.GetComponent<SpriteRenderer>();
-                spriteRenderer.sortingOrder = lock1.layer;
-                spriteRenderer.color = new Color(lock1.color.R, lock1.color.G, lock1.color.B, lock1.color.A);
+        Lock_Item lockItem = LockSpawner.Instance._pool.Get();
+        lockItem.transform.position = new Vector3(lock1.pos.X, lock1.pos.Y, lock1.pos.Z);
+        lockItem.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.X, lock1.rot.Y, lock1.rot.Z));
+        lockItem.transform.localScale = new Vector3(lock1.scale.X, lock1.scale.Y, lock1.scale.Z);
+        SpriteRenderer spriteRenderer = lockItem.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = lock1.layer;
+        spriteRenderer.color = new Color(lock1.color.R, lock1.color.G, lock1.color.B, lock1.color.A);
 
-                Lock_Item lock_item = a.GetComponent<Lock_Item>();
-                if (levelController.rootlevel.Findslotforlock(lock_item)== false)
-                {                 
-                    levelController.rootlevel.litslock.Add(lock_item);
-                }
-                CheckTimeSetUpMap();
-            }
-            else
-            {
-                // Handle the failure case
-            }
-        };
+        if (Controller.Instance.rootlevel.Findslotforlock(lockItem) == false)
+        {
+            Controller.Instance.rootlevel.litslock.Add(lockItem);
+        }
+
+        Controller.Instance.rootlevel.litslock.Add(lockItem);
+        CheckTimeSetUpMap();
     }
 
 
@@ -596,7 +590,7 @@ public class LoadDataBase : MonoBehaviour
     private void HandSavableEditString_Bg(string str)
     {
         Bg bg = JsonConvert.DeserializeObject<Bg>(str);      
-        LoadBgAddressAble("bg", bg);
+        LoadBgAddressAble(bg);
     }
 
     private void HandSavableEditString_Txt(string str)
@@ -677,7 +671,7 @@ public class LoadDataBase : MonoBehaviour
 
 
 
-        levelController.rootlevel.listboard.Add(boardItem);
+        Controller.Instance.rootlevel.listboard.Add(boardItem);
         CheckTimeSetUpMap();
         //try
         //{
@@ -736,20 +730,20 @@ public class LoadDataBase : MonoBehaviour
         slot_Item.transform.localScale = new Vector3(slot.scale.X, slot.scale.Y, slot.scale.Z);
         slot_Item.hasNail = slot.hasNail;
         slot_Item.hasLock = slot.hasLock;
-        levelController.rootlevel.litsslot.Add(slot_Item);
+        Controller.Instance.rootlevel.litsslot.Add(slot_Item);
         if (slot_Item.hasNail == true || slot_Item.hasLock == true)
         {
             if (slot_Item.hasNail == true)
             {
-                levelController.rootlevel.Findsnailforslot(slot_Item);
+                Controller.Instance.rootlevel.Findsnailforslot(slot_Item);
             }
             if (slot_Item.hasLock == true)
             {
-                levelController.rootlevel.Findslockforslot(slot_Item);
+                Controller.Instance.rootlevel.Findslockforslot(slot_Item);
             }
 
         }
-        levelController.rootlevel.Findsadforslot(slot_Item);
+        Controller.Instance.rootlevel.Findsadforslot(slot_Item);
         CheckTimeSetUpMap();
 
         //AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
@@ -816,50 +810,33 @@ public class LoadDataBase : MonoBehaviour
             nail_Item.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
             nail_Item.transform.position = new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z);
             nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z));
-            levelController.rootlevel.Findslotfornail(nail_Item);
-            levelController.rootlevel.litsnail.Add(nail_Item);
+            Controller.Instance.rootlevel.Findslotfornail(nail_Item);
+            Controller.Instance.rootlevel.litsnail.Add(nail_Item);
             CheckTimeSetUpMap();
         }
     }
     public void LoadAdAddressAble(string str, Ad ad)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
+        Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
+        aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
+        aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
+        aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
+        if (Controller.Instance.rootlevel.Findsadforlock(aditem) == false)
         {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z), Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z)));
-                a.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
-                Ad_Item aditem = a.GetComponent<Ad_Item>();
-                if (levelController.rootlevel.Findsadforlock(aditem) == false)
-                {
-                    levelController.rootlevel.listad.Add(aditem);
-                }          
-            }
-            else
-            {
-                // Handle the failure case
-            }
-            CheckTimeSetUpMap();
-        };
+            Controller.Instance.rootlevel.listad.Add(aditem);
+        }
+        CheckTimeSetUpMap();    
     }
 
-    public void LoadBgAddressAble(string str, Bg bg)
+    public void LoadBgAddressAble(Bg bg)
     {
-        AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        asyncOperationHandle.Completed += (handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                GameObject a = Instantiate(handle.Result, new Vector3(bg.pos.X, bg.pos.Y, bg.pos.Z), Quaternion.Euler(new Vector3(bg.rot.X, bg.rot.Y, bg.rot.Z)), levelController.MainLevelSetupCreateMap);
-                a.transform.localScale = new Vector3(bg.scale.X, bg.scale.Y, bg.scale.Z);
-            }
-            else
-            {
-                // Handle the failure case
-            }
-            CheckTimeSetUpMap();
-        };
+        Bg_Item bg_Item = bg_Spawner.Instance._pool.Get();
+        bg_Item.transform.position = new Vector3(bg.pos.X, bg.pos.Y, bg.pos.Z);
+        bg_Item.transform.rotation = Quaternion.Euler(new Vector3(bg.rot.X, bg.rot.Y, bg.rot.Z));
+        bg_Item.transform.SetParent(levelController.MainLevelSetupCreateMap);
+        bg_Item.transform.localScale = new Vector3(bg.scale.X, bg.scale.Y, bg.scale.Z);
+        Controller.Instance.rootlevel.bgItem = bg_Item;
+        CheckTimeSetUpMap();
     }
 }
 

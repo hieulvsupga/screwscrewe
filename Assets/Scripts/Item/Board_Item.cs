@@ -61,8 +61,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     public void ResetPool()
     {
         if(_pool == null)
-        {
-            Debug.Log("Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        {       
             return;
         }
         _pool.Release(this);
@@ -86,10 +85,21 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         {
             slot_board_item.ResetPool();
         }
+        listslot.Clear();
     }
 
     public void StartCreate()
     {
         rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    public void WhenTriggerandBoardCheck()
+    {
+        Controller.Instance.rootlevel.listboard.Remove(this);
+        ResetPool();
+        if(Controller.Instance.rootlevel.listboard.Count == 0)
+        {
+            LevelController.Instance.NextLevelGame();
+        }
     }
 }

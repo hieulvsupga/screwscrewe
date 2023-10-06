@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonLevel : MonoBehaviour
 {
+    public static int levelplaying;
     public TextMeshProUGUI textLevel;
 
     private int level;
@@ -26,8 +27,12 @@ public class ButtonLevel : MonoBehaviour
         Level = _level;
     }
     public void ClickLevel()
-    {
-        PlayerPrefs.SetString("levelstart", $"Assets/_GameAssets/data_{level}.json");
+    {    
+        levelplaying = level;
         Controller.Instance.LoadLevel();
+    }
+    public static string GetLevelString()
+    {
+        return $"Assets/_GameAssets/data_{levelplaying}.json";
     }
 }

@@ -25,20 +25,27 @@ public class LevelController : MonoBehaviour
 
     public LoadDataBase loadDataBase;
     public Transform MainLevelSetupCreateMap;
-    public RootLevel rootlevel;
+    //public RootLevel rootlevel;
     void Start()
     {
        // Physics2D.IgnoreLayerCollision(17, 17, false);    
         
 
-        rootlevel = new RootLevel();
+        //rootlevel = new RootLevel();
         //loadDataBase.LoadLevelGame("Assets/_GameAssets/data_2.json");
-        loadDataBase.LoadLevelGame(PlayerPrefs.GetString("levelstart"));
+        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void NextLevelGame()
+    {
+        ButtonLevel.levelplaying++;
+        Controller.Instance.rootlevel.ClearRoot();
+        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
     }
 }
