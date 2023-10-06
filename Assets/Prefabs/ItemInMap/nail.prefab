@@ -98,6 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5111218f07ee95d4b95429b34dcd9087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7270234662678861066}
+  spriteRange:
+  - {fileID: 21300000, guid: 559f1a5be8e27bb4b9b4d47e4ef1048f, type: 2}
+  - {fileID: 21300000, guid: 19c0aa91295bbdf4887f9b640a3cc3e7, type: 2}
   slot_item: {fileID: 0}
   ColiderNail: {fileID: 0}
   listHingeJoin: []

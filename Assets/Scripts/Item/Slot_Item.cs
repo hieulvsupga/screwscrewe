@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,41 +12,81 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public bool hasNail;
     public bool hasLock;
     public Nail_Item nail_item;
+
+    public Collider2D mainCheckCollider;
     // Start is called before the first frame update
     //private void OnMouseDown()
     //{
     //    ActiveWhenDown();
     //}
 
+
     public void ActiveWhenDown()
     {
         if (ControllPlayGame.Instance.targetNail == nail_item)
-        {          
+        {
+            if(ControllPlayGame.Instance.targetNail != null)
+            {
+                ControllPlayGame.Instance.targetNail.ResetImageNail();
+                ControllPlayGame.Instance.targetNail = null;
+            }
             return;
         }
 
         if (ControllPlayGame.Instance.targetNail != null && hasNail == false)
         {
-            ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
-            ControllPlayGame.Instance.targetNail.transform.position = transform.position;
-            ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
-            ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
-
-
-            SetUpNail(ControllPlayGame.Instance.targetNail);
-            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
-            ControllPlayGame.Instance.targetNail = null;
-
-
-         
+            //ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
+            //ControllPlayGame.Instance.targetNail.transform.position = transform.position;
+            //ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
+            //ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
+            //SetUpNail(ControllPlayGame.Instance.targetNail);
+            //ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
+            //ControllPlayGame.Instance.targetNail = null;
+            StartCoroutine(Checkboardinslot());
         }
         else
         {
             
             if (nail_item != null && hasNail == true)
             {
+                if (ControllPlayGame.Instance.targetNail != null)
+                {
+                    ControllPlayGame.Instance.targetNail.ResetImageNail();
+                }
                 ControllPlayGame.Instance.targetNail = nail_item;
+                nail_item.ActiveImageNail();
             }
+        }
+    }
+
+    IEnumerator Checkboardinslot()
+    {
+        yield return new WaitForSeconds(0);
+        Vector2 size = mainCheckCollider.bounds.size;
+        bool check = false;
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size, 0);
+        foreach (Collider2D collider in colliders)
+        {         
+            if (collider.CompareTag("Board"))
+            {                
+                check = true;
+                break;
+            }
+        }
+        if (check == true)
+        {
+            Debug.Log("dA CHAM VAO ROI HEHEHEHE");
+        }
+        else
+        {
+            ControllPlayGame.Instance.targetNail.ResetImageNail();
+            ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
+            ControllPlayGame.Instance.targetNail.transform.position = transform.position;
+            ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
+            ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
+            SetUpNail(ControllPlayGame.Instance.targetNail);
+            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
+            ControllPlayGame.Instance.targetNail = null;
         }
     }
     float CalculateOverlapPercentage(Collider2D colliderA, Collider2D colliderB)
@@ -96,6 +137,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public void ResetAfterRelease()
     {
+        nail_item = null;
     }
 
     public void StartCreate()

@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using static Spine.Unity.Examples.SpineboyFootplanter;
 using System;
-using Newtonsoft.Json.Linq;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.XR;
-using Spine;
-using System.Diagnostics.Contracts;
-using static Sirenix.OdinInspector.Editor.UnityPropertyEmitter;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+
 
 public struct Pos
 {
@@ -322,7 +316,8 @@ public class LoadDataBase : MonoBehaviour
             itemCount = strings.Length;
 
             foreach (string str in strings)
-            {           
+            {
+                Debug.Log(str);
                 if (str.StartsWith("tut:"))
                 {
                     HandTutEditString(str);
@@ -379,7 +374,7 @@ public class LoadDataBase : MonoBehaviour
 
     public IEnumerator CreatePhysic2dforboard()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(1);
         int m = 0;
         boardCount = 0;
         for (int i=0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
@@ -653,7 +648,7 @@ public class LoadDataBase : MonoBehaviour
         boardItem.transform.parent = levelController.MainLevelSetupCreateMap;
         boardItem.transform.localScale = new Vector3(board.scale.X, board.scale.Y, board.scale.Z);
         SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = board.layer;
+        spriteRenderer.sortingOrder = board.layer + 5;
         boardItem.gameObject.layer = 6 + board.layer;
         spriteRenderer.color = new Color(board.color.R, board.color.G, board.color.B, board.color.A);
 
@@ -821,10 +816,8 @@ public class LoadDataBase : MonoBehaviour
         aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
         aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
         aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
-        if (Controller.Instance.rootlevel.Findsadforlock(aditem) == false)
-        {
-            Controller.Instance.rootlevel.listad.Add(aditem);
-        }
+        Controller.Instance.rootlevel.Findsadforlock(aditem);
+        Controller.Instance.rootlevel.listad.Add(aditem);
         CheckTimeSetUpMap();    
     }
 

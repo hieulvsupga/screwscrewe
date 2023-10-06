@@ -85,7 +85,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!114 &776625816787527961
 MonoBehaviour:
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listslot: []
   spritemain: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!61 &6035508352644808039
 BoxCollider2D:
   m_ObjectHideFlags: 0

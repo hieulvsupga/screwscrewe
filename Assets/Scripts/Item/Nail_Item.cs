@@ -9,6 +9,8 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 {
     //pool
     private ObjectPool<Nail_Item> _pool;
+    public SpriteRenderer spriteRenderer;
+    public Sprite[] spriteRange;
 
 
 
@@ -115,9 +117,21 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     public void ResetAfterRelease()
     {
         listHingeJoin.Clear();
+        ColiderNail.isTrigger = false;
+        ResetImageNail();
     }
 
     public void StartCreate()
     { 
     } 
+
+    public void ActiveImageNail()
+    {
+        spriteRenderer.sprite = spriteRange[1];
+    }
+
+    public void ResetImageNail()
+    {
+        spriteRenderer.sprite = spriteRange[0];
+    }
 }

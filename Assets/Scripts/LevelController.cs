@@ -28,8 +28,8 @@ public class LevelController : MonoBehaviour
     //public RootLevel rootlevel;
     void Start()
     {
-       // Physics2D.IgnoreLayerCollision(17, 17, false);    
-        
+        // Physics2D.IgnoreLayerCollision(17, 17, false);    
+
 
         //rootlevel = new RootLevel();
         //loadDataBase.LoadLevelGame("Assets/_GameAssets/data_2.json");
@@ -39,13 +39,25 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void NextLevelGame()
     {
+        StartCoroutine(CreatePhysic2dforboard());
+    }
+
+    public IEnumerator CreatePhysic2dforboard()
+    {
+        yield return new WaitForSeconds(0);
         ButtonLevel.levelplaying++;
+        CleanMap();
         Controller.Instance.rootlevel.ClearRoot();
         loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+    } 
+
+    public void CleanMap()
+    {
+        ControllPlayGame.Instance.targetNail = null;
     }
 }

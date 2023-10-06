@@ -43,6 +43,9 @@ TagManager:
   - name: Bg
     uniqueID: 282310527
     locked: 0
+  - name: HigleJoint2d
+    uniqueID: 97467477
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

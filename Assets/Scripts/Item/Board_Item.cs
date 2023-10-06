@@ -42,7 +42,8 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     {   
         if(slot_board != null)
         {
-            slot_board.mask.frontSortingOrder = spritemain.sortingLayerID + 11;
+            slot_board.mask.frontSortingOrder = spritemain.sortingOrder;
+            slot_board.mask.backSortingOrder = spritemain.sortingOrder-1;
         }
         listslot.Add(slot_board);
     }
