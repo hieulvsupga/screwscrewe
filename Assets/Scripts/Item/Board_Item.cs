@@ -103,4 +103,11 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
             LevelController.Instance.NextLevelGame();
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.layer == 31){
+            Key_Item key_Item = other.transform.GetComponent<Key_Item>();
+            key_Item.FindLock();
+        }
+    }
 }

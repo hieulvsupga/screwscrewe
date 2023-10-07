@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Controller : MonoBehaviour
 {
+    private AsyncOperation async;
     private static Controller instance;
     public static Controller Instance
     {
@@ -48,14 +49,29 @@ public class Controller : MonoBehaviour
 
 
     public void LoadLevel(){
-        StartCoroutine(LoadAsset());
+        //StartCoroutine(LoadAsset());
+        LoadLevelScene("GamePlay");
     }
-    private IEnumerator LoadAsset()
-    {
-        while (LoadDataIndex < 1 && LoadDataIndex>=0)
-        {
-            yield return null;
+    // private IEnumerator LoadAsset()
+    // {
+    //     while (LoadDataIndex < 1 && LoadDataIndex>=0)
+    //     {
+    //         yield return null;
+    //     }
+    //     SceneManager.LoadScene("GamePlay");
+    // }
+
+    public void LoadLevelScene(string namescene){
+        StartCoroutine(LoadSceneAsync(namescene));
+    }
+
+    IEnumerator LoadSceneAsync (string sceneName){
+        if(!string.IsNullOrEmpty(sceneName)){
+            async = SceneManager.LoadSceneAsync(sceneName);
+            while(!async.isDone && LoadDataIndex <17 && LoadDataIndex>=0){
+                yield return 0;
+            }
+            
         }
-        SceneManager.LoadScene("GamePlay");
     }
 }

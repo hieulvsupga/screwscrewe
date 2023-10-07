@@ -61,26 +61,27 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
         List<int> layerboard = new List<int>();
         foreach (Collider2D collider in colliders)
         {
-            Bounds bounds1 = collider.bounds;
-            if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
-            {
-                CalculateOverlapPercentage(ColiderNail, collider);
-                boundnail.Encapsulate(bounds1.min);
-                boundnail.Encapsulate(bounds1.max);
-                float overlapArea = boundnail.size.x * boundnail.size.y;
-                float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-                if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
-                {
-                    layerboard.Add(collider.gameObject.layer - 6);
+            // Bounds bounds1 = collider.bounds;
+            // if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
+            // {
+            //     //CalculateOverlapPercentage(ColiderNail, collider);
+            //     boundnail.Encapsulate(bounds1.min);
+            //     boundnail.Encapsulate(bounds1.max);
+            //     float overlapArea = boundnail.size.x * boundnail.size.y;
+            //     float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
+            //     if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
+            //     {
+            //         layerboard.Add(collider.gameObject.layer - 6);
 
-                }
-               // Debug.Log(overlapPercentage + "OKKAHE");
+            //     }
+            //    // Debug.Log(overlapPercentage + "OKKAHE");
 
-            }
+            // }
             if(collider.gameObject.layer == 29){                
                 Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
                 listHingeJoin.Add(slotboardItem.hingeJointInSlot);
                 slotboardItem.hingeJointInSlot.enabled = true;
+                layerboard.Add(collider.transform.parent.gameObject.layer - 6);
             }
         }
 

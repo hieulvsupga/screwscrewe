@@ -38,7 +38,7 @@ TagManager:
   - Bg
   - HigleJoint2d
   - BoardCheck
-  - 
+  - Key
   m_SortingLayers:
   - name: Bg
     uniqueID: 282310527
