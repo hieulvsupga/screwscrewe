@@ -23,6 +23,8 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public void ActiveWhenDown()
     {
+        if(hasLock == true) return;
+        Debug.Log("coannananan");
         if (ControllPlayGame.Instance.targetNail == nail_item)
         {
             if(ControllPlayGame.Instance.targetNail != null)

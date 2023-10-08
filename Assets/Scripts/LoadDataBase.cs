@@ -236,6 +236,7 @@ public class RootLevel
 
             if (bounds1.Intersects(bounds2))
             {
+                Debug.Log("thach thuc thang thu nhat ================================");
                 aditem.transform.parent = fakelistlots[i].transform;            
                 return true;
             }          
@@ -267,7 +268,7 @@ public class RootLevel
             if (slot.transform.position == fakelistlock[i].transform.position)
             {
                 fakelistlock[i].transform.parent = slot.transform;
-                litslock.Remove(fakelistlock[i]);
+                //litslock.Remove(fakelistlock[i]);
             }
         }
     }
@@ -283,7 +284,7 @@ public class RootLevel
             if (bounds1.Intersects(bounds2))
             {
                 fakelistad[i].transform.parent = slot.transform;
-                listad.Remove(fakelistad[i]);
+                Debug.Log("dang kiem tra 2222222222222222222222222222222222222222222222222");
             }
         }
     }
@@ -360,7 +361,16 @@ public class LoadDataBase : MonoBehaviour
         itemCount--;
         if (itemCount == 0)
         {
+            //CheckAdAwaitBad();
             StartCoroutine(CreatePhysic2dforboard());
+        }
+    }
+
+    public void CheckAdAwaitBad(){
+        for (int i=0; i < Controller.Instance.rootlevel.litsslot.Count; i++)
+        {
+            Debug.Log(i);
+            Controller.Instance.rootlevel.Findsadforslot(Controller.Instance.rootlevel.litsslot[i]);
         }
     }
 
@@ -376,6 +386,9 @@ public class LoadDataBase : MonoBehaviour
     public IEnumerator CreatePhysic2dforboard()
     {
         yield return new WaitForSeconds(1);
+        CheckAdAwaitBad();
+
+
         int m = 0;
         boardCount = 0;
         for (int i=0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
@@ -741,7 +754,8 @@ public class LoadDataBase : MonoBehaviour
             }
 
         }
-        Controller.Instance.rootlevel.Findsadforslot(slot_Item);
+
+        //Controller.Instance.rootlevel.Findsadforslot(slot_Item);
         CheckTimeSetUpMap();
 
         //AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
@@ -819,13 +833,14 @@ public class LoadDataBase : MonoBehaviour
         aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
         aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
         aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
-        Controller.Instance.rootlevel.Findsadforlock(aditem);
         Controller.Instance.rootlevel.listad.Add(aditem);
+        //Controller.Instance.rootlevel.Findsadforlock(aditem);
         CheckTimeSetUpMap();    
     }
 
     public void LoadBgAddressAble(Bg bg)
     {
+        Debug.Log("co sinh bg nha ===========================>");
         Bg_Item bg_Item = bg_Spawner.Instance._pool.Get();
         bg_Item.transform.position = new Vector3(bg.pos.X, bg.pos.Y, bg.pos.Z);
         bg_Item.transform.rotation = Quaternion.Euler(new Vector3(bg.rot.X, bg.rot.Y, bg.rot.Z));

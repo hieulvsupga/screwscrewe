@@ -23,6 +23,7 @@ public class Controller : MonoBehaviour
             instance = value;
         }
     }
+    public Camera cameraMain;
     public RootLevel rootlevel;
     public int LoadDataIndex = 0;
     public NailSpawner nailSpawner;

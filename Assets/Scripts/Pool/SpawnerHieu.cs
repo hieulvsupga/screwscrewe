@@ -61,6 +61,8 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
             U u = Instantiate(_poolItemPrefab).GetComponent<U>();
             pool_Item = u.IGetComponentHieu();
             u.SetPool(_pool);
+        }else{
+            Debug.Log("prefab chua load duwocj fjasofjawejfaiowejfoawejfioawejfioawejfoia chanklfjawejfaw");
         }
         return pool_Item;
     }

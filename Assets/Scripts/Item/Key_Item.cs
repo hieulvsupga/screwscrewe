@@ -43,6 +43,11 @@ public class Key_Item : MonoBehaviour, TInterface<Key_Item>
         Controller.Instance.rootlevel.listkey.Remove(this);
         Controller.Instance.rootlevel.litslock.Remove(lock_Item);
         transform.DOMove(lock_Item.transform.position,2.0f).OnComplete(()=>{
+            Transform g = lock_Item.transform.parent;
+            if(g!=null){
+                Slot_Item slot_Item = g.transform.GetComponent<Slot_Item>();
+                slot_Item.hasLock = false;
+            }
             lock_Item.ResetPool();
             this.ResetPool();
         });

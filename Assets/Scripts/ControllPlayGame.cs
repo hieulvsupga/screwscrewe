@@ -29,13 +29,15 @@ public class ControllPlayGame : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-
+            Debug.Log("co an");
             Vector3 mousePositionBD = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 13);
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(mousePositionBD);       
+            Vector2 mousePosition = Controller.Instance.cameraMain.ScreenToWorldPoint(mousePositionBD);       
             RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
             foreach (RaycastHit2D hit in hits)
             {
+                Debug.Log(hit.collider.name);
                 if (hit.collider.CompareTag("Slot")){
+                    Debug.Log("???????????????????????????????????????????");
                     hit.transform.GetComponent<Slot_Item>().ActiveWhenDown();
                 }
             }
