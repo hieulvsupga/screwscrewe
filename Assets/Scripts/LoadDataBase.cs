@@ -136,6 +136,7 @@ public class RootLevel
     public List<Key_Item> listkey;
     public List<Hint_Item> listHint;
     public Bg_Item bgItem;
+    public int totalTime;
     public RootLevel()
     {
         litsslot = new List<Slot_Item>();
@@ -485,6 +486,8 @@ public class LoadDataBase : MonoBehaviour
     public void HandTimeEditString(string str)
     {
         string[] parts = str.Split(new string[] { "~~" }, StringSplitOptions.None);
+        Controller.Instance.rootlevel.totalTime = int.Parse(parts[1]);
+        Timer.instance.Reset();
         CheckTimeSetUpMap();
     }
     public void HandLevelEditString(string str)
