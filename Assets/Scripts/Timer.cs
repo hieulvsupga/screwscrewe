@@ -72,12 +72,11 @@ public class Timer : MonoBehaviour
         {
             this.timeCounter += this.sleepTime;
             this.timeInSeconds = this.totalTime - (int)this.timeCounter;
-            this.ApplyTime();
-            Debug.Log(this.timeInSeconds + "hehehehehhefjakk");
+            this.ApplyTime();         
         }
         if(this.timeInSeconds == 0){
             Stop();
-            Debug.Log(this.timeInSeconds + "thanh cong roi sao");
+            UIEvents.Instance.ShowDefaultUI();
         }
     }
 
@@ -99,6 +98,12 @@ public class Timer : MonoBehaviour
         }
         this.uiText.text = Timer.GetNumberWithZeroFormat(number) + ":" + Timer.GetNumberWithZeroFormat(number2);
     }
+
+    public void IncreaseTime(float factor)
+	{
+		this.timeCounter -= factor;
+		//this.timeCounter = Mathf.Clamp(this.timeCounter, 0f, float.PositiveInfinity);
+	}
 
     public static string GetNumberWithZeroFormat(int number)
     {

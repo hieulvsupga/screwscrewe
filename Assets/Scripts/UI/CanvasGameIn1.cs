@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIEvents : MonoBehaviour
+public class CanvasGameIn1 : MonoBehaviour
 {
-    private static UIEvents instance;
-    public static UIEvents Instance
+    private static CanvasGameIn1 instance;
+    public static CanvasGameIn1 Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<UIEvents>();
+                instance = FindObjectOfType<CanvasGameIn1>();
             }
             return instance;
         }
@@ -31,10 +31,5 @@ public class UIEvents : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void ShowDefaultUI(){
-        if(CanvasManagerGamePlay.Instance == null)return;
-        CanvasManagerGamePlay.Instance.DefaultUI.gameObject.SetActive(true);
     }
 }
