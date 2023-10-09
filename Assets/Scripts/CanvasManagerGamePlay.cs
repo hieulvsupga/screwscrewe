@@ -27,10 +27,18 @@ public class CanvasManagerGamePlay : MonoBehaviour
         Controller.Instance.nailLayerController.ClearLayer();
     }
     public Transform DefaultUI;
+    public Transform HintUI;
 
-    // public void Test2(){
-    //     Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
-    //     Nail_Item nail_Item3 = Controller.Instance.nailSpawner._pool.Get();
-    //     Nail_Item nail_Item4 = Controller.Instance.nailSpawner._pool.Get();
-    // }
+    public void Test2()
+    {
+        Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
+        Nail_Item nail_Item3 = Controller.Instance.nailSpawner._pool.Get();
+        Nail_Item nail_Item4 = Controller.Instance.nailSpawner._pool.Get();
+    }
+
+
+    public void Test3()
+    {
+        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+    }
 }

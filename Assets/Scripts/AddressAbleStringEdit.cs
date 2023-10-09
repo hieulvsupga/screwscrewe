@@ -10,6 +10,9 @@ public static class AddressAbleStringEdit
         string url = null;
         switch (str)
         {
+            case "board_U":
+                url = "Assets/Prefabs/ItemInMap/board_U.prefab";
+                break;
             case "slot_board":
                 url = "Assets/Prefabs/ItemInMap/slotinboard.prefab";
                 break;
@@ -56,10 +59,11 @@ public static class AddressAbleStringEdit
                 url = "Assets/Prefabs/ItemInMap/slot.prefab";
                 break;
             case "nail":
-                url = "Assets/Prefabs/ItemInMap/nail.prefab";
+                url = "nail";
                 break;
             case "bg":
                 url = "Assets/Prefabs/ItemInMap/bg.prefab";
+                //url = "Assets/Prefabs/Sphere.prefab";
                 break;
             case "txt":
                 url = "Assets/Prefabs/ItemInMap/text.prefab";

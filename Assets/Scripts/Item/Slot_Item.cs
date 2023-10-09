@@ -24,7 +24,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public void ActiveWhenDown()
     {
         if(hasLock == true) return;
-        Debug.Log("coannananan");
+        
         if (ControllPlayGame.Instance.targetNail == nail_item)
         {
             if(ControllPlayGame.Instance.targetNail != null)
@@ -67,11 +67,11 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
         Vector2 size = mainCheckCollider.bounds.size;
         int check = 0;
         Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size, 0);
-        Debug.Log("bat dau log hehehehehehe");
+        
         //cham board la +1 cham slotbot la -1 khi nao bang 0 thi cho qua
         foreach (Collider2D collider in colliders)
         {         
-            Debug.Log(collider.gameObject.name);
+           
             if (collider.CompareTag("Board"))
             {                
                 check++;
@@ -84,7 +84,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
         }
         if (check != 0)
         {
-            Debug.Log("dA CHAM VAO ROI HEHEHEHE");
+            
         }
         else
         {

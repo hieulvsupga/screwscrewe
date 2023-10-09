@@ -24,6 +24,7 @@ public class Controller : MonoBehaviour
         }
     }
     public Camera cameraMain;
+    public Camera cameraSub;
     public RootLevel rootlevel;
     public int LoadDataIndex = 0;
     public NailSpawner nailSpawner;
@@ -46,6 +47,7 @@ public class Controller : MonoBehaviour
     private void Start()
     {
         rootlevel = new RootLevel();
+        cameraSub.gameObject.SetActive(false);
     }
 
 

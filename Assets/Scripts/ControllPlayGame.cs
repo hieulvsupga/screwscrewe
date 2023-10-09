@@ -27,17 +27,16 @@ public class ControllPlayGame : MonoBehaviour
     public Nail_Item targetNail;
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        if (Input.GetMouseButtonDown(0) && !isOverUI)
         {
-            Debug.Log("co an");
+            
             Vector3 mousePositionBD = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 13);
             Vector2 mousePosition = Controller.Instance.cameraMain.ScreenToWorldPoint(mousePositionBD);       
             RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
             foreach (RaycastHit2D hit in hits)
-            {
-                Debug.Log(hit.collider.name);
-                if (hit.collider.CompareTag("Slot")){
-                    Debug.Log("???????????????????????????????????????????");
+            {          
+                if (hit.collider.CompareTag("Slot")){                  
                     hit.transform.GetComponent<Slot_Item>().ActiveWhenDown();
                 }
             }

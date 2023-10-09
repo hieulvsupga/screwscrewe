@@ -7,35 +7,36 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 
+[System.Serializable]
 public struct Pos
 {
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Z { get; set; }
+    public float x;
+    public float y;
+    public float z;
 }
-
+[System.Serializable]
 public struct Scale
 {
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Z { get; set; }
+    public float x;
+    public float y;
+    public float z;
 }
-
+[System.Serializable]
 public struct Rot
 {
-    public float X{ get; set; }
-    public float Y { get; set; }
-    public float Z { get; set; }
+    public float x;
+    public float y;
+    public float z;
 }
-
+[System.Serializable]
 public struct ColorHieu
 {
-    public float R { get; set; }
-    public float G { get; set; }
-    public float B { get; set; }
-    public float A { get; set; }
+    public float r;
+    public float g;
+    public float b;
+    public float a;
 }
-
+[System.Serializable]
 public struct HandTut
 {
     public Pos pos;
@@ -43,14 +44,14 @@ public struct HandTut
     public Rot rot;
     public int step;
 }
-
+[System.Serializable]
 public struct Bomb
 {
     public Pos pos;
     public Scale scale;
     public Rot rot;
 }
-
+[System.Serializable]
 public struct Board
 {
     public Pos pos;
@@ -61,7 +62,7 @@ public struct Board
     public Bomb bomb;
 }
 
-
+[System.Serializable]
 public struct Slot
 {
     public Pos pos;
@@ -70,28 +71,28 @@ public struct Slot
     public bool hasNail;
     public bool hasLock;
 }
-
+[System.Serializable]
 public struct Nail
 {
     public Pos pos;
     public Scale scale;
     public Rot rot;
 }
-
+[System.Serializable]
 public struct Bg
 {
     public Pos pos;
     public Scale scale;
     public Rot rot;
 }
-
+[System.Serializable]
 public struct Txt
 {
     public Pos pos;
     public Scale scale;
     public Rot rot;
 }
-
+[System.Serializable]
 public struct Hint
 {
     public Pos pos; 
@@ -99,7 +100,7 @@ public struct Hint
     public Rot rot;
     public int hintId;
 }
-
+[System.Serializable]
 public struct Lock
 {
     public Pos pos;
@@ -108,7 +109,7 @@ public struct Lock
     public int layer;
     public ColorHieu color;
 }
-
+[System.Serializable]
 public struct Key
 {
     public Pos pos;
@@ -117,12 +118,12 @@ public struct Key
     public int layer;
     public ColorHieu color;
 }
-
+[System.Serializable]
 public struct Ad
 {
-    public Pos pos;
-    public Scale scale;
-    public Rot rot;
+    public string pos;
+    public string scale;
+    public string rot;
 }
 
 
@@ -235,8 +236,7 @@ public class RootLevel
             Bounds bounds2 = fakelistlots[i].GetComponent<Collider2D>().bounds;
 
             if (bounds1.Intersects(bounds2))
-            {
-                Debug.Log("thach thuc thang thu nhat ================================");
+            {            
                 aditem.transform.parent = fakelistlots[i].transform;            
                 return true;
             }          
@@ -298,7 +298,7 @@ public class LoadDataBase : MonoBehaviour
     public int itemCount;
     public int boardCount;
 
-
+    public GameObject test;
     public GameObject gameobjecttest;
 
     public LevelController levelController;
@@ -318,8 +318,7 @@ public class LoadDataBase : MonoBehaviour
             itemCount = strings.Length;
 
             foreach (string str in strings)
-            {
-                Debug.Log(str);
+            {            
                 if (str.StartsWith("tut:"))
                 {
                     HandTutEditString(str);
@@ -369,7 +368,7 @@ public class LoadDataBase : MonoBehaviour
     public void CheckAdAwaitBad(){
         for (int i=0; i < Controller.Instance.rootlevel.litsslot.Count; i++)
         {
-            Debug.Log(i);
+            
             Controller.Instance.rootlevel.Findsadforslot(Controller.Instance.rootlevel.litsslot[i]);
         }
     }
@@ -439,9 +438,9 @@ public class LoadDataBase : MonoBehaviour
     {
         Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
         slotboarditem.transform.position = nail_item.transform.position;
-        slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.X, nail_item.nail.rot.Y, nail_item.nail.rot.Z));
+        slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.x, nail_item.nail.rot.y, nail_item.nail.rot.z));
         slotboarditem.transform.SetParent(board.transform);
-        slotboarditem.transform.localScale = new Vector3(nail_item.nail.scale.X, nail_item.nail.scale.Y, nail_item.nail.scale.Z);
+        slotboarditem.transform.localScale = new Vector3(nail_item.nail.scale.x, nail_item.nail.scale.y, nail_item.nail.scale.z);
         board.AddSlotforBoard(slotboarditem);
         HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
         hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
@@ -460,38 +459,41 @@ public class LoadDataBase : MonoBehaviour
     private void HandBoaEditString(string str)
     {
         string[] strings = DoubleStringEditNameandValue(str);
-        Board board = JsonConvert.DeserializeObject<Board>(strings[1]);  
+        Board board = JsonUtility.FromJson<Board>(strings[1]);
+        //Debug.Log("string[1]" + strings[1]);
+        //     Debug.Log("string[0]" + strings[0]);
         LoadBoardAddressAble(strings[0],board);
     }
 
     private void HandTutEditString(string str)
     {
         string[] strings = DoubleStringEditNameandValue(str);
-        HandTut hieu = JsonConvert.DeserializeObject<HandTut>(strings[1]);
+        HandTut hieu = JsonUtility.FromJson<HandTut>(strings[1]);
         CheckTimeSetUpMap();
     }
 
     private void HandSlotEditString(string str)
     {
         string[] strings = DoubleStringEditNameandValue(str);
-        Slot slot = JsonConvert.DeserializeObject<Slot>(strings[1]);
+        Slot slot = JsonUtility.FromJson<Slot>(strings[1]);
         LoadSlotAddressAble(strings[0], slot);
     }
 
     private void HandHintEditString(string str)
     {
         string[] strings = DoubleStringEditNameandValue(str);
-        Hint hint = JsonConvert.DeserializeObject<Hint>(strings[1]);
+        Hint hint = JsonUtility.FromJson<Hint>(strings[1]);
         LoadHintAddressAble(strings[0], hint);
     }
     public void LoadHintAddressAble(string str, Hint hint)
     {
         Hint_Item hintItem = Hint_Spawner.Instance._pool.Get();
-        hintItem.transform.position = new Vector3(hint.pos.X, hint.pos.Y, hint.pos.Z);
-        hintItem.transform.rotation = Quaternion.Euler(new Vector3(hint.rot.X, hint.rot.Y, hint.rot.Z));
+        hintItem.transform.position = new Vector3(hint.pos.x, hint.pos.y, hint.pos.z);
+        hintItem.transform.rotation = Quaternion.Euler(new Vector3(hint.rot.x, hint.rot.y, hint.rot.z));
         hintItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
-        hintItem.transform.localScale = new Vector3(hint.scale.X, hint.scale.Y, hint.scale.Z);
+        hintItem.transform.localScale = new Vector3(hint.scale.x, hint.scale.y, hint.scale.z);
         hintItem.SetUpTextIdHint(hint.hintId.ToString());
+        hintItem.gameObject.SetActive(false);
         Controller.Instance.rootlevel.listHint.Add(hintItem);
         CheckTimeSetUpMap();
     }
@@ -524,25 +526,25 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandSprEditString_Key(string str)
     {
-        Key key = JsonConvert.DeserializeObject<Key>(str);
+        Key key = JsonUtility.FromJson<Key>(str);
         LoadKeyAddressAble(key);
     }
 
     public void HandSprEditString_Lock(string str)
     {
-        Lock lock1 = JsonConvert.DeserializeObject<Lock>(str);
+        Lock lock1 = JsonUtility.FromJson<Lock>(str);
         LoadLockAddressAble("lock", lock1);
     }
     public void LoadKeyAddressAble(Key key)
     {
         Key_Item keyItem = KeySpawner.Instance._pool.Get();
-        keyItem.transform.position = new Vector3(key.pos.X, key.pos.Y, key.pos.Z);
-        keyItem.transform.rotation = Quaternion.Euler(new Vector3(key.rot.X, key.rot.Y, key.rot.Z));
+        keyItem.transform.position = new Vector3(key.pos.x, key.pos.y, key.pos.z);
+        keyItem.transform.rotation = Quaternion.Euler(new Vector3(key.rot.x, key.rot.y, key.rot.z));
         keyItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
-        keyItem.transform.localScale = new Vector3(key.scale.X, key.scale.Y, key.scale.Z);
+        keyItem.transform.localScale = new Vector3(key.scale.x, key.scale.y, key.scale.z);
         SpriteRenderer spriteRenderer = keyItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = key.layer;
-        spriteRenderer.color = new Color(key.color.R, key.color.G, key.color.B, key.color.A);
+        spriteRenderer.color = new Color(key.color.r, key.color.g, key.color.b, key.color.a);
         Controller.Instance.rootlevel.listkey.Add(keyItem);
         CheckTimeSetUpMap();
     }
@@ -550,12 +552,12 @@ public class LoadDataBase : MonoBehaviour
     public void LoadLockAddressAble(string str, Lock lock1)
     {
         Lock_Item lockItem = LockSpawner.Instance._pool.Get();
-        lockItem.transform.position = new Vector3(lock1.pos.X, lock1.pos.Y, lock1.pos.Z);
-        lockItem.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.X, lock1.rot.Y, lock1.rot.Z));
-        lockItem.transform.localScale = new Vector3(lock1.scale.X, lock1.scale.Y, lock1.scale.Z);
+        lockItem.transform.position = new Vector3(lock1.pos.x, lock1.pos.y, lock1.pos.z);
+        lockItem.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.x, lock1.rot.y, lock1.rot.z));
+        lockItem.transform.localScale = new Vector3(lock1.scale.x, lock1.scale.y, lock1.scale.z);
         SpriteRenderer spriteRenderer = lockItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = lock1.layer;
-        spriteRenderer.color = new Color(lock1.color.R, lock1.color.G, lock1.color.B, lock1.color.A);
+        spriteRenderer.color = new Color(lock1.color.r, lock1.color.g, lock1.color.b, lock1.color.a);
 
         if (Controller.Instance.rootlevel.Findslotforlock(lockItem) == false)
         {
@@ -576,7 +578,7 @@ public class LoadDataBase : MonoBehaviour
             case "nail":
                 HandSavableEditString_Nail(strings[1]);
                 break;
-            case "bg":
+            case "bg":        
                 HandSavableEditString_Bg(strings[1]);
                 break;
             case "txt":
@@ -589,24 +591,24 @@ public class LoadDataBase : MonoBehaviour
     }
     private void HandSavableEditString_Ad(string str)
     {
-        Ad ad = JsonConvert.DeserializeObject<Ad>(str);   
+        Ad ad = JsonUtility.FromJson<Ad>(str);   
         LoadAdAddressAble("ad", ad);
     }
     private void HandSavableEditString_Nail(string str)
     {
-        Nail nail = JsonConvert.DeserializeObject<Nail>(str);    
+        Nail nail = JsonUtility.FromJson<Nail>(str);    
         LoadNailAddressAble("nail",nail);
     }
 
     private void HandSavableEditString_Bg(string str)
     {
-        Bg bg = JsonConvert.DeserializeObject<Bg>(str);      
+        Bg bg = JsonUtility.FromJson<Bg>(str);
         LoadBgAddressAble(bg);
     }
 
     private void HandSavableEditString_Txt(string str)
     {
-        Txt hieu = JsonConvert.DeserializeObject<Txt>(str);
+        Txt hieu = JsonUtility.FromJson<Txt>(str);
         CheckTimeSetUpMap();
     }
 
@@ -657,16 +659,19 @@ public class LoadDataBase : MonoBehaviour
             case "board_275x100":
                 boardItem = board_275x100_Spawner.Instance._pool.Get();
                 break;
+            case "board_U":
+                boardItem = boardUspawner.Instance._pool.Get();
+                break;
         }
         if (boardItem == null) return;
-        boardItem.transform.position = new Vector3(board.pos.X, board.pos.Y, board.pos.Z);
-        boardItem.transform.rotation = Quaternion.Euler(new Vector3(board.rot.X, board.rot.Y, board.rot.Z));
+        boardItem.transform.position = new Vector3(board.pos.x, board.pos.y, board.pos.z);
+        boardItem.transform.rotation = Quaternion.Euler(new Vector3(board.rot.x, board.rot.y, board.rot.z));
         boardItem.transform.parent = levelController.MainLevelSetupCreateMap;
-        boardItem.transform.localScale = new Vector3(board.scale.X, board.scale.Y, board.scale.Z);
+        boardItem.transform.localScale = new Vector3(board.scale.x, board.scale.y, board.scale.z);
         SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = board.layer + 5;
         boardItem.gameObject.layer = 6 + board.layer;
-        spriteRenderer.color = new Color(board.color.R, board.color.G, board.color.B, board.color.A);
+        spriteRenderer.color = new Color(board.color.r, board.color.g, board.color.b, board.color.a);
 
 
 
@@ -735,10 +740,10 @@ public class LoadDataBase : MonoBehaviour
     public void LoadSlotAddressAble(string str, Slot slot)
     {
         Slot_Item slot_Item = slot_Spawner.Instance._pool.Get();
-        slot_Item.transform.position = new Vector3(slot.pos.X, slot.pos.Y, slot.pos.Z);
-        slot_Item.transform.rotation = Quaternion.Euler(new Vector3(slot.rot.X, slot.rot.Y, slot.rot.Z));
+        slot_Item.transform.position = new Vector3(slot.pos.x, slot.pos.y, slot.pos.z);
+        slot_Item.transform.rotation = Quaternion.Euler(new Vector3(slot.rot.x, slot.rot.y, slot.rot.z));
         slot_Item.transform.parent = levelController.MainLevelSetupCreateMap;
-        slot_Item.transform.localScale = new Vector3(slot.scale.X, slot.scale.Y, slot.scale.Z);
+        slot_Item.transform.localScale = new Vector3(slot.scale.x, slot.scale.y, slot.scale.z);
         slot_Item.hasNail = slot.hasNail;
         slot_Item.hasLock = slot.hasLock;
         Controller.Instance.rootlevel.litsslot.Add(slot_Item);
@@ -819,9 +824,9 @@ public class LoadDataBase : MonoBehaviour
         Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
         if(nail_Item != null){
             nail_Item.nail = nail;
-            nail_Item.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
-            nail_Item.transform.position = new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z);
-            nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z));
+            nail_Item.transform.localScale = new Vector3(nail.scale.x, nail.scale.y, nail.scale.z);
+            nail_Item.transform.position = new Vector3(nail.pos.x, nail.pos.y, nail.pos.z);
+            nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.x, nail.rot.y, nail.rot.z));
             Controller.Instance.rootlevel.Findslotfornail(nail_Item);
             Controller.Instance.rootlevel.litsnail.Add(nail_Item);
             CheckTimeSetUpMap();
@@ -830,23 +835,22 @@ public class LoadDataBase : MonoBehaviour
     public void LoadAdAddressAble(string str, Ad ad)
     {
         Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
-        aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
-        aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
-        aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
+        //aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
+        //aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
+        //aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
         Controller.Instance.rootlevel.listad.Add(aditem);
-        //Controller.Instance.rootlevel.Findsadforlock(aditem);
+        
         CheckTimeSetUpMap();    
     }
 
     public void LoadBgAddressAble(Bg bg)
     {
-        Debug.Log("co sinh bg nha ===========================>");
         Bg_Item bg_Item = bg_Spawner.Instance._pool.Get();
-        bg_Item.transform.position = new Vector3(bg.pos.X, bg.pos.Y, bg.pos.Z);
-        bg_Item.transform.rotation = Quaternion.Euler(new Vector3(bg.rot.X, bg.rot.Y, bg.rot.Z));
-        bg_Item.transform.SetParent(levelController.MainLevelSetupCreateMap);
-        bg_Item.transform.localScale = new Vector3(bg.scale.X, bg.scale.Y, bg.scale.Z);
-        Controller.Instance.rootlevel.bgItem = bg_Item;
+        bg_Item.transform.position = new Vector3(bg.pos.x, bg.pos.y, bg.pos.z);
+        bg_Item.transform.rotation = Quaternion.Euler(new Vector3(bg.rot.x, bg.rot.y, bg.rot.z));
+        bg_Item.transform.SetParent(levelController.MainLevelSetupCreateMap);   
+        bg_Item.transform.localScale = new Vector3(bg.scale.x, bg.scale.y, bg.scale.z);
+        Controller.Instance.rootlevel.bgItem = bg_Item;        
         CheckTimeSetUpMap();
     }
 }
