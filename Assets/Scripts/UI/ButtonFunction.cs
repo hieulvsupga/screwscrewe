@@ -7,7 +7,7 @@ public class ButtonFunction : MonoBehaviour
 {
     public void ClickFuction()
     {
-        Debug.Log(gameObject.name);
+       
         switch (gameObject.name)
         {
             case "HomeBtn":
@@ -26,6 +26,9 @@ public class ButtonFunction : MonoBehaviour
             case "BackHintUI":
                 BackHintUI();
                 break;
+            case "NextLevel":
+                NextLevel();
+                break;
         }
     }
 
@@ -41,22 +44,24 @@ public class ButtonFunction : MonoBehaviour
 
     public void HintBtn()
     {
-        for (int i = 0; i < Controller.Instance.rootlevel.listHint.Count; i++)
-        {
-            Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(true);
-        }
-        Controller.Instance.cameraSub.gameObject.SetActive(true);
+        // for (int i = 0; i < Controller.Instance.rootlevel.listHint.Count; i++)
+        // {
+        //     Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(true);
+        // }
         CanvasManagerGamePlay.Instance.HintUI.gameObject.SetActive(true);
     }
 
     public void BackHintUI()
     {
-        for (int i = 0; i < Controller.Instance.rootlevel.listHint.Count; i++)
-        {
-            Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(false);
-        }
-        Controller.Instance.cameraSub.gameObject.SetActive(false);
+        // for (int i = 0; i < Controller.Instance.rootlevel.listHint.Count; i++)
+        // {
+        //     Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(false);
+        // }   
         CanvasManagerGamePlay.Instance.HintUI.gameObject.SetActive(false);
 
+    }
+
+    public void NextLevel(){
+        LevelController.Instance.NextLevelGame();
     }
 }

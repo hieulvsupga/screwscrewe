@@ -361,6 +361,7 @@ public class LoadDataBase : MonoBehaviour
         if (itemCount == 0)
         {
             //CheckAdAwaitBad();
+            LevelController.Instance.screenshotcamera.captureScreenshot = true;
             StartCoroutine(CreatePhysic2dforboard());
         }
     }
@@ -493,7 +494,6 @@ public class LoadDataBase : MonoBehaviour
         hintItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
         hintItem.transform.localScale = new Vector3(hint.scale.x, hint.scale.y, hint.scale.z);
         hintItem.SetUpTextIdHint(hint.hintId.ToString());
-        hintItem.gameObject.SetActive(false);
         Controller.Instance.rootlevel.listHint.Add(hintItem);
         CheckTimeSetUpMap();
     }

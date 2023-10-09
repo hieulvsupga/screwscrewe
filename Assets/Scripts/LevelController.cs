@@ -25,6 +25,8 @@ public class LevelController : MonoBehaviour
 
     public LoadDataBase loadDataBase;
     public Transform MainLevelSetupCreateMap;
+
+    public ScreenShotCamera screenshotcamera;
     //public RootLevel rootlevel;
     void Start()
     {
@@ -44,10 +46,10 @@ public class LevelController : MonoBehaviour
 
     public void NextLevelGame()
     {
-        StartCoroutine(CreatePhysic2dforboard());
+        StartCoroutine(NextLevel());
     }
 
-    public IEnumerator CreatePhysic2dforboard()
+    public IEnumerator NextLevel()
     {
         yield return new WaitForSeconds(0);
         ButtonLevel.levelplaying++;
