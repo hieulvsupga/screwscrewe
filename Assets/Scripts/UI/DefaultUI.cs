@@ -16,7 +16,7 @@ public class DefaultUI : MonoBehaviour
     }
 
     public void NextLevel(){
-        ButtonLevel.levelplaying++;
+        Controller.Instance.LevelIDInt++;
         Controller.Instance.rootlevel.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
         Controller.Instance.LoadLevel();

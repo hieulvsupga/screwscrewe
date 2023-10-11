@@ -121,9 +121,9 @@ public struct Key
 [System.Serializable]
 public struct Ad
 {
-    public string pos;
-    public string scale;
-    public string rot;
+    public Pos pos;
+    public Scale scale;
+    public Rot rot;
 }
 
 
@@ -283,8 +283,7 @@ public class RootLevel
 
             if (bounds1.Intersects(bounds2))
             {
-                fakelistad[i].transform.parent = slot.transform;
-                Debug.Log("dang kiem tra 2222222222222222222222222222222222222222222222222");
+                fakelistad[i].transform.parent = slot.transform;           
             }
         }
     }
@@ -662,6 +661,9 @@ public class LoadDataBase : MonoBehaviour
             case "board_U":
                 boardItem = boardUspawner.Instance._pool.Get();
                 break;
+            case "board_tam_giac":
+                boardItem = boardtamgiacSpawner.Instance._pool.Get();
+                break;
         }
         if (boardItem == null) return;
         boardItem.transform.position = new Vector3(board.pos.x, board.pos.y, board.pos.z);
@@ -835,9 +837,9 @@ public class LoadDataBase : MonoBehaviour
     public void LoadAdAddressAble(string str, Ad ad)
     {
         Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
-        //aditem.transform.position = new Vector3(ad.pos.X, ad.pos.Y, ad.pos.Z);
-        //aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.X, ad.rot.Y, ad.rot.Z));
-        //aditem.transform.localScale = new Vector3(ad.scale.X, ad.scale.Y, ad.scale.Z);
+        aditem.transform.position = new Vector3(ad.pos.x, ad.pos.y, ad.pos.z);
+        aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.x, ad.rot.y, ad.rot.z));
+        aditem.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
         Controller.Instance.rootlevel.listad.Add(aditem);
         
         CheckTimeSetUpMap();    

@@ -30,6 +30,25 @@ public class Controller : MonoBehaviour
 
     public NailLayerController nailLayerController;
     // Start is called before the first frame update
+
+
+
+    private int levelInt;
+    public int LevelIDInt
+    {
+        get
+        {
+            return levelInt;
+        }
+        set
+        {
+            levelInt = value;
+            if (levelInt > PlayerPrefs.GetInt("Playinglevel"))
+            {
+                PlayerPrefs.SetInt("Playinglevel", levelInt);
+            }
+        }
+    }
     private void Awake() {
         if (instance == null)
         {
@@ -46,6 +65,7 @@ public class Controller : MonoBehaviour
     private void Start()
     {
         rootlevel = new RootLevel();
+        levelInt = PlayerPrefs.GetInt("Playinglevel");
     }
 
 

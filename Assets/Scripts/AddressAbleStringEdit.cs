@@ -10,6 +10,9 @@ public static class AddressAbleStringEdit
         string url = null;
         switch (str)
         {
+            case "board_tam_giac":
+                url = "Assets/Prefabs/ItemInMap/board_tam_giac.prefab";
+                break;
             case "board_U":
                 url = "Assets/Prefabs/ItemInMap/board_U.prefab";
                 break;

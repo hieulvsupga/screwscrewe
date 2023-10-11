@@ -52,7 +52,7 @@ public class LevelController : MonoBehaviour
     public IEnumerator NextLevel()
     {
         yield return new WaitForSeconds(0);
-        ButtonLevel.levelplaying++;
+        Controller.Instance.LevelIDInt++;
         CleanMap();
         Controller.Instance.rootlevel.ClearRoot();
         loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());

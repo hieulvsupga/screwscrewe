@@ -43,6 +43,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                 listHingeJoin[i].enabled = false;
             }         
         }
+        listHingeJoin.Clear();
     }
 
 
