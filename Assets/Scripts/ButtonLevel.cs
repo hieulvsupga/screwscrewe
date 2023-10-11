@@ -36,17 +36,33 @@ public class ButtonLevel : MonoBehaviour
         return $"Assets/_GameAssets/data_{Controller.Instance.LevelIDInt}.json";
     }
 
+    private void Start() {
+        if(Level < Controller.Instance.LevelIDInt){
+            Actived();
+        }else if (Level == Controller.Instance.LevelIDInt){
+            Activing();
+        }else{
+            AwaitActive();
+        }
+    }
+
     public void Actived()
     {
-    
+        backgroudImage.sprite = ResourcesLevel.Instance.spriteBackgroudLevel[0];
+        statusImage.sprite = ResourcesLevel.Instance.statusLevelButtonLevel[0];
+        statusImage.enabled = true;
     }
 
     public void Activing()
     {
-    
+        backgroudImage.sprite = ResourcesLevel.Instance.spriteBackgroudLevel[1];
+        statusImage.enabled = false;
     }
 
     public void AwaitActive()
     { 
+        backgroudImage.sprite = ResourcesLevel.Instance.spriteBackgroudLevel[2];
+        statusImage.sprite = ResourcesLevel.Instance.statusLevelButtonLevel[1];
+        statusImage.enabled = true;
     }
 }

@@ -37,4 +37,9 @@ public class UIEvents : MonoBehaviour
         if(CanvasManagerGamePlay.Instance == null)return;
         CanvasManagerGamePlay.Instance.DefaultUI.gameObject.SetActive(true);
     }
+
+    public void ShowWinUI(){
+        if(CanvasManagerGamePlay.Instance == null)return;
+        CanvasManagerGamePlay.Instance.WinUI.gameObject.SetActive(true);
+    }
 }

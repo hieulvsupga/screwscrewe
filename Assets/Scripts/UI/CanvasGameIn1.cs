@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CanvasGameIn1 : MonoBehaviour
 {
+    public Transform SettingPanel;
     private static CanvasGameIn1 instance;
     public static CanvasGameIn1 Instance
     {

@@ -14,6 +14,7 @@ public class ButtonFunction : MonoBehaviour
                 HomeBtn();
                 break;
             case "SettingBtn":
+                SettingBtn();
                 break;
             case "NoAdsBtn":
                 break;
@@ -63,5 +64,9 @@ public class ButtonFunction : MonoBehaviour
 
     public void NextLevel(){
         LevelController.Instance.NextLevelGame();
+    }
+
+    public void SettingBtn(){
+        CanvasGameIn1.Instance.SettingPanel.gameObject.SetActive(true);
     }
 }

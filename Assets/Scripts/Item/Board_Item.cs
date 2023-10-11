@@ -100,7 +100,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         ResetPool();
         if(Controller.Instance.rootlevel.listboard.Count == 0)
         {
-            LevelController.Instance.NextLevelGame();
+            UIEvents.Instance.ShowWinUI();
         }
     }
     private void OnTriggerEnter2D(Collider2D other)

@@ -28,6 +28,7 @@ public class CanvasManagerGamePlay : MonoBehaviour
     }
     public Transform DefaultUI;
     public Transform HintUI;
+    public Transform WinUI;
 
     public void Test2()
     {

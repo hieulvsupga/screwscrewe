@@ -21,6 +21,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     public Slot_Item slot_item;
     public Collider2D ColiderNail;
     public List<HingeJoint2D> listHingeJoin;
+
     private void Awake()
     {
         ColiderNail = GetComponent<Collider2D>();
@@ -130,10 +131,12 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     public void ActiveImageNail()
     {
         spriteRenderer.sprite = spriteRange[1];
+        spriteRenderer.transform.localPosition = new Vector3(0,0.2f,0);
     }
 
     public void ResetImageNail()
     {
         spriteRenderer.sprite = spriteRange[0];
+        spriteRenderer.transform.localPosition = new Vector3(0,0,0);
     }
 }

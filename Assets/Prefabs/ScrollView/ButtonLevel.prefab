@@ -298,6 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textLevel: {fileID: 1141156771839041042}
+  backgroudImage: {fileID: 7937865157304423271}
+  statusImage: {fileID: 6525967462675632393}
 --- !u!1 &7000325379133631092
 GameObject:
   m_ObjectHideFlags: 0
