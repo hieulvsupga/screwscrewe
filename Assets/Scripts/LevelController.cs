@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    public ParticleSystem paritcleSystemWin;
     private static LevelController instance;
     public static LevelController Instance
     {

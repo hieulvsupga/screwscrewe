@@ -96,7 +96,8 @@ public class Timer : MonoBehaviour
         {
             this.uiText.color = this.timeInitialColor;
         }
-        this.uiText.text = Timer.GetNumberWithZeroFormat(number) + ":" + Timer.GetNumberWithZeroFormat(number2);
+        //this.uiText.text = Timer.GetNumberWithZeroFormat(number) + ":" + Timer.GetNumberWithZeroFormat(number2);
+        this.uiText.text = "Time: "+ this.timeInSeconds.ToString("000");
     }
 
     public void IncreaseTime(float factor)

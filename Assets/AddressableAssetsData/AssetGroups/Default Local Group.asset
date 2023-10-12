@@ -517,6 +517,10 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/ItemInMap/board_tam_giac.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7c9413b00d2323042a55a478da3a6a7b
+    m_Address: Assets/Particle/Flash_magic_ellow_blue.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9614d789b0cdf164f9d0f3535372ac79, type: 2}
   m_SchemaSet:

@@ -11,6 +11,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public bool hasNail;
     public bool hasLock;
+    public Ad_Item Aditem;
     public Nail_Item nail_item;
 
     public Collider2D mainCheckCollider;
@@ -24,6 +25,12 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public void ActiveWhenDown()
     {
         if(hasLock == true) return;
+        if(Aditem != null)
+        {
+            Debug.Log("xem quang cao");
+            Aditem.ResetPool();
+            Aditem = null;
+        }
         
         if (ControllPlayGame.Instance.targetNail == nail_item)
         {
@@ -88,9 +95,9 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
         }
         else
         {
-            ControllPlayGame.Instance.targetNail.ResetImageNail();
             ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
             ControllPlayGame.Instance.targetNail.transform.position = transform.position;
+            ControllPlayGame.Instance.targetNail.ResetImageNailWithParticle();
             ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
             ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
             SetUpNail(ControllPlayGame.Instance.targetNail);
@@ -117,6 +124,10 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public void ResetNail()
     {
         hasNail = false;
+
+        hasLock = false;
+        Aditem = null;
+
         nail_item = null;
     }
 

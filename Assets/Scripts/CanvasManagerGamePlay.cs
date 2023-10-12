@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class CanvasManagerGamePlay : MonoBehaviour
 {
 
@@ -26,6 +28,7 @@ public class CanvasManagerGamePlay : MonoBehaviour
         SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();
     }
+    public TextLevel textLevel;
     public Transform DefaultUI;
     public Transform HintUI;
     public Transform WinUI;

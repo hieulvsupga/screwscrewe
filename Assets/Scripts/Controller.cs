@@ -47,6 +47,10 @@ public class Controller : MonoBehaviour
             {
                 PlayerPrefs.SetInt("Playinglevel", levelInt);
             }
+            if (CanvasManagerGamePlay.Instance != null)
+            {
+                CanvasManagerGamePlay.Instance.textLevel.textLevel.text = "Level " + levelInt;
+            }
         }
     }
     private void Awake() {

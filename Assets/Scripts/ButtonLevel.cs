@@ -25,6 +25,7 @@ public class ButtonLevel : MonoBehaviour
     public void SetupButtonLevel(int _level)
     {
         Level = _level;
+        SetUp();
     }
     public void ClickLevel()
     {    
@@ -36,12 +37,27 @@ public class ButtonLevel : MonoBehaviour
         return $"Assets/_GameAssets/data_{Controller.Instance.LevelIDInt}.json";
     }
 
-    private void Start() {
-        if(Level < Controller.Instance.LevelIDInt){
+    //private void Start() {
+    //    if(Level < Controller.Instance.LevelIDInt){
+    //        Actived();
+    //    }else if (Level == Controller.Instance.LevelIDInt){
+    //        Activing();
+    //    }else{
+    //        AwaitActive();
+    //    }
+    //}
+    public void SetUp()
+    {
+        if (Level < Controller.Instance.LevelIDInt)
+        {
             Actived();
-        }else if (Level == Controller.Instance.LevelIDInt){
+        }
+        else if (Level == Controller.Instance.LevelIDInt)
+        {
             Activing();
-        }else{
+        }
+        else
+        {
             AwaitActive();
         }
     }

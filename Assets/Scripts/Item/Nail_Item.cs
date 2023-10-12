@@ -35,6 +35,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     //    }
     //}
 
+
     public void ResetDisactiveListHingeJoint()
     {
         for (int i = 0; i < listHingeJoin.Count; i++)
@@ -133,7 +134,12 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
         spriteRenderer.sprite = spriteRange[1];
         spriteRenderer.transform.localPosition = new Vector3(0,0.2f,0);
     }
-
+    public void ResetImageNailWithParticle()
+    {
+        ParticleNailItem particleNailItem = ParticleNailSpawner.Instance._pool.Get();
+        particleNailItem.transform.position = transform.position;
+        ResetImageNail();
+    }
     public void ResetImageNail()
     {
         spriteRenderer.sprite = spriteRange[0];

@@ -39,7 +39,13 @@ public class UIEvents : MonoBehaviour
     }
 
     public void ShowWinUI(){
-        if(CanvasManagerGamePlay.Instance == null)return;
+        Timer.instance.Pause();
+        LevelController.Instance.paritcleSystemWin.Play();
+        Invoke("ActiveWinUI", 0.5f);
+    }
+    private void ActiveWinUI()
+    {
+        if (CanvasManagerGamePlay.Instance == null) return;
         CanvasManagerGamePlay.Instance.WinUI.gameObject.SetActive(true);
     }
 }

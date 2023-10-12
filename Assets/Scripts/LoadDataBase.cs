@@ -283,7 +283,8 @@ public class RootLevel
 
             if (bounds1.Intersects(bounds2))
             {
-                fakelistad[i].transform.parent = slot.transform;           
+                fakelistad[i].transform.parent = slot.transform;
+                slot.Aditem = fakelistad[i];
             }
         }
     }

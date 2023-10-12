@@ -30,6 +30,9 @@ public class ButtonFunction : MonoBehaviour
             case "NextLevel":
                 NextLevel();
                 break;
+            case "ResetBtn":
+                ResetBtn();
+                break;
         }
     }
 
@@ -68,5 +71,12 @@ public class ButtonFunction : MonoBehaviour
 
     public void SettingBtn(){
         CanvasGameIn1.Instance.SettingPanel.gameObject.SetActive(true);
+    }
+
+    public void ResetBtn()
+    {
+        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.nailLayerController.ClearLayer();
+        Controller.Instance.LoadLevel();
     }
 }
