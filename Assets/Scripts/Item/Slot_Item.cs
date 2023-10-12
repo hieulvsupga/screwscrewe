@@ -26,8 +26,8 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     {
         if(hasLock == true) return;
         if(Aditem != null)
-        {
-            Debug.Log("xem quang cao");
+        {           
+            Controller.Instance.rootlevel.listad.Remove(Aditem);
             Aditem.ResetPool();
             Aditem = null;
         }

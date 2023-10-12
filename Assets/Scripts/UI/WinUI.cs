@@ -7,15 +7,21 @@ public class WinUI : MonoBehaviour
     public void ReplayBtn(){
         Controller.Instance.rootlevel.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
-        Controller.Instance.LoadLevel();
+        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         gameObject.SetActive(false);
     }
 
     public void NextLevel(){
         Controller.Instance.LevelIDInt++;
-        Controller.Instance.rootlevel.ClearRoot();
+        if(LevelController.Instance.LevelDacbiet.Contains(Controller.Instance.LevelIDInt)){
+            CanvasManagerGamePlay.Instance.levelDacbietUI.gameObject.SetActive(true);
+        }else{
+            ControllPlayGame.Instance.targetNail = null;
+            Controller.Instance.rootlevel.ClearRoot();
+            LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+        }     
         Controller.Instance.nailLayerController.ClearLayer();
-        Controller.Instance.LoadLevel();
+       
         gameObject.SetActive(false);
     }
 }

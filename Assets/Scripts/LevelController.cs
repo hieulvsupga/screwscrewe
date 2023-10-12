@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    public List<int> LevelDacbiet = new List<int>(){10,20,30};
     public ParticleSystem paritcleSystemWin;
     private static LevelController instance;
     public static LevelController Instance
@@ -54,9 +55,15 @@ public class LevelController : MonoBehaviour
     {
         yield return new WaitForSeconds(0);
         Controller.Instance.LevelIDInt++;
-        CleanMap();
-        Controller.Instance.rootlevel.ClearRoot();
-        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+        if(LevelDacbiet.Contains(Controller.Instance.LevelIDInt)){
+            CanvasManagerGamePlay.Instance.levelDacbietUI.gameObject.SetActive(true);
+        }else{
+            CleanMap();
+            Controller.Instance.rootlevel.ClearRoot();
+            loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+        }
+        Controller.Instance.nailLayerController.ClearLayer();
+        Debug.Log("hehehehehe");
     } 
 
     public void CleanMap()

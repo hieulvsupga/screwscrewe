@@ -36,6 +36,9 @@ public class ButtonLevel : MonoBehaviour
     {
         return $"Assets/_GameAssets/data_{Controller.Instance.LevelIDInt}.json";
     }
+    public static string GetLevelDacbietString(){
+        return $"Assets/_GameAssets/data_b_{Controller.Instance.LevelIDInt}.json";
+    }
 
     //private void Start() {
     //    if(Level < Controller.Instance.LevelIDInt){

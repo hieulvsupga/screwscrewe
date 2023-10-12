@@ -11,7 +11,8 @@ public class DefaultUI : MonoBehaviour
     public void ReplayBtn(){
         Controller.Instance.rootlevel.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
-        Controller.Instance.LoadLevel();
+        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+        ControllPlayGame.Instance.targetNail = null;
         gameObject.SetActive(false);
     }
 
@@ -19,7 +20,8 @@ public class DefaultUI : MonoBehaviour
         Controller.Instance.LevelIDInt++;
         Controller.Instance.rootlevel.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
-        Controller.Instance.LoadLevel();
+        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+        ControllPlayGame.Instance.targetNail = null;
         gameObject.SetActive(false);
     }
 }
