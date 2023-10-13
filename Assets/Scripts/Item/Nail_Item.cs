@@ -56,7 +56,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     }
     IEnumerator checkover()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(0f);
         Bounds boundnail = ColiderNail.bounds;
         Vector2 size = boundnail.size;
        // Debug.Log(size + "=VLOVK");

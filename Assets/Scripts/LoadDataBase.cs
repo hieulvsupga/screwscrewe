@@ -413,8 +413,9 @@ public class LoadDataBase : MonoBehaviour
                     float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
                     if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
                     {
-                        boardCount++;
+                        Debug.Log(overlapPercentage + "ddddddd");
                         Board_Item board = collider.GetComponent<Board_Item>();
+                        boardCount++;
                         LoadSlotBoardAddressAble(board, Controller.Instance.rootlevel.litsnail[i]);
                         layerboard.Add(collider.gameObject.layer - 6);
                     }

@@ -82,13 +82,16 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
             if (collider.CompareTag("Board"))
             {                
                 check++;
+                Debug.Log(collider.gameObject.name);
                 //break;
             }
 
             if(collider.gameObject.layer == 29){
                 check--;
+                Debug.Log(collider.gameObject.name+"=====thach");
             }
         }
+        Debug.Log(check+"=========");
         if (check != 0)
         {
             
@@ -125,8 +128,8 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     {
         hasNail = false;
 
-        hasLock = false;
-        Aditem = null;
+        //hasLock = false;
+        //Aditem = null;
 
         nail_item = null;
     }
@@ -158,6 +161,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public void ResetAfterRelease()
     {
         nail_item = null;
+        Aditem = null;
     }
 
     public void StartCreate()
