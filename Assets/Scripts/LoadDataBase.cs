@@ -400,20 +400,20 @@ public class LoadDataBase : MonoBehaviour
             Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);           
             
             foreach (Collider2D collider in colliders)
-            {
-
-               
+            {              
                 Bounds bounds1 = collider.bounds;
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
                 {
-                    Bounds overlapBounds = boundnail;
-                    overlapBounds.Encapsulate(bounds1.min);
-                    overlapBounds.Encapsulate(bounds1.max);
-                    float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
-                    float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-                    if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
-                    {
-                        Debug.Log(overlapPercentage + "ddddddd");
+                    // Bounds overlapBounds = boundnail;
+                    // overlapBounds.Encapsulate(bounds1.min);
+                    // overlapBounds.Encapsulate(bounds1.max);
+                    // float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
+                    // float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
+                    // if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
+                    // {
+                    bool fullyOverlap = bounds1.Contains(boundnail.min) && bounds1.Contains(boundnail.max);
+                    if(fullyOverlap == true){
+                        //Debug.Log(overlapPercentage + "ddddddd");
                         Board_Item board = collider.GetComponent<Board_Item>();
                         boardCount++;
                         LoadSlotBoardAddressAble(board, Controller.Instance.rootlevel.litsnail[i]);

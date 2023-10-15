@@ -110,4 +110,18 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
             key_Item.FindLock();
         }
     }
+
+    public Slot_board_Item FindOtherSlotBoard(Slot_board_Item a){
+    
+        int Index = 0;
+        while (listslot[Index] == a && Index < listslot.Count)
+        {           
+            Index++;
+        }       
+        return listslot[Index];
+    }
+
+    public virtual void DetermineCenterPoint(Slot_board_Item a){
+
+    }
 }

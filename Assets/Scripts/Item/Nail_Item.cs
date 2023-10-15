@@ -85,6 +85,30 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                 listHingeJoin.Add(slotboardItem.hingeJointInSlot);
                 slotboardItem.hingeJointInSlot.enabled = true;
                 layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+
+
+                //dich chuyen doi tuong
+                Board_Item parenttBoard = slotboardItem.transform.parent.GetComponent<Board_Item>();
+                Slot_board_Item parentt = parenttBoard.FindOtherSlotBoard(slotboardItem);
+
+                Vector3 dir = parentt.transform.position - this.transform.position;
+                Vector3 dir2 = parentt.transform.position - slotboardItem.transform.position;              
+                // Đọc các giá trị rotation x, y, z của đối tượng A
+                float rotationX = parenttBoard.transform.eulerAngles.x;
+                float rotationY = parenttBoard.transform.eulerAngles.y;
+                float rotationZ = parenttBoard.transform.eulerAngles.z;
+
+
+                parenttBoard.DetermineCenterPoint(parentt);
+
+                // Sử dụng các giá trị rotation
+                Debug.Log("Rotation X: " + rotationX);
+                Debug.Log("Rotation Y: " + rotationY);
+                Debug.Log("Rotation Z: " + rotationZ);
+                //Quaternion targetRotation = Quaternion.FromToRotation(dir2, dir);
+
+                // Gán targetRotation vào rotation của đối tượng
+               // parenttBoard.transform.rotation = targetRotation;
             }
         }
 
