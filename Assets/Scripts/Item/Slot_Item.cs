@@ -72,8 +72,9 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     {
         yield return new WaitForSeconds(0);
         Vector2 size = mainCheckCollider.bounds.size;
+        Debug.Log(size + "fjawelyhfkljakljfklawjefklawejflawjefoakjfoakejfaoejfawejf");
         int check = 0;
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size, 0);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size/2, 0);
         
         //cham board la +1 cham slotbot la -1 khi nao bang 0 thi cho qua
         foreach (Collider2D collider in colliders)
@@ -88,10 +89,10 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
             if(collider.gameObject.layer == 29){
                 check--;
-                Debug.Log(collider.gameObject.name+"=====thach");
+                Debug.Log(collider.gameObject.name);
             }
         }
-        Debug.Log(check+"=========");
+       
         if (check != 0)
         {
             

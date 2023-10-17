@@ -5,6 +5,7 @@ using UnityEngine;
 public class CanvasGameIn1 : MonoBehaviour
 {
     public Transform SettingPanel;
+    public Transform RatePanel;
     private static CanvasGameIn1 instance;
     public static CanvasGameIn1 Instance
     {

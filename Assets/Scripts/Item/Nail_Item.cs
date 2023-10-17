@@ -102,9 +102,9 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                 parenttBoard.DetermineCenterPoint(parentt);
 
                 // Sử dụng các giá trị rotation
-                Debug.Log("Rotation X: " + rotationX);
-                Debug.Log("Rotation Y: " + rotationY);
-                Debug.Log("Rotation Z: " + rotationZ);
+                //Debug.Log("Rotation X: " + rotationX);
+                //Debug.Log("Rotation Y: " + rotationY);
+                //Debug.Log("Rotation Z: " + rotationZ);
                 //Quaternion targetRotation = Quaternion.FromToRotation(dir2, dir);
 
                 // Gán targetRotation vào rotation của đối tượng
