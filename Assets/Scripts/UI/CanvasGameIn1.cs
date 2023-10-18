@@ -34,4 +34,8 @@ public class CanvasGameIn1 : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void Back()
+    {
+        Controller.Instance.TimeRemotetoController(1);
+    }
 }

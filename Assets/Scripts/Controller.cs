@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Controller : MonoBehaviour
 {
+
+    public delegate void TimeDelegate(int a);
+    public static event TimeDelegate TimeEvent;
+
     private AsyncOperation async;
     private static Controller instance;
     public static Controller Instance
@@ -30,9 +34,6 @@ public class Controller : MonoBehaviour
 
     public NailLayerController nailLayerController;
     // Start is called before the first frame update
-
-
-
     private int levelInt;
     public int LevelIDInt
     {
@@ -53,6 +54,11 @@ public class Controller : MonoBehaviour
             }
         }
     }
+
+    [Header("UI")]
+    [Space(10)]
+    public Background background_ui;
+
     private void Awake() {
         if (instance == null)
         {
@@ -73,7 +79,7 @@ public class Controller : MonoBehaviour
     }
 
 
-    public void LoadLevel(){
+    public void StartLevel(){
         //StartCoroutine(LoadAsset());
         LoadLevelScene("GamePlay");
     }
@@ -98,5 +104,12 @@ public class Controller : MonoBehaviour
             }
             
         }
+    }
+
+
+
+    public void TimeRemotetoController(int a)
+    {
+        TimeEvent?.Invoke(a);
     }
 }

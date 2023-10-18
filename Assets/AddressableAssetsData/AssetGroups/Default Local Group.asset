@@ -521,6 +521,20 @@ MonoBehaviour:
     m_Address: Assets/Particle/Flash_magic_ellow_blue.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7d1a75f90cad1384683b6a214e0c68da
+    m_Address: Assets/Sprites/Background/BG_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - sprite
+  - m_GUID: 18c0340f1c142c44ba0291365ad3cd71
+    m_Address: Assets/Sprites/Background/BG_3.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - sprite
+  - m_GUID: c1f1ca50c587e3a4da125ab145025ce6
+    m_Address: Assets/Audio/Thud.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9614d789b0cdf164f9d0f3535372ac79, type: 2}
   m_SchemaSet:

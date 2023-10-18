@@ -21,7 +21,7 @@ public class Timer : MonoBehaviour
     //     }
     // }
 
-    private void Awake()
+    private void Start()
     {
         if (Timer.instance == null)
         {
@@ -30,6 +30,30 @@ public class Timer : MonoBehaviour
         this.timeInitialColor = this.uiText.color;
         this.Pause();
     }
+
+    private void OnEnable()
+    {
+        Controller.TimeEvent += TimeRemote;
+    }
+
+    private void OnDisable()
+    {
+        Controller.TimeEvent -= TimeRemote;
+    }
+
+
+    public void TimeRemote(int a)
+    {
+        if(a == 1)
+        {
+            this.Resume();
+        }
+        else
+        {
+            this.Pause();
+        }
+    }
+
 
     public void Run()
     {

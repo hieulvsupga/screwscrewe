@@ -40,6 +40,9 @@ TagManager:
   - BoardCheck
   - Key
   m_SortingLayers:
+  - name: Water
+    uniqueID: 3365971157
+    locked: 0
   - name: Bg
     uniqueID: 282310527
     locked: 0

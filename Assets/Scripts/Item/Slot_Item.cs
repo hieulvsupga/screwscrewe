@@ -25,6 +25,9 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     public void ActiveWhenDown()
     {
         if(hasLock == true) return;
+
+        LevelController.Instance.ActiveActionUser();
+
         if(Aditem != null)
         {           
             Controller.Instance.rootlevel.listad.Remove(Aditem);
@@ -72,7 +75,6 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
     {
         yield return new WaitForSeconds(0);
         Vector2 size = mainCheckCollider.bounds.size;
-        Debug.Log(size + "fjawelyhfkljakljfklawjefklawejflawjefoakjfoakejfaoejfawejf");
         int check = 0;
         Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size/2, 0);
         
@@ -83,13 +85,13 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
             if (collider.CompareTag("Board"))
             {                
                 check++;
-                Debug.Log(collider.gameObject.name);
+                //Debug.Log(collider.gameObject.name);
                 //break;
             }
 
             if(collider.gameObject.layer == 29){
                 check--;
-                Debug.Log(collider.gameObject.name);
+                //Debug.Log(collider.gameObject.name);
             }
         }
        

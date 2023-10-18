@@ -23,7 +23,7 @@ public class ScreenShotCamera : MonoBehaviour
     { 
         if (captureScreenshot)
         {        
-            cameraScreenshot.targetTexture = RenderTexture.GetTemporary(270,479,16);
+            cameraScreenshot.targetTexture = RenderTexture.GetTemporary(cameraScreenshot.pixelWidth ,cameraScreenshot.pixelHeight,16);
             RenderTexture rendertexture = cameraScreenshot.targetTexture;
             Texture2D renderResult = new Texture2D(rendertexture.width, rendertexture.height, TextureFormat.ARGB32, false);
             // spritescreenshot = Utiliti.ConvertToSprite(renderResult);

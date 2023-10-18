@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    public List<int> LevelDacbiet = new List<int>(){10,20,30};
+    public delegate void CheckActionUser();
+    public event CheckActionUser checkActionUser;
+
+
+    public List<int> LevelDacbiet = new List<int>(){9,19,29};
     public ParticleSystem paritcleSystemWin;
     private static LevelController instance;
     public static LevelController Instance
@@ -29,6 +33,8 @@ public class LevelController : MonoBehaviour
     public Transform MainLevelSetupCreateMap;
 
     public ScreenShotCamera screenshotcamera;
+
+    public Transform HelpHandTurtorial;
     //public RootLevel rootlevel;
     void Start()
     {
@@ -37,13 +43,9 @@ public class LevelController : MonoBehaviour
 
         //rootlevel = new RootLevel();
         //loadDataBase.LoadLevelGame("Assets/_GameAssets/data_2.json");
+        
         loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Controller.Instance.background_ui.Notdacbiet();
     }
 
     public void NextLevelGame()
@@ -62,12 +64,43 @@ public class LevelController : MonoBehaviour
             Controller.Instance.rootlevel.ClearRoot();
             loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         }
-        Controller.Instance.nailLayerController.ClearLayer();
-        Debug.Log("hehehehehe");
+        Controller.Instance.nailLayerController.ClearLayer();    
     } 
 
     public void CleanMap()
     {
         ControllPlayGame.Instance.targetNail = null;
     }
+
+    public void ResetLevel()
+    {
+        CleanMap();
+        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.nailLayerController.ClearLayer();
+        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+       
+    }
+
+    public void NextLevelNotDacbiet()
+    {
+        if(Background.statusbg == "dacbiet")
+        {
+            Controller.Instance.background_ui.Notdacbiet();
+        }
+
+        CleanMap();
+        Controller.Instance.LevelIDInt++;
+        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.nailLayerController.ClearLayer();
+        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+      
+    }
+
+
+    public void ActiveActionUser()
+    {
+        checkActionUser?.Invoke();
+    }
+
+
 }

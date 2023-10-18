@@ -160,6 +160,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     }
     public void ResetImageNailWithParticle()
     {
+        AudioController.Instance.PlayClip("naildam");
         ParticleNailItem particleNailItem = ParticleNailSpawner.Instance._pool.Get();
         particleNailItem.transform.position = transform.position;
         ResetImageNail();

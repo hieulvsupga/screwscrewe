@@ -9,19 +9,12 @@ public class DefaultUI : MonoBehaviour
     // }
 
     public void ReplayBtn(){
-        Controller.Instance.rootlevel.ClearRoot();
-        Controller.Instance.nailLayerController.ClearLayer();
-        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
-        ControllPlayGame.Instance.targetNail = null;
+        LevelController.Instance.ResetLevel();
         gameObject.SetActive(false);
     }
 
     public void NextLevel(){
-        Controller.Instance.LevelIDInt++;
-        Controller.Instance.rootlevel.ClearRoot();
-        Controller.Instance.nailLayerController.ClearLayer();
-        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
-        ControllPlayGame.Instance.targetNail = null;
+        LevelController.Instance.NextLevelNotDacbiet();
         gameObject.SetActive(false);
     }
 }

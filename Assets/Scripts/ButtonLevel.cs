@@ -30,7 +30,7 @@ public class ButtonLevel : MonoBehaviour
     public void ClickLevel()
     {    
         Controller.Instance.LevelIDInt = level;
-        Controller.Instance.LoadLevel();
+        Controller.Instance.StartLevel();
     }
     public static string GetLevelString()
     {

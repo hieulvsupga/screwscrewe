@@ -12,15 +12,18 @@ public class WinUI : MonoBehaviour
     }
 
     public void NextLevel(){
-        Controller.Instance.LevelIDInt++;
+        //Controller.Instance.LevelIDInt++;
+        //Debug.Log(LevelController.Instance.LevelDacbiet.Contains(Controller.Instance.LevelIDInt) + "hehehehehehe");
         if(LevelController.Instance.LevelDacbiet.Contains(Controller.Instance.LevelIDInt)){
+            //Controller.Instance.LevelIDInt++;
             CanvasManagerGamePlay.Instance.levelDacbietUI.gameObject.SetActive(true);
         }else{
-            ControllPlayGame.Instance.targetNail = null;
-            Controller.Instance.rootlevel.ClearRoot();
-            LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+            LevelController.Instance.NextLevelNotDacbiet();
+            //ControllPlayGame.Instance.targetNail = null;
+            //Controller.Instance.rootlevel.ClearRoot();
+            //LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         }     
-        Controller.Instance.nailLayerController.ClearLayer();
+       
        
         gameObject.SetActive(false);
     }

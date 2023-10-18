@@ -52,6 +52,7 @@ public class ButtonFunction : MonoBehaviour
         // {
         //     Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(true);
         // }
+        Controller.Instance.TimeRemotetoController(0);
         CanvasManagerGamePlay.Instance.HintUI.gameObject.SetActive(true);
     }
 
@@ -61,22 +62,25 @@ public class ButtonFunction : MonoBehaviour
         // {
         //     Controller.Instance.rootlevel.listHint[i].gameObject.SetActive(false);
         // }   
+        Controller.Instance.TimeRemotetoController(1);
         CanvasManagerGamePlay.Instance.HintUI.gameObject.SetActive(false);
 
     }
 
     public void NextLevel(){
-        LevelController.Instance.NextLevelGame();
+        LevelController.Instance.NextLevelNotDacbiet();
     }
 
     public void SettingBtn(){
+        Controller.Instance.TimeRemotetoController(0);
         CanvasGameIn1.Instance.SettingPanel.gameObject.SetActive(true);
     }
+    
 
     public void ResetBtn()
     {
-        Controller.Instance.rootlevel.ClearRoot();
-        Controller.Instance.nailLayerController.ClearLayer();
-        Controller.Instance.LoadLevel();
+        //Controller.Instance.rootlevel.ClearRoot();
+        //Controller.Instance.nailLayerController.ClearLayer();
+        LevelController.Instance.ResetLevel();
     }
 }

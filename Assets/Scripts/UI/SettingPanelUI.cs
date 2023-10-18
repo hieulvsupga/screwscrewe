@@ -14,6 +14,7 @@ public class SettingPanelUI : MonoBehaviour
     public void HomeLevel()
     {
         gameObject.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "Level") return;
         Controller.Instance.rootlevel.ClearRoot();
         SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();

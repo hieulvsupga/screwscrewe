@@ -136,6 +136,7 @@ public class RootLevel
     public List<Board_Item> listboard;
     public List<Key_Item> listkey;
     public List<Hint_Item> listHint;
+    public List<HandTut> listHand;
     public Bg_Item bgItem;
     public int totalTime;
     public RootLevel()
@@ -147,6 +148,7 @@ public class RootLevel
         listboard = new List<Board_Item>();
         listkey = new List<Key_Item>();
         listHint = new List<Hint_Item>();
+        listHand = new List<HandTut>();
     }
 
     public void ClearRoot()
@@ -195,6 +197,7 @@ public class RootLevel
         listkey.Clear();
         litslock.Clear();
         listHint.Clear();
+        listHand.Clear();
     }
 
     public bool Findslotfornail(Nail_Item nail)
@@ -360,9 +363,21 @@ public class LoadDataBase : MonoBehaviour
         itemCount--;
         if (itemCount == 0)
         {
+            PrepareGame();
             //CheckAdAwaitBad();
             LevelController.Instance.screenshotcamera.captureScreenshot = true;
             StartCoroutine(CreatePhysic2dforboard());
+        }
+    }
+
+    public void PrepareGame() {
+        if (Controller.Instance.rootlevel.listHand.Count != 0)
+        {
+            LevelController.Instance.HelpHandTurtorial.gameObject.SetActive(true);
+        }
+        else
+        {
+            LevelController.Instance.HelpHandTurtorial.gameObject.SetActive(false);
         }
     }
 
@@ -469,8 +484,9 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandTutEditString(string str)
     {
-        string[] strings = DoubleStringEditNameandValue(str);
-        HandTut hieu = JsonUtility.FromJson<HandTut>(strings[1]);
+        string[] strings = DoubleStringEditNameandValue(str);       
+        HandTut handTut = JsonUtility.FromJson<HandTut>(strings[1]);
+        Controller.Instance.rootlevel.listHand.Add(handTut);       
         CheckTimeSetUpMap();
     }
 
