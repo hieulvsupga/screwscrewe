@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SettingPanelUI : MonoBehaviour
 {
+    public static int SoundCheck = 0;
    public void OpenRate()
    {
         gameObject.SetActive(false);

@@ -30,9 +30,16 @@ public class AudioController : MonoBehaviour
 
     public AudioSource audioSource;
 
-    public void Test() { }
+    private void Start()
+    {
+        SettingPanelUI.SoundCheck = PlayerPrefs.GetInt("Sound");        
+    }
     public void PlayClip(string clipstring)
-    {     
+    {
+            if (SettingPanelUI.SoundCheck == 0)
+            {
+                return;
+            }
             if (myDictionary.ContainsKey(clipstring))
             {
                 if (myDictionary[clipstring] == null)
@@ -69,7 +76,13 @@ public class AudioController : MonoBehaviour
         switch (str)
         {
             case "naildam":
-                h = "Assets/Audio/Thud.ogg";
+                h = "Assets/Audio/CollectEgg.ogg";
+                break;
+            case "clean":
+                h = "Assets/Audio/PullThePin.ogg";
+                break;
+            case "win":
+                h = "Assets/Audio/Confetti.wav";
                 break;
         }
 

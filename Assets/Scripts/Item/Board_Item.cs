@@ -100,6 +100,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         ResetPool();
         if(Controller.Instance.rootlevel.listboard.Count == 0)
         {
+            AudioController.Instance.PlayClip("win");
             UIEvents.Instance.ShowWinUI();
         }
     }

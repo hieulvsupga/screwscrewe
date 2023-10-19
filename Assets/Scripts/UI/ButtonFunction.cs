@@ -31,6 +31,7 @@ public class ButtonFunction : MonoBehaviour
                 NextLevel();
                 break;
             case "ResetBtn":
+                AudioController.Instance.PlayClip("clean");
                 ResetBtn();
                 break;
         }

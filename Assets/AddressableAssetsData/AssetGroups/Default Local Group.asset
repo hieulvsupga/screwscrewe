@@ -531,12 +531,20 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - sprite
-  - m_GUID: c1f1ca50c587e3a4da125ab145025ce6
-    m_Address: Assets/Audio/Thud.ogg
+  - m_GUID: 81e86b708d0aa3b43b6a4c051898842b
+    m_Address: Assets/Audio/CollectEgg.ogg
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ac6e5647e35b2554497531faef3c2837
     m_Address: Assets/Prefabs/Locked.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b3148f419749f2d45be4b460861a72a1
+    m_Address: Assets/Audio/PullThePin.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 68b4c7e399ee1b84283f6d8b1dc1ce4e
+    m_Address: Assets/Audio/Confetti.wav
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

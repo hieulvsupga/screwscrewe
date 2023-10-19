@@ -146,7 +146,8 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     {
         listHingeJoin.Clear();
         ColiderNail.isTrigger = false;
-        ResetImageNail();
+        spriteRenderer.sprite = spriteRange[0];
+        spriteRenderer.transform.localPosition = new Vector3(0, 0, 0);
     }
 
     public void StartCreate()
@@ -155,6 +156,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 
     public void ActiveImageNail()
     {
+        AudioController.Instance.PlayClip("naildam");
         spriteRenderer.sprite = spriteRange[1];
         spriteRenderer.transform.localPosition = new Vector3(0,0.2f,0);
     }
@@ -167,6 +169,7 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     }
     public void ResetImageNail()
     {
+        AudioController.Instance.PlayClip("naildam");
         spriteRenderer.sprite = spriteRange[0];
         spriteRenderer.transform.localPosition = new Vector3(0,0,0);
     }

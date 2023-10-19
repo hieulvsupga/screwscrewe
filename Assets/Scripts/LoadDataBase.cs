@@ -633,6 +633,7 @@ public class LoadDataBase : MonoBehaviour
         LevelController.Instance.TxtTur.transform.position = new Vector3(txt.pos.x, txt.pos.y, txt.pos.z);
         LevelController.Instance.TxtTur.transform.rotation = Quaternion.Euler(new Vector3(txt.rot.x, txt.rot.y, txt.rot.z));
         LevelController.Instance.TxtTur.transform.localScale = new Vector3(txt.scale.x, txt.scale.y, txt.scale.z);    
+        LevelController.Instance.TxtTur.originalScale = new Vector3(txt.scale.x, txt.scale.y, txt.scale.z);
         LevelController.Instance.TxtTur.gameObject.SetActive(true);
         LevelController.Instance.TxtTur.SetUp();
         CheckTimeSetUpMap();

@@ -64,6 +64,7 @@ public class LevelController : MonoBehaviour
         }else{
             CleanMap();
             Controller.Instance.rootlevel.ClearRoot();
+     
             loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         }
         Controller.Instance.nailLayerController.ClearLayer();    

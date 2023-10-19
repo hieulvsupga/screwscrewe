@@ -51,11 +51,11 @@ public class ButtonLevel : MonoBehaviour
     //}
     public void SetUp()
     {
-        if (Level < Controller.Instance.LevelIDInt)
+        if (Level < PlayerPrefs.GetInt("Playinglevel"))
         {
             Actived();
         }
-        else if (Level == Controller.Instance.LevelIDInt)
+        else if (Level == PlayerPrefs.GetInt("Playinglevel"))
         {
             Activing();
         }

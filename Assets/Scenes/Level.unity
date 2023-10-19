@@ -2206,6 +2206,7 @@ GameObject:
   - component: {fileID: 912065148}
   - component: {fileID: 912065147}
   - component: {fileID: 912065151}
+  - component: {fileID: 912065152}
   m_Layer: 5
   m_Name: CanvasLevelButton
   m_TagString: Untagged
@@ -2315,6 +2316,19 @@ MonoBehaviour:
   statusLevelButtonLevel:
   - {fileID: 21300000, guid: 712a96ab3a700c144b35a5f5cc805acc, type: 3}
   - {fileID: 21300000, guid: b5dbc9cc65017ee42a33d896aea05df6, type: 3}
+--- !u!114 &912065152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912065146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7e7b819d5cce0478cbb7c0b2786d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enhancedscroller_Level: {fileID: 2520827493392686796}
 --- !u!1 &926313848
 GameObject:
   m_ObjectHideFlags: 0
@@ -4405,7 +4419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7099425920327070977, guid: 39b28a39ba1121e4c99adf3b0d897312, type: 3}
       propertyPath: m_Name
-      value: SwitchButton (1)
+      value: SFXButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39b28a39ba1121e4c99adf3b0d897312, type: 3}
@@ -5879,6 +5893,7 @@ MonoBehaviour:
   interruptTweeningOnDrag: 0
   tweenPaused: 0
   _scrollPosition: 0
+  jumpdesire: 0
 --- !u!114 &4319998041439935094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5993,7 +6008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7099425920327070977, guid: 39b28a39ba1121e4c99adf3b0d897312, type: 3}
       propertyPath: m_Name
-      value: SwitchButton
+      value: MusicButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39b28a39ba1121e4c99adf3b0d897312, type: 3}

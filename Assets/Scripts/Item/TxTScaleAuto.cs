@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +6,21 @@ using UnityEngine;
 public class TxTScaleAuto : MonoBehaviour
 {
     public Transform transformText;
+    public Vector3 originalScale;
+    private Tween tween;
     public void SetUp()
-    {    
-        transformText.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 1f)
+    {
+        transformText.transform.localScale = originalScale;
+        tween  = transformText.transform.DOScale(new Vector3(1.15f, 1.15f, 1.15f), 1f)
             .SetEase(Ease.InOutQuad)
             .SetLoops(-1, LoopType.Yoyo);
     }
-    //private void OnEnable()
-    //{
-       
-    //    transformText.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 1f)
-    //        .SetEase(Ease.InOutQuad)
-    //        .SetLoops(-1, LoopType.Yoyo);
-    //}
+    private void OnDisable()
+    {
+        if(tween != null)
+        {
+            tween.Kill();
+        }
+        transformText.transform.localScale = originalScale;
+    }
 }

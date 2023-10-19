@@ -98,6 +98,7 @@ public class Controller : MonoBehaviour
 
     IEnumerator LoadSceneAsync (string sceneName){
         if(!string.IsNullOrEmpty(sceneName)){
+            Debug.Log("toi da thuc hien lan thu n");
             async = SceneManager.LoadSceneAsync(sceneName);
             while(!async.isDone && LoadDataIndex <17 && LoadDataIndex>=0){
                 yield return 0;

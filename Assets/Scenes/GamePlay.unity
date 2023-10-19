@@ -2870,6 +2870,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Confetti_blast_multicolor
       objectReference: {fileID: 0}
+    - target: {fileID: 1309820997646544, guid: 722e553cf67713e48814b4190cb091de, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480261672107895, guid: 722e553cf67713e48814b4190cb091de, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798243668518187, guid: 722e553cf67713e48814b4190cb091de, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912439152385358, guid: 722e553cf67713e48814b4190cb091de, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4094258296478816, guid: 722e553cf67713e48814b4190cb091de, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4610,7 +4626,7 @@ Camera:
   m_Depth: -5
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4244512757
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

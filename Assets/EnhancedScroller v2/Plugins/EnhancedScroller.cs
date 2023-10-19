@@ -2075,16 +2075,26 @@ namespace EnhancedUI.EnhancedScroller
             }
         }
 
+        //HIEULAICHUYENDOI
+        public int jumpdesire = 0;
+
         void OnEnable()
         {
             // when the scroller is enabled, add a listener to the onValueChanged handler
             _scrollRect.onValueChanged.AddListener(_ScrollRect_OnValueChanged);
+            StartCoroutine(JumpHieu());
         }
 
         void OnDisable()
         {
             // when the scroller is disabled, remove the listener
             _scrollRect.onValueChanged.RemoveListener(_ScrollRect_OnValueChanged);
+        }
+        public IEnumerator JumpHieu()
+        {
+            yield return new WaitForSeconds(0);        
+            JumpToDataIndex(jumpdesire, 0, 0, true, TweenType.immediate, 0.2f, null, LoopJumpDirectionEnum.Closest, false);
+            //controlContainer.gameObject.SetActive(true);        
         }
 
         /// <summary>

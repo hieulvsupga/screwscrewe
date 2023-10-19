@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -8,6 +8,7 @@ public class Key_Item : MonoBehaviour, TInterface<Key_Item>
     //pool
     private ObjectPool<Key_Item> _pool;
     private bool checkRunning = false;
+    private Tween moveTween;
     public void SetPool(ObjectPool<Key_Item> pool)
     {
         _pool = pool;
@@ -26,6 +27,11 @@ public class Key_Item : MonoBehaviour, TInterface<Key_Item>
     public void ResetAfterRelease()
     {
         checkRunning = false;
+        if (moveTween != null)
+        {
+            moveTween.Kill(); 
+            moveTween = null;
+        }
     }
 
     public void StartCreate()
@@ -40,7 +46,7 @@ public class Key_Item : MonoBehaviour, TInterface<Key_Item>
             return;
         }
         checkRunning = true;
-        transform.DOMove(lock_Item.transform.position,2.0f).OnComplete(()=>{
+        moveTween = transform.DOMove(lock_Item.transform.position,2.0f).OnComplete(()=>{
             Transform g = lock_Item.transform.parent;
             if(g!=null){
                 Slot_Item slot_Item = g.transform.GetComponent<Slot_Item>();
