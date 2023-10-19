@@ -308,7 +308,13 @@ public class LoadDataBase : MonoBehaviour
     public Collider2D[] results = new Collider2D[15];
     public void LoadLevelGame(string str)
     {
+        PrepareBeforeLoadLevel();
         LoadFileJsonLevel(str);
+    }
+
+    public void PrepareBeforeLoadLevel()
+    {
+        LevelController.Instance.TxtTur.gameObject.SetActive(false);
     }
     private void LoadFileJsonLevel(string level)
     {
@@ -571,11 +577,9 @@ public class LoadDataBase : MonoBehaviour
         Lock_Item lockItem = LockSpawner.Instance._pool.Get();
         lockItem.transform.position = new Vector3(lock1.pos.x, lock1.pos.y, lock1.pos.z);
         lockItem.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.x, lock1.rot.y, lock1.rot.z));
-        lockItem.transform.localScale = new Vector3(lock1.scale.x, lock1.scale.y, lock1.scale.z);
-        SpriteRenderer spriteRenderer = lockItem.GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = lock1.layer;
-        spriteRenderer.color = new Color(lock1.color.r, lock1.color.g, lock1.color.b, lock1.color.a);
-
+        lockItem.spriteRenderer.transform.localScale = new Vector3(lock1.scale.x, lock1.scale.y, lock1.scale.z);      
+        lockItem.spriteRenderer.sortingOrder = lock1.layer;
+        lockItem.spriteRenderer.color = new Color(lock1.color.r, lock1.color.g, lock1.color.b, lock1.color.a);
         if (Controller.Instance.rootlevel.Findslotforlock(lockItem) == false)
         {
             Controller.Instance.rootlevel.litslock.Add(lockItem);
@@ -625,7 +629,12 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandSavableEditString_Txt(string str)
     {
-        Txt hieu = JsonUtility.FromJson<Txt>(str);
+        Txt txt = JsonUtility.FromJson<Txt>(str);
+        LevelController.Instance.TxtTur.transform.position = new Vector3(txt.pos.x, txt.pos.y, txt.pos.z);
+        LevelController.Instance.TxtTur.transform.rotation = Quaternion.Euler(new Vector3(txt.rot.x, txt.rot.y, txt.rot.z));
+        LevelController.Instance.TxtTur.transform.localScale = new Vector3(txt.scale.x, txt.scale.y, txt.scale.z);    
+        LevelController.Instance.TxtTur.gameObject.SetActive(true);
+        LevelController.Instance.TxtTur.SetUp();
         CheckTimeSetUpMap();
     }
 
@@ -857,7 +866,7 @@ public class LoadDataBase : MonoBehaviour
         Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
         aditem.transform.position = new Vector3(ad.pos.x, ad.pos.y, ad.pos.z);
         aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.x, ad.rot.y, ad.rot.z));
-        aditem.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
+        aditem.spriteRenderer.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
         Controller.Instance.rootlevel.listad.Add(aditem);
         
         CheckTimeSetUpMap();    

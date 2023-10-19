@@ -24,14 +24,18 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public void ActiveWhenDown()
     {
-        if(hasLock == true) return;
+        if (hasLock == true) {
+            Locked.CreateLocked(transform.position);   
+            return;
+        }
 
         LevelController.Instance.ActiveActionUser();
 
         if(Aditem != null)
         {           
-            Controller.Instance.rootlevel.listad.Remove(Aditem);
-            Aditem.ResetPool();
+            //Controller.Instance.rootlevel.listad.Remove(Aditem);
+            //Aditem.ResetPool();
+            Aditem.animator.SetTrigger("play");
             Aditem = null;
         }
         

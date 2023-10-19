@@ -74,6 +74,7 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
            return;
         }
         pool_Item.gameObject.SetActive(true);
+        pool_Item.GetComponent<U>().StartCreate();
     }
 
     private void OnReturnPoolItemToPool(X pool_Item)

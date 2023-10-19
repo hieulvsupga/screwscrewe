@@ -10,6 +10,9 @@ public static class AddressAbleStringEdit
         string url = null;
         switch (str)
         {
+            case "locked":
+                url = "Assets/Prefabs/Locked.prefab";
+                break;
             case "nail_particle":
                 url = "Assets/Particle/Flash_magic_ellow_blue.prefab";
                 break;

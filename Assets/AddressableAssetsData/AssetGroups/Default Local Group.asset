@@ -535,6 +535,10 @@ MonoBehaviour:
     m_Address: Assets/Audio/Thud.ogg
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ac6e5647e35b2554497531faef3c2837
+    m_Address: Assets/Prefabs/Locked.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9614d789b0cdf164f9d0f3535372ac79, type: 2}
   m_SchemaSet:

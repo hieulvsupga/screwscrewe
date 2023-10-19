@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LevelController : MonoBehaviour
 {
+    public List<IUIEffectItem> ListUIEffectControll = new List<IUIEffectItem>();
     public delegate void CheckActionUser();
     public event CheckActionUser checkActionUser;
 
@@ -35,7 +37,7 @@ public class LevelController : MonoBehaviour
     public ScreenShotCamera screenshotcamera;
 
     public Transform HelpHandTurtorial;
-    //public RootLevel rootlevel;
+    public TxTScaleAuto TxtTur;
     void Start()
     {
         // Physics2D.IgnoreLayerCollision(17, 17, false);    
@@ -70,6 +72,13 @@ public class LevelController : MonoBehaviour
     public void CleanMap()
     {
         ControllPlayGame.Instance.targetNail = null;
+
+        //Debug.Log(ListUIEffectControll.Count+"so luong la");
+        for(int i=0; i< ListUIEffectControll.Count; i++)
+        {
+            ListUIEffectControll[i].ResetPool();
+        }
+        ListUIEffectControll.Clear();
     }
 
     public void ResetLevel()
@@ -101,6 +110,7 @@ public class LevelController : MonoBehaviour
     {
         checkActionUser?.Invoke();
     }
+   
 
 
 }
