@@ -6,10 +6,11 @@ using UnityEngine;
 public class LevelCanvasUI : MonoBehaviour
 {
     public EnhancedScroller enhancedscroller_Level;
+
     void Start()
     {
-        Debug.Log("co chay ma 2");
-        GetIndexJumpLevel(PlayerPrefs.GetInt("Playinglevel"));
+        //GetIndexJumpLevel(PlayerPrefs.GetInt("Playinglevel"));
+        GetIndexJumpLevel(Controller.Instance.LevelIDInt);
     }
 
     // Update is called once per frame

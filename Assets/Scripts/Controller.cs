@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class Controller : MonoBehaviour
 {
 
+    public const int MAX_LEVEL = 100;
+
     public delegate void TimeDelegate(int a);
     public static event TimeDelegate TimeEvent;
 
@@ -70,12 +72,14 @@ public class Controller : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        levelInt = PlayerPrefs.GetInt("Playinglevel");
     }
 
+    
     private void Start()
     {
         rootlevel = new RootLevel();
-        levelInt = PlayerPrefs.GetInt("Playinglevel");
+        //levelInt = PlayerPrefs.GetInt("Playinglevel");
     }
 
 
@@ -98,7 +102,7 @@ public class Controller : MonoBehaviour
 
     IEnumerator LoadSceneAsync (string sceneName){
         if(!string.IsNullOrEmpty(sceneName)){
-            Debug.Log("toi da thuc hien lan thu n");
+            
             async = SceneManager.LoadSceneAsync(sceneName);
             while(!async.isDone && LoadDataIndex <17 && LoadDataIndex>=0){
                 yield return 0;

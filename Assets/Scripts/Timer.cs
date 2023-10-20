@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
+using Unity.VisualScripting;
+
 public class Timer : MonoBehaviour
 {
     public TextMeshProUGUI uiText;
@@ -13,6 +16,8 @@ public class Timer : MonoBehaviour
     private Color timeInitialColor;
     public bool runOnStart;
     public static Timer instance;
+    private Tween tween;
+
     // private void Start()
     // {
     //     if (this.runOnStart)
@@ -39,6 +44,8 @@ public class Timer : MonoBehaviour
     private void OnDisable()
     {
         Controller.TimeEvent -= TimeRemote;
+        tween.Kill();
+        tween = null;
     }
 
 
@@ -114,10 +121,22 @@ public class Timer : MonoBehaviour
         int number2 = this.timeInSeconds % 60;
         if (this.timeInSeconds < 11)
         {
+            if(tween == null)
+            {
+                tween = uiText.transform.DOScale(new Vector3(1.15f, 1.15f, 1.15f), 1f)
+               .SetEase(Ease.InOutQuad)
+               .SetLoops(-1, LoopType.Yoyo);
+            }
             this.uiText.color = Color.red;
         }
         else
         {
+            if(tween != null)
+            {
+                uiText.transform.localScale = Vector2.one;
+                tween.Kill();
+                tween = null;
+            }
             this.uiText.color = this.timeInitialColor;
         }
         //this.uiText.text = Timer.GetNumberWithZeroFormat(number) + ":" + Timer.GetNumberWithZeroFormat(number2);
@@ -148,4 +167,6 @@ public class Timer : MonoBehaviour
     {
         base.CancelInvoke();
     }
+
+   
 }

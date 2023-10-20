@@ -50,11 +50,11 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
 
 
 
-    public void CheckOverlapBoxBoard()
+    public void CheckOverlapBoxBoard(Slot_Item slotItem)
     {
-        StartCoroutine(checkover());
+        StartCoroutine(checkover(slotItem));
     }
-    IEnumerator checkover()
+    IEnumerator checkover(Slot_Item slotItem)
     {
         yield return new WaitForSeconds(0f);
         Bounds boundnail = ColiderNail.bounds;
@@ -80,26 +80,95 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
             //    // Debug.Log(overlapPercentage + "OKKAHE");
 
             // }
-            if(collider.gameObject.layer == 29){                
+            if(collider.gameObject.layer == 29){
+
+                Board_Item boarditem = collider.transform.parent.GetComponent<Board_Item>();
                 Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
-                listHingeJoin.Add(slotboardItem.hingeJointInSlot);
-                slotboardItem.hingeJointInSlot.enabled = true;
-                layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+
+                Slot_board_Item findanySlotBoardIteminboard = CheckHingleInBoard(boarditem);
+                if (findanySlotBoardIteminboard==null)
+                {                                   
+                    Vector3 positionchange = slotItem.transform.position - slotboardItem.transform.position;
+                    boarditem.transform.position += positionchange;
+
+                    listHingeJoin.Add(slotboardItem.hingeJointInSlot);
+                    slotboardItem.hingeJointInSlot.enabled = true;
+                    layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+                    //dich chuyen doi tuong
+                    Board_Item parenttBoard = slotboardItem.transform.parent.GetComponent<Board_Item>();
+                    Slot_board_Item parentt = parenttBoard.FindOtherSlotBoard(slotboardItem);
+                    Vector3 dir = parentt.transform.position - this.transform.position;
+                    Vector3 dir2 = parentt.transform.position - slotboardItem.transform.position;
+                    // Đọc các giá trị rotation x, y, z của đối tượng A
+                    float rotationX = parenttBoard.transform.eulerAngles.x;
+                    float rotationY = parenttBoard.transform.eulerAngles.y;
+                    float rotationZ = parenttBoard.transform.eulerAngles.z;
+                    parenttBoard.DetermineCenterPoint(parentt);
+                }
+                else
+                {
+
+                    listHingeJoin.Add(slotboardItem.hingeJointInSlot);
+                    slotboardItem.hingeJointInSlot.enabled = true;
+                    layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+                    //dich chuyen doi tuong
+                    Board_Item parenttBoard = slotboardItem.transform.parent.GetComponent<Board_Item>();
+                    Slot_board_Item parentt = parenttBoard.FindOtherSlotBoard(slotboardItem);
+
+                    //chuyen dinh thong minh
 
 
-                //dich chuyen doi tuong
-                Board_Item parenttBoard = slotboardItem.transform.parent.GetComponent<Board_Item>();
-                Slot_board_Item parentt = parenttBoard.FindOtherSlotBoard(slotboardItem);
 
-                Vector3 dir = parentt.transform.position - this.transform.position;
-                Vector3 dir2 = parentt.transform.position - slotboardItem.transform.position;              
-                // Đọc các giá trị rotation x, y, z của đối tượng A
-                float rotationX = parenttBoard.transform.eulerAngles.x;
-                float rotationY = parenttBoard.transform.eulerAngles.y;
-                float rotationZ = parenttBoard.transform.eulerAngles.z;
+                    //Vector3 dir = parentt.transform.position - this.transform.position;
+                    //Vector3 dir2 = parentt.transform.position - slotboardItem.transform.position;
+                    //// Đọc các giá trị rotation x, y, z của đối tượng A
+                    //float rotationX = parenttBoard.transform.eulerAngles.x;
+                    //float rotationY = parenttBoard.transform.eulerAngles.y;
+                    //float rotationZ = parenttBoard.transform.eulerAngles.z;
+                    //parenttBoard.DetermineCenterPoint(parentt);
+                    //chinh goc quay ne
+                    Vector2 dirboard = findanySlotBoardIteminboard.transform.position - slotItem.transform.position;
+                    //Vector2 dirboard = boarditem.transform.up;
+                    Vector2 dir3 =  findanySlotBoardIteminboard.transform.position - slotboardItem.transform.position;
+                   // Debug.Log(slotItem.transform.position.x + "eeeee" + slotboardItem.transform.position.x);
+                    //Debug.Log("hehfahwklejfalwejflakwejfalkwe" + Vector2.Angle(dir3, dirboard));
+                    findanySlotBoardIteminboard.transform.SetParent(boarditem.transform.parent);
+                    boarditem.transform.SetParent(findanySlotBoardIteminboard.transform);
+                    //Debug.Log(findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + "hfnajknejfkawehfjakwehfjakwehfajwkehf");
+                    //findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard)
+                    //if(slotItem.transform.position.x >= slotboardItem.transform.position.x)
+                    //{
+                    //    findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+                    //}
+                    //else
+                    //{
+                    //    findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+                    //}
 
 
-                parenttBoard.DetermineCenterPoint(parentt);
+                    float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);
+                   // Debug.Log(boarditem.transform.localEulerAngles.z);
+                    if(boarditem.transform.localEulerAngles.z >= 0 && boarditem.transform.localEulerAngles.z<90)
+                    {
+                        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+                    }
+                    else
+                    {
+                        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+                    }
+                    boarditem.transform.SetParent(findanySlotBoardIteminboard.transform.parent);
+                    findanySlotBoardIteminboard.transform.SetParent(boarditem.transform);
+                    //Debug.Log(Vector2.Angle(dir3, dirboard)+"Ffff");
+                    //Debug.Log(dir3+"Ffe3f");
+                    //Debug.Log(dirboard + "Ffe3f");
+                }
+
+
+
+            }
+
+           
+
 
                 // Sử dụng các giá trị rotation
                 //Debug.Log("Rotation X: " + rotationX);
@@ -108,14 +177,28 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
                 //Quaternion targetRotation = Quaternion.FromToRotation(dir2, dir);
 
                 // Gán targetRotation vào rotation của đối tượng
-               // parenttBoard.transform.rotation = targetRotation;
-            }
+                // parenttBoard.transform.rotation = targetRotation;
+           // }
         }
 
         //Debug.Log("CHUYEN DOI" + string.Join(", ", layerboard));
         gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
         ColiderNail.isTrigger = false;
     }
+
+    //kiem tra co higlejoint nao trong board con hoat dong khong
+    public Slot_board_Item CheckHingleInBoard(Board_Item board_item)
+    {
+        for(int i=0; i< board_item.listslot.Count; i++)
+        {
+            if (board_item.listslot[i].hingeJointInSlot.enabled)
+            {
+                return board_item.listslot[i];
+            }
+        }
+        return null;
+    }
+
     float CalculateOverlapPercentage(Collider2D colliderA, Collider2D colliderB)
     {
         Bounds boundsA = colliderA.bounds;

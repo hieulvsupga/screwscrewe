@@ -42,7 +42,7 @@ namespace EnhancedScrollerDemos.GridSelection
         /// but it could have been done later, perhaps in the Update function.
         /// </summary>
         /// 
-        public int MaxCellLevel = 100;
+        public int MaxCellLevel = 500;
         void Start()
         {
             // set the application frame rate.

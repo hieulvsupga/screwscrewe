@@ -111,7 +111,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
             ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
             ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
             SetUpNail(ControllPlayGame.Instance.targetNail);
-            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
+            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard(this);
             ControllPlayGame.Instance.targetNail = null;
         }
     }

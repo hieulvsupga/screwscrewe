@@ -75,7 +75,7 @@ namespace EnhancedScrollerDemos.GridSelection
             {
                 // set the text if the cell is inside the data range
                 //text.text = data.someText;
-                buttonLevel.SetupButtonLevel((int)int.Parse(data.someText));
+                buttonLevel.SetupButtonLevel((int)int.Parse(data.someText)+1);
             }
 
             // if there was previous data assigned to this cell view,

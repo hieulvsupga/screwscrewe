@@ -4109,6 +4109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TxT
       objectReference: {fileID: 0}
+    - target: {fileID: 6494004105567849410, guid: c4115d9b163a8bc45be2b8d0945eaca1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4115d9b163a8bc45be2b8d0945eaca1, type: 3}
 --- !u!4 &1189309932 stripped
@@ -4726,7 +4730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time: 037'
+  m_text: 'Time: 000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47b7eaa654cde3a4d86bbc6db3700102, type: 2}
   m_sharedMaterial: {fileID: 1289268569878235145, guid: 47b7eaa654cde3a4d86bbc6db3700102, type: 2}

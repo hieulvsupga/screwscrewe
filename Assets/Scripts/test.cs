@@ -66,7 +66,7 @@ public class test : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.E)) {
 
-            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
+           // ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
         }
     }
 }

@@ -63,7 +63,7 @@ public class LevelController : MonoBehaviour
             CanvasManagerGamePlay.Instance.levelDacbietUI.gameObject.SetActive(true);
         }else{
             CleanMap();
-            Controller.Instance.rootlevel.ClearRoot();
+            Controller.Instance.rootlevel?.ClearRoot();
      
             loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         }
@@ -85,7 +85,7 @@ public class LevelController : MonoBehaviour
     public void ResetLevel()
     {
         CleanMap();
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
         loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
        
@@ -100,7 +100,7 @@ public class LevelController : MonoBehaviour
 
         CleanMap();
         Controller.Instance.LevelIDInt++;
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
         loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
       

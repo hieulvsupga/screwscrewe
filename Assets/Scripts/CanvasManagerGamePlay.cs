@@ -24,7 +24,7 @@ public class CanvasManagerGamePlay : MonoBehaviour
         }
     }
     public void Home(){
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();
     }

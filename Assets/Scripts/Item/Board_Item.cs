@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -52,6 +52,13 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     public void SetupRb()
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    public void NotRb()
+    {
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.velocity = Vector3.zero; 
+        rb.angularVelocity = 0; 
     }
 
     public void SetPool(ObjectPool<Board_Item> pool)

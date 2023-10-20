@@ -17,7 +17,7 @@ public class LevelDacbiet : MonoBehaviour
         Controller.Instance.LevelIDInt++;
         Controller.Instance.background_ui.Dacbiet();
         LevelController.Instance.CleanMap();
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelDacbietString());
         Controller.Instance.nailLayerController.ClearLayer();
         gameObject.SetActive(false);

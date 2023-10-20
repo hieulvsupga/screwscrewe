@@ -38,7 +38,7 @@ public class ButtonFunction : MonoBehaviour
     }
 
     public void HomeBtn(){
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();
     }

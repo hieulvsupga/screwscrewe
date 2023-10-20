@@ -5,7 +5,7 @@ using UnityEngine;
 public class WinUI : MonoBehaviour
 {
     public void ReplayBtn(){
-        Controller.Instance.rootlevel.ClearRoot();
+        Controller.Instance.rootlevel?.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
         LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
         gameObject.SetActive(false);

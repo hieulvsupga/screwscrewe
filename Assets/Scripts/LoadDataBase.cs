@@ -153,6 +153,7 @@ public class RootLevel
 
     public void ClearRoot()
     {
+        //if()
         for (int i = 0; i < litsnail.Count; i++)
         {
             litsnail[i].ResetPool();
@@ -186,18 +187,18 @@ public class RootLevel
             listHint[i].ResetPool();
         }
 
-        bgItem.ResetPool();
+        bgItem?.ResetPool();
         bgItem = null;
 
-        litsnail.Clear();
-        listboard.Clear();
-        litsslot.Clear();
-        litslock.Clear();
-        listad.Clear();
-        listkey.Clear();
-        litslock.Clear();
-        listHint.Clear();
-        listHand.Clear();
+        litsnail?.Clear();
+        listboard?.Clear();
+        litsslot?.Clear();
+        litslock?.Clear();
+        listad?.Clear();
+        listkey?.Clear();
+        litslock?.Clear();
+        listHint?.Clear();
+        listHand?.Clear();
     }
 
     public bool Findslotfornail(Nail_Item nail)
@@ -308,8 +309,14 @@ public class LoadDataBase : MonoBehaviour
     public Collider2D[] results = new Collider2D[15];
     public void LoadLevelGame(string str)
     {
-        PrepareBeforeLoadLevel();
-        LoadFileJsonLevel(str);
+        if(Controller.Instance.LevelIDInt > Controller.MAX_LEVEL){
+            Debug.Log("hay doi update nhe");
+        }
+        else
+        {
+            PrepareBeforeLoadLevel();
+            LoadFileJsonLevel(str);
+        }
     }
 
     public void PrepareBeforeLoadLevel()
