@@ -15,8 +15,7 @@ public class SwitchBtn : MonoBehaviour
         switch (gameObject.name)
         {
             case "SFXButton":
-                int m = PlayerPrefs.GetInt("Sound");
-                if( m ==0)
+                if(SettingPanelUI.SoundCheck == 0)
                 {
                     imageView.sprite = sprites[1];
                     rectTransform.anchoredPosition = new Vector2(-57, -7.5f);
@@ -30,7 +29,17 @@ public class SwitchBtn : MonoBehaviour
                 }
                 break;
             case "MusicButton":
+                if (SettingPanelUI.MusicCheck == 0)
+                {
+                    imageView.sprite = sprites[1];
+                    rectTransform.anchoredPosition = new Vector2(-57, -7.5f);
 
+                }
+                else
+                {
+                    imageView.sprite = sprites[0];
+                    rectTransform.anchoredPosition = new Vector2(57, -7.5f);
+                }
                 break;
         }
     }
@@ -48,7 +57,8 @@ public class SwitchBtn : MonoBehaviour
                     PlayerPrefs.SetInt("Sound", 1);
                     break;
                 case "MusicButton":
-                    
+                    SettingPanelUI.MusicCheck = 1;
+                    PlayerPrefs.SetInt("Music", 1);
                     break;
             }
         }
@@ -63,7 +73,8 @@ public class SwitchBtn : MonoBehaviour
                     PlayerPrefs.SetInt("Sound", 0);
                     break;
                 case "MusicButton":
-                    
+                    SettingPanelUI.MusicCheck = 0;
+                    PlayerPrefs.SetInt("Music", 0);
                     break;
             }
         }

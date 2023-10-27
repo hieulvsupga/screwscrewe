@@ -6,6 +6,7 @@ using UnityEngine.Pool;
 
 public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 {
+    public static int flag = 1;
     //pool
     private ObjectPool<Slot_Item> _pool;
 
@@ -24,17 +25,31 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public void ActiveWhenDown()
     {
+        if (flag == 1)
+        {        
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true)
+            {
+                return;
+            }
+            else
+            {             
+                flag = 2;
+            }
+        }
         if (hasLock == true) {
-            Locked.CreateLocked(transform.position);   
+            Locked.CreateLocked(transform.position);
             return;
         }
-
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true)
+        {
+            flag = 1;
+            return;
+        }
         LevelController.Instance.ActiveActionUser();
 
         if(Aditem != null)
         {           
-            //Controller.Instance.rootlevel.listad.Remove(Aditem);
-            //Aditem.ResetPool();
+           
             Aditem.animator.SetTrigger("play");
             Aditem = null;
         }

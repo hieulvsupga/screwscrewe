@@ -33,10 +33,9 @@ public class Locked : MonoBehaviour, TInterface<Locked>, IUIEffectItem
     }
 
     public static void CreateLocked(Vector3 _position)
-    {
+    {    
         Locked locked = LockedSpawner.Instance._pool.Get();
-        locked.transform.position = _position;
-        
+        locked.transform.position = _position;      
     }
     public void ResetPool2()
     {

@@ -29,10 +29,12 @@ public class AudioController : MonoBehaviour
     Dictionary<string, AudioClip> myDictionary = new Dictionary<string, AudioClip>();
 
     public AudioSource audioSource;
+    public AudioSource audioSourceBackGround;
 
     private void Start()
     {
-        SettingPanelUI.SoundCheck = PlayerPrefs.GetInt("Sound");        
+        SettingPanelUI.SoundCheck = PlayerPrefs.GetInt("Sound");
+        SettingPanelUI.MusicCheck = PlayerPrefs.GetInt("Music");
     }
     public void PlayClip(string clipstring)
     {
@@ -85,8 +87,16 @@ public class AudioController : MonoBehaviour
                 h = "Assets/Audio/Confetti.wav";
                 break;
         }
-
-
         return h;
+    }
+
+    public void StartSoundBackGround()
+    {
+        audioSourceBackGround.Play();
+    }
+
+    public void EndSoundBackGround()
+    {
+        audioSourceBackGround.Stop();
     }
 }

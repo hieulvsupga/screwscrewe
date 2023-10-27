@@ -25,21 +25,26 @@ public class ControllPlayGame : MonoBehaviour
     }
 
     public Nail_Item targetNail;
+    public static bool isOverUI;
     void Update()
     {
-        bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-        if (Input.GetMouseButtonDown(0) && !isOverUI)
+       // bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        if (Input.GetMouseButtonDown(0))
         {
-            
+            //Debug.Log("fasdfasdfasdfasdfdsffdssdf");
             Vector3 mousePositionBD = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 13);
             Vector2 mousePosition = Controller.Instance.cameraMain.ScreenToWorldPoint(mousePositionBD);       
             RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero);
             foreach (RaycastHit2D hit in hits)
             {          
-                if (hit.collider.CompareTag("Slot")){                  
+                if (hit.collider.CompareTag("Slot")){           
                     hit.transform.GetComponent<Slot_Item>().ActiveWhenDown();
                 }
             }
         }
+        //if (Input.GetMouseButtonDown(0) && !isOverUI)
+        //{
+        //    Debug.Log("fasdfasdfasdfasdfdsffdssdf");
+        //}
     }
 }

@@ -11,9 +11,11 @@ public class ButtonFunction : MonoBehaviour
         switch (gameObject.name)
         {
             case "HomeBtn":
+                Slot_Item.flag = 1;
                 HomeBtn();
                 break;
             case "SettingBtn":
+                Slot_Item.flag = 1;
                 SettingBtn();
                 break;
             case "NoAdsBtn":

@@ -1,8 +1,6 @@
-using Google.Android.AppBundle.Editor.Internal.BuildTools;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.XR;
+
 
 public class HandTurtorial : MonoBehaviour
 {

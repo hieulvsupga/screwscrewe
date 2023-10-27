@@ -153,7 +153,6 @@ public class RootLevel
 
     public void ClearRoot()
     {
-        //if()
         for (int i = 0; i < litsnail.Count; i++)
         {
             litsnail[i].ResetPool();
@@ -306,7 +305,10 @@ public class LoadDataBase : MonoBehaviour
     public GameObject gameobjecttest;
 
     public LevelController levelController;
-    public Collider2D[] results = new Collider2D[15];
+    //public Collider2D[] results = new Collider2D[15];
+
+    private IEnumerator CoroutineLoadData;
+    private IEnumerator CoroutineCycleGame;
     public void LoadLevelGame(string str)
     {
         if(Controller.Instance.LevelIDInt > Controller.MAX_LEVEL){
@@ -314,6 +316,18 @@ public class LoadDataBase : MonoBehaviour
         }
         else
         {
+            if(CoroutineLoadData != null)
+            {
+                StopCoroutine(CoroutineLoadData);
+                CoroutineLoadData = null;
+            }
+
+            if(CoroutineCycleGame != null)
+            {
+                StopCoroutine(CoroutineCycleGame);
+                CoroutineCycleGame = null;
+            }
+            
             PrepareBeforeLoadLevel();
             LoadFileJsonLevel(str);
         }
@@ -332,56 +346,116 @@ public class LoadDataBase : MonoBehaviour
             string jsonLevel = handle.Result.text;
             string[] strings = jsonLevel.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
             itemCount = strings.Length;
+            CoroutineLoadData = TextToData(strings);
+            StartCoroutine(CoroutineLoadData);
 
-            foreach (string str in strings)
-            {            
-                if (str.StartsWith("tut:"))
-                {
-                    HandTutEditString(str);
-                }
-                else if (str.StartsWith("board:"))
-                {
-                    HandBoaEditString(str);
-                }
-                else if (str.StartsWith("slot:"))
-                {
-                    HandSlotEditString(str);
-                }
-                else if (str.StartsWith("savable:"))
-                {
-                    HandSavableEditString(str);
-                }
-                else if (str.StartsWith("hint:"))
-                {
-                    HandHintEditString(str);
-                }
-                else if (str.StartsWith("time"))
-                {
-                    HandTimeEditString(str);
-                }
-                else if (str.StartsWith("level"))
-                {
-                    HandLevelEditString(str);
-                }
-                else if (str.StartsWith("spr:"))
-                {
-                    HandSprEditString(str);
-                }
-            }
+            //foreach (string str in strings)
+            //{            
+            //    if (str.StartsWith("tut:"))
+            //    {
+            //        HandTutEditString(str);
+            //    }
+            //    else if (str.StartsWith("board:"))
+            //    {
+            //        HandBoaEditString(str);
+            //    }
+            //    else if (str.StartsWith("slot:"))
+            //    {
+            //        HandSlotEditString(str);
+            //    }
+            //    else if (str.StartsWith("savable:"))
+            //    {
+            //        HandSavableEditString(str);
+            //    }
+            //    else if (str.StartsWith("hint:"))
+            //    {
+            //        HandHintEditString(str);
+            //    }
+            //    else if (str.StartsWith("time"))
+            //    {
+            //        HandTimeEditString(str);
+            //    }
+            //    else if (str.StartsWith("level"))
+            //    {
+            //        HandLevelEditString(str);
+            //    }
+            //    else if (str.StartsWith("spr:"))
+            //    {
+            //        HandSprEditString(str);
+            //    }
+            //}
         };
     }
+   private IEnumerator TextToData(string[] strings)
+   {
+        int m = 0;
+        int n = strings.Length;
+        while(m < n)
+        {
+            TextProcess(strings[m]);
+            m++;
+        }
+        yield return null;
+    }
+   private void TextProcess(string str)
+   {
+        if (str.StartsWith("tut:"))
+        {
+            HandTutEditString(str);
+        }
+        else if (str.StartsWith("board:"))
+        {
+            HandBoaEditString(str);
+        }
+        else if (str.StartsWith("slot:"))
+        {
+            HandSlotEditString(str);
+        }
+        else if (str.StartsWith("savable:"))
+        {
+            HandSavableEditString(str);
+        }
+        else if (str.StartsWith("hint:"))
+        {
+            HandHintEditString(str);
+        }
+        else if (str.StartsWith("time"))
+        {
+            HandTimeEditString(str);
+        }
+        else if (str.StartsWith("level"))
+        {
+            HandLevelEditString(str);
+        }
+        else if (str.StartsWith("spr:"))
+        {
+            HandSprEditString(str);
+        }
+   }
 
     public void CheckTimeSetUpMap()
     {
         itemCount--;
         if (itemCount == 0)
         {
-            PrepareGame();
-            //CheckAdAwaitBad();
-            LevelController.Instance.screenshotcamera.captureScreenshot = true;
-            StartCoroutine(CreatePhysic2dforboard());
+            CoroutineCycleGame = CycleLoad();
+            StartCoroutine(CoroutineCycleGame);
+            //PrepareGame();        
+            //LevelController.Instance.screenshotcamera.captureScreenshot = true;
+            //(CreatePhysic2dforboard());
         }
     }
+
+    IEnumerator CycleLoad()
+    {
+        PrepareGame();
+        LevelController.Instance.screenshotcamera.captureScreenshot = true;
+        yield return new WaitForSeconds(1);
+        CreatePhysic2dforboard();
+        CheckBoardSetupMap();
+    }
+
+
 
     public void PrepareGame() {
         if (Controller.Instance.rootlevel.listHand.Count != 0)
@@ -402,57 +476,45 @@ public class LoadDataBase : MonoBehaviour
         }
     }
 
-    public IEnumerator CheckBoardSetupMap()
+    private void CheckBoardSetupMap()
     {     
-        while (boardCount != 0)
-        {
-            yield return null;
-        }     
+        //while (boardCount != 0)
+        //{
+        //    yield return null;
+        //}     
         ActivePhysic2dforboard();    
     }
 
-    public IEnumerator CreatePhysic2dforboard()
+    private void CreatePhysic2dforboard()
     {
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
         CheckAdAwaitBad();
 
-
-        int m = 0;
-        boardCount = 0;
+        //boardCount = 0;
         for (int i=0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
-        {
-            m++;       
+        {     
             Bounds boundnail = Controller.Instance.rootlevel.litsnail[i].ColiderNail.bounds;
             Vector2 size = boundnail.size;
             List<int> layerboard = new List<int>();       
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);           
-            
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);                      
             foreach (Collider2D collider in colliders)
             {              
                 Bounds bounds1 = collider.bounds;
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
-                {
-                    // Bounds overlapBounds = boundnail;
-                    // overlapBounds.Encapsulate(bounds1.min);
-                    // overlapBounds.Encapsulate(bounds1.max);
-                    // float overlapArea = overlapBounds.size.x * overlapBounds.size.y;
-                    // float overlapPercentage = (overlapArea / (bounds1.size.x * bounds1.size.y)) * 100f;
-                    // if (overlapPercentage >= 90 && overlapPercentage <= 100.5f)
-                    // {
+                {                
                     bool fullyOverlap = bounds1.Contains(boundnail.min) && bounds1.Contains(boundnail.max);
-                    if(fullyOverlap == true){
-                        //Debug.Log(overlapPercentage + "ddddddd");
+                    if(fullyOverlap == true){                    
                         Board_Item board = collider.GetComponent<Board_Item>();
-                        boardCount++;
+                        //boardCount++;
                         LoadSlotBoardAddressAble(board, Controller.Instance.rootlevel.litsnail[i]);
                         layerboard.Add(collider.gameObject.layer - 6);
                     }
                 }
-            }
-            //Debug.Log("==============================================================");
+            }           
             Controller.Instance.rootlevel.litsnail[i].gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
         }
-        StartCoroutine(CheckBoardSetupMap());
+
+        //StartCoroutine(CheckBoardSetupMap());
     }
 
     public void ActivePhysic2dforboard()
@@ -469,16 +531,15 @@ public class LoadDataBase : MonoBehaviour
         Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
         slotboarditem.transform.position = nail_item.transform.position;
         slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.x, nail_item.nail.rot.y, nail_item.nail.rot.z));
-        slotboarditem.transform.SetParent(board.transform);
+       
         slotboarditem.transform.localScale = new Vector3(nail_item.nail.scale.x, nail_item.nail.scale.y, nail_item.nail.scale.z);
+        slotboarditem.transform.SetParent(board.transform);
         board.AddSlotforBoard(slotboarditem);
         HingeJoint2D hingeJoint = board.gameObject.AddComponent<HingeJoint2D>();
         hingeJoint.anchor = board.transform.InverseTransformPoint(nail_item.transform.position);
         hingeJoint.enableCollision = true;
-        nail_item.listHingeJoin.Add(hingeJoint);
-       
+        nail_item.listHingeJoin.Add(hingeJoint);     
         boardCount--;
-
         slotboarditem.hingeJointInSlot = hingeJoint;
     }
 

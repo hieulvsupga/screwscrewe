@@ -6,9 +6,11 @@ using UnityEngine;
 public class LevelCanvasUI : MonoBehaviour
 {
     public EnhancedScroller enhancedscroller_Level;
+    public static int flag = 0;
 
     void Start()
     {
+        if(flag == 1) { return; }
         //GetIndexJumpLevel(PlayerPrefs.GetInt("Playinglevel"));
         GetIndexJumpLevel(Controller.Instance.LevelIDInt);
     }
@@ -21,6 +23,7 @@ public class LevelCanvasUI : MonoBehaviour
 
     public void GetIndexJumpLevel(int level)
     {
+        flag = 1;
         int m = (int)Mathf.Floor(level / 5);
         if (level % 3 != 0)
         {

@@ -41,4 +41,16 @@ public class Lock_Item : MonoBehaviour, TInterface<Lock_Item>
         ResetPool();
         Controller.Instance.rootlevel.litslock.Remove(this);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == 31)
+        {
+           
+            Slot_Item slot_Item = this.transform.parent.transform.GetComponent<Slot_Item>();
+            if (slot_Item == null) return;
+            slot_Item.hasLock = false;
+            animator.SetTrigger("play");
+        }
+    }
 }

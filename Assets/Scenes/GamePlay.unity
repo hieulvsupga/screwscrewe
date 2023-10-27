@@ -5331,22 +5331,6 @@ MonoBehaviour:
   test: {fileID: 8705091239225802014, guid: ee67fe210111f384b807de9c0eadbba7, type: 3}
   gameobjecttest: {fileID: 5804984954541408322, guid: 9c8f7f44250b5c6469fad068eff9550f, type: 3}
   levelController: {fileID: 1958932414}
-  results:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &1958932413
 Transform:
   m_ObjectHideFlags: 0
@@ -5776,8 +5760,8 @@ RectTransform:
   m_Father: {fileID: 400590512}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -961}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}

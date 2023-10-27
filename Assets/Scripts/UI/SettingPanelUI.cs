@@ -5,7 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class SettingPanelUI : MonoBehaviour
 {
-    public static int SoundCheck = 0;
+   public static int SoundCheck = 0;
+   public static int musicCheck = 0;
+   public static int MusicCheck
+    {
+        set {
+            musicCheck = value;
+            if(musicCheck == 1)
+            {
+                AudioController.Instance.StartSoundBackGround();
+            }
+            else
+            {
+                AudioController.Instance.EndSoundBackGround();
+            }
+        }
+        get
+        {
+            return musicCheck;
+        }
+    }
    public void OpenRate()
    {
         gameObject.SetActive(false);
