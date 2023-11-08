@@ -84,18 +84,11 @@ public class Controller : MonoBehaviour
 
 
     public void StartLevel(){
-        //StartCoroutine(LoadAsset());
-        LoadLevelScene("GamePlay");
+        //LoadLevelScene("GamePlay");
+        CanvasManagerGamePlay.Instance.SelectLevelUI.gameObject.SetActive(false);
+        LevelController.Instance.StartGame();
     }
-    // private IEnumerator LoadAsset()
-    // {
-    //     while (LoadDataIndex < 1 && LoadDataIndex>=0)
-    //     {
-    //         yield return null;
-    //     }
-    //     SceneManager.LoadScene("GamePlay");
-    // }
-
+    
     public void LoadLevelScene(string namescene){
         StartCoroutine(LoadSceneAsync(namescene));
     }

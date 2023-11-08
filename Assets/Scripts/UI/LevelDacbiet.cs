@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelDacbiet : MonoBehaviour
 {
+    public static int leveldacbiet_flag = 0;
 
     public void NotDacbiet(){
         //LevelController.Instance.CleanMap();
@@ -14,12 +15,15 @@ public class LevelDacbiet : MonoBehaviour
     }
 
     public void Dacbiet(){
+        
         Controller.Instance.LevelIDInt++;
         Controller.Instance.background_ui.Dacbiet();
         LevelController.Instance.CleanMap();
-        Controller.Instance.rootlevel?.ClearRoot();
-        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelDacbietString());
         Controller.Instance.nailLayerController.ClearLayer();
+        Controller.Instance.rootlevel?.ClearRoot(() =>
+        {
+            LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelDacbietString());
+        });
         gameObject.SetActive(false);
     }
 }

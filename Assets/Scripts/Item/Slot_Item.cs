@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -45,15 +46,16 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
             flag = 1;
             return;
         }
+
         LevelController.Instance.ActiveActionUser();
 
         if(Aditem != null)
-        {           
-           
+        {                      
             Aditem.animator.SetTrigger("play");
             Aditem = null;
         }
         
+
         if (ControllPlayGame.Instance.targetNail == nail_item)
         {
             if(ControllPlayGame.Instance.targetNail != null)
@@ -66,13 +68,8 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
         if (ControllPlayGame.Instance.targetNail != null && hasNail == false)
         {
-            //ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
-            //ControllPlayGame.Instance.targetNail.transform.position = transform.position;
-            //ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
-            //ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
-            //SetUpNail(ControllPlayGame.Instance.targetNail);
-            //ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard();
-            //ControllPlayGame.Instance.targetNail = null;
+    
+            ControllPlayGame.Instance.targetNail.KinematicBoardParent();
             StartCoroutine(Checkboardinslot());
         }
         else
@@ -85,6 +82,8 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
                     ControllPlayGame.Instance.targetNail.ResetImageNail();
                 }
                 ControllPlayGame.Instance.targetNail = nail_item;
+
+                //thuc hien kinamatic cha cua nail
                 nail_item.ActiveImageNail();
             }
         }
@@ -92,42 +91,43 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     IEnumerator Checkboardinslot()
     {
-        yield return new WaitForSeconds(0);
-        Vector2 size = mainCheckCollider.bounds.size;
-        int check = 0;
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size/2, 0);
-        
-        //cham board la +1 cham slotbot la -1 khi nao bang 0 thi cho qua
-        foreach (Collider2D collider in colliders)
-        {         
-           
-            if (collider.CompareTag("Board"))
-            {                
-                check++;
-                //Debug.Log(collider.gameObject.name);
-                //break;
+        yield return new WaitForSeconds(0.0f);
+        if (ControllPlayGame.Instance.targetNail != null)
+        {
+            Vector2 size = mainCheckCollider.bounds.size;
+            int check = 0;
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(mainCheckCollider.transform.position, size / 2, 0);
+
+            //cham board la +1 cham slotbot la -1 khi nao bang 0 thi cho qua
+            foreach (Collider2D collider in colliders)
+            {
+
+                if (collider.CompareTag("Board"))
+                {
+                    check++;                
+                }
+
+                if (collider.gameObject.layer == 29)
+                {
+                    check--;                
+                }
             }
 
-            if(collider.gameObject.layer == 29){
-                check--;
-                //Debug.Log(collider.gameObject.name);
+            if (check != 0)
+            {
+                ControllPlayGame.Instance.targetNail.testKinematicBoardParent();
             }
-        }
-       
-        if (check != 0)
-        {
-            
-        }
-        else
-        {
-            ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
-            ControllPlayGame.Instance.targetNail.transform.position = transform.position;
-            ControllPlayGame.Instance.targetNail.ResetImageNailWithParticle();
-            ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
-            ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
-            SetUpNail(ControllPlayGame.Instance.targetNail);
-            ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard(this);
-            ControllPlayGame.Instance.targetNail = null;
+            else
+            {
+                ControllPlayGame.Instance.targetNail.ColiderNail.isTrigger = true;
+                ControllPlayGame.Instance.targetNail.transform.position = transform.position;
+                ControllPlayGame.Instance.targetNail.ResetImageNailWithParticle();
+                ControllPlayGame.Instance.targetNail.ResetDisactiveListHingeJoint();
+                ControllPlayGame.Instance.targetNail.slot_item.ResetNail();
+                SetUpNail(ControllPlayGame.Instance.targetNail);
+                ControllPlayGame.Instance.targetNail.CheckOverlapBoxBoard(this, ControllPlayGame.Instance.targetNail);
+                ControllPlayGame.Instance.targetNail = null;
+            }
         }
     }
     float CalculateOverlapPercentage(Collider2D colliderA, Collider2D colliderB)

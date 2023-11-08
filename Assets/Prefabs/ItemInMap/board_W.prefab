@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8647285441091712622}
   - component: {fileID: 8647285441091712621}
-  - component: {fileID: -3644964665019777812}
   - component: {fileID: 1084530273899566248}
   - component: {fileID: 3276036882171592600}
+  - component: {fileID: 8161648060551093923}
   m_Layer: 6
   m_Name: board_W
   m_TagString: Board
@@ -87,21 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
---- !u!114 &-3644964665019777812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8647285441091712620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28d7641bd6b6d644ab14de7101be81fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listslot: []
-  spritemain: {fileID: 0}
-  rb: {fileID: 0}
 --- !u!60 &1084530273899566248
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -163,3 +148,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8161648060551093923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647285441091712620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b553c193a698214e8267d56699ebba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listslot: []
+  spritemain: {fileID: 0}
+  rb: {fileID: 0}
+  boardinfomation:
+    pos:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 0
+      y: 0
+      z: 0
+    rot:
+      x: 0
+      y: 0
+      z: 0
+    layer: 0
+    color:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    bomb:
+      pos:
+        x: 0
+        y: 0
+        z: 0
+      scale:
+        x: 0
+        y: 0
+        z: 0
+      rot:
+        x: 0
+        y: 0
+        z: 0
+  rotationPre: {x: 0, y: 0, z: 0}

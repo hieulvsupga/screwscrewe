@@ -64,15 +64,14 @@ public class Timer : MonoBehaviour
 
     public void Run()
     {
-        // if (LevelsManager.instance.GetCurrentLevel() == null)
-        // {
-        //     return;
-        // }
+        if(uiText.gameObject.activeInHierarchy == false)
+        {
+            uiText.gameObject.SetActive(true);
+        }
         this.isPaused = false;
         this.timeCounter = 0f;
         this.sleepTime = 1f;
-        this.totalTime = Controller.Instance.rootlevel.totalTime;
-        //LevelsManager.instance.GetCurrentLevel().starsTimePeriod * 4;
+        this.totalTime = Controller.Instance.rootlevel.totalTime;   
         this.timeInSeconds = this.totalTime;
         base.InvokeRepeating("Wait", 0f, this.sleepTime);
     }

@@ -5,7 +5,11 @@ using Newtonsoft.Json;
 using System;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
+using Unity.VisualScripting;
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct Pos
@@ -129,9 +133,6 @@ public struct Ad
 
 public class RootLevel
 {
-    public List<Slot_Item> litsslot;
-    public List<Nail_Item> litsnail;
-    public List<Lock_Item> litslock;
     public List<Ad_Item> listad;
     public List<Board_Item> listboard;
     public List<Key_Item> listkey;
@@ -139,11 +140,17 @@ public class RootLevel
     public List<HandTut> listHand;
     public Bg_Item bgItem;
     public int totalTime;
+
+    // làm theo cơ chế kiểu mới
+    public Dictionary<string, Slot_Item> litsslot_mydictionary;
+    public Dictionary<string, Lock_Item> litslock_mydictionary;
+    public Dictionary<string, Nail_Item> litsnail_mydictionary;
     public RootLevel()
-    {
-        litsslot = new List<Slot_Item>();
-        litsnail = new List<Nail_Item>();
-        litslock = new List<Lock_Item>();
+    {      
+        litsslot_mydictionary = new Dictionary<string, Slot_Item>();
+        litslock_mydictionary = new Dictionary<string, Lock_Item>();
+        litsnail_mydictionary = new Dictionary<string, Nail_Item>();
+
         listad   = new List<Ad_Item>();
         listboard = new List<Board_Item>();
         listkey = new List<Key_Item>();
@@ -151,29 +158,31 @@ public class RootLevel
         listHand = new List<HandTut>();
     }
 
-    public void ClearRoot()
+    public void ClearRoot(Action actionafter)
     {
-        for (int i = 0; i < litsnail.Count; i++)
+        LevelController.Instance.HelpHandTurtorial.gameObject.SetActive(false);
+        LevelController.Instance.TxtTur.gameObject.SetActive(false);
+        foreach (Slot_Item slot in litsslot_mydictionary.Values)
         {
-            litsnail[i].ResetPool();
+            slot.ResetPool();
         }
+        foreach (Lock_Item lock_item in litslock_mydictionary.Values)
+        {
+            lock_item.ResetPool();
+        }
+        foreach (Nail_Item nail_item in litsnail_mydictionary.Values)
+        {
+            nail_item.ResetPool();
+        }
+
         for (int i = 0; i < listboard.Count; i++)
         {
             listboard[i].ResetPool();
         }
-        for (int i = 0; i < litsslot.Count; i++)
-        {
-            litsslot[i].ResetPool();
-        }
 
-        for(int i = 0; i < listkey.Count; i++)
+        for (int i = 0; i < listkey.Count; i++)
         {
             listkey[i].ResetPool();
-        }
-
-        for (int i = 0; i < litslock.Count; i++)
-        {
-            litslock[i].ResetPool();
         }
         
         for(int i = 0; i< listad.Count; i++)
@@ -185,64 +194,74 @@ public class RootLevel
         {
             listHint[i].ResetPool();
         }
-
         bgItem?.ResetPool();
         bgItem = null;
-
-        litsnail?.Clear();
-        listboard?.Clear();
-        litsslot?.Clear();
-        litslock?.Clear();
+        listboard?.Clear();    
+        litsslot_mydictionary?.Clear();
+        litslock_mydictionary?.Clear();
+        litsnail_mydictionary?.Clear();
         listad?.Clear();
         listkey?.Clear();
-        litslock?.Clear();
         listHint?.Clear();
         listHand?.Clear();
+        actionafter?.Invoke();
     }
 
     public bool Findslotfornail(Nail_Item nail)
     {
-        List<Slot_Item> fakelistlots = litsslot;
-        for (int i = 0; i < fakelistlots.Count; i++)
+        try
         {
-            if (fakelistlots[i].hasNail == true && fakelistlots[i].transform.position == nail.transform.position)
+            Slot_Item slotItem = litsslot_mydictionary[nail.transform.position.ToString()];
+            if (slotItem != null && slotItem.hasNail == true)
             {
-                fakelistlots[i].nail_item = nail;
-                nail.slot_item = fakelistlots[i];
-                nail.transform.parent = fakelistlots[i].transform;
+                slotItem.nail_item = nail;
+                nail.slot_item = slotItem;
+                nail.transform.parent = slotItem.transform;
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
-        return false;
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 
     public bool Findslotforlock(Lock_Item lockitem)
     {
-        List<Slot_Item> fakelistlots = litsslot;
-        for (int i = 0; i < fakelistlots.Count; i++)
+        try
         {
-            if (fakelistlots[i].hasLock == true && fakelistlots[i].transform.position == lockitem.transform.position)
+            Slot_Item slotItem = litsslot_mydictionary[lockitem.transform.position.ToString()];
+            if (slotItem != null && slotItem.hasLock == true)
             {
-                lockitem.transform.parent = fakelistlots[i].transform;          
+                lockitem.transform.parent = slotItem.transform;
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
-        return false;
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 
     public bool Findsadforlock(Ad_Item aditem)
     {
-        List<Slot_Item> fakelistlots = litsslot;
         Bounds bounds1 = aditem.GetComponent<Collider2D>().bounds;
-        for (int i = 0; i < fakelistlots.Count; i++)
+        foreach (Slot_Item slot_item in litsslot_mydictionary.Values)
         {
-            Bounds bounds2 = fakelistlots[i].GetComponent<Collider2D>().bounds;
-
+            Bounds bounds2 = slot_item.GetComponent<Collider2D>().bounds;
             if (bounds1.Intersects(bounds2))
-            {            
-                aditem.transform.parent = fakelistlots[i].transform;            
+            {
+                aditem.transform.parent = slot_item.transform;
                 return true;
-            }          
+            }
         }
         return false;
     }
@@ -250,34 +269,41 @@ public class RootLevel
 
     public void Findsnailforslot(Slot_Item slot)
     {
-        List<Nail_Item> fakelistnail = litsnail;
-        for (int i = 0; i < fakelistnail.Count; i++)
+        try
         {
-            if (slot.transform.position == fakelistnail[i].transform.position)
+            Nail_Item nail_Item = litsnail_mydictionary[slot.transform.position.ToString()];
+            if (nail_Item != null)
             {
-                fakelistnail[i].transform.parent = slot.transform;
-                slot.nail_item = fakelistnail[i];
-                fakelistnail[i].slot_item = slot;
-                //litsnail.Remove(fakelistnail[i]);
+                nail_Item.transform.parent = slot.transform;
+                slot.nail_item = nail_Item;
+                nail_Item.slot_item = slot;
             }
+        }
+        catch (Exception ex)
+        {
         }
     }
 
     public void Findslockforslot(Slot_Item slot)
     {
-        List<Lock_Item> fakelistlock = litslock;
-        for (int i = 0; i < fakelistlock.Count; i++)
+        try
         {
-            if (slot.transform.position == fakelistlock[i].transform.position)
+            Lock_Item lockItem = litslock_mydictionary[slot.transform.position.ToString()];
+            if (lockItem != null)
             {
-                fakelistlock[i].transform.parent = slot.transform;
-                //litslock.Remove(fakelistlock[i]);
+                lockItem.transform.parent = slot.transform;
             }
+        }catch(Exception ex)
+        {                
         }
     }
 
     public void Findsadforslot(Slot_Item slot)
     {
+        if(slot == null)
+        {
+            return;
+        }
         List<Ad_Item> fakelistad = listad;
         Bounds bounds1 = slot.GetComponent<Collider2D>().bounds;
         for (int i = 0; i < fakelistad.Count; i++)
@@ -298,17 +324,52 @@ public class RootLevel
 public class LoadDataBase : MonoBehaviour
 {
 
-    public int itemCount;
-    public int boardCount;
-
-    public GameObject test;
-    public GameObject gameobjecttest;
-
-    public LevelController levelController;
-    //public Collider2D[] results = new Collider2D[15];
-
-    private IEnumerator CoroutineLoadData;
+    private int itemCount;
+    private int boardCount;
+    private LevelController levelController;
+    private LevelController LevelControllerPlay
+    {
+        set
+        {
+            levelController = value;
+        }
+        get
+        {
+            if(levelController == null) { 
+                levelController = (LevelController)FindObjectOfType(typeof(LevelController));
+            }
+            return levelController;
+        }
+    }
+    private static LoadDataBase instance;
+    public static LoadDataBase Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<LoadDataBase>();
+            }
+            return instance;
+        }
+        private set
+        {
+            instance = value;
+        }
+    }
     private IEnumerator CoroutineCycleGame;
+    public static bool checkgameloadingRun = false;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            Debug.Log("co chay nay heheehe");
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+    }
+
     public void LoadLevelGame(string str)
     {
         if(Controller.Instance.LevelIDInt > Controller.MAX_LEVEL){
@@ -316,22 +377,20 @@ public class LoadDataBase : MonoBehaviour
         }
         else
         {
-            if(CoroutineLoadData != null)
-            {
-                StopCoroutine(CoroutineLoadData);
-                CoroutineLoadData = null;
-            }
-
-            if(CoroutineCycleGame != null)
-            {
-                StopCoroutine(CoroutineCycleGame);
-                CoroutineCycleGame = null;
-            }
-            
+            if (checkgameloadingRun == true) return;
+            checkgameloadingRun = true;   
             PrepareBeforeLoadLevel();
             LoadFileJsonLevel(str);
         }
     }
+
+    public void LoadLevelGame2(string str)
+    {
+        checkgameloadingRun = true;
+        PrepareBeforeLoadLevel();
+        LoadFileJsonLevel(str);
+    }
+
 
     public void PrepareBeforeLoadLevel()
     {
@@ -346,56 +405,11 @@ public class LoadDataBase : MonoBehaviour
             string jsonLevel = handle.Result.text;
             string[] strings = jsonLevel.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
             itemCount = strings.Length;
-            CoroutineLoadData = TextToData(strings);
-            StartCoroutine(CoroutineLoadData);
-
-            //foreach (string str in strings)
-            //{            
-            //    if (str.StartsWith("tut:"))
-            //    {
-            //        HandTutEditString(str);
-            //    }
-            //    else if (str.StartsWith("board:"))
-            //    {
-            //        HandBoaEditString(str);
-            //    }
-            //    else if (str.StartsWith("slot:"))
-            //    {
-            //        HandSlotEditString(str);
-            //    }
-            //    else if (str.StartsWith("savable:"))
-            //    {
-            //        HandSavableEditString(str);
-            //    }
-            //    else if (str.StartsWith("hint:"))
-            //    {
-            //        HandHintEditString(str);
-            //    }
-            //    else if (str.StartsWith("time"))
-            //    {
-            //        HandTimeEditString(str);
-            //    }
-            //    else if (str.StartsWith("level"))
-            //    {
-            //        HandLevelEditString(str);
-            //    }
-            //    else if (str.StartsWith("spr:"))
-            //    {
-            //        HandSprEditString(str);
-            //    }
-            //}
+            foreach (string str in strings)
+            {
+                TextProcess(str);
+            }
         };
-    }
-   private IEnumerator TextToData(string[] strings)
-   {
-        int m = 0;
-        int n = strings.Length;
-        while(m < n)
-        {
-            TextProcess(strings[m]);
-            m++;
-        }
-        yield return null;
     }
    private void TextProcess(string str)
    {
@@ -435,27 +449,40 @@ public class LoadDataBase : MonoBehaviour
 
     public void CheckTimeSetUpMap()
     {
-        itemCount--;
+        itemCount--;     
         if (itemCount == 0)
         {
             CoroutineCycleGame = CycleLoad();
             StartCoroutine(CoroutineCycleGame);
-            //PrepareGame();        
-            //LevelController.Instance.screenshotcamera.captureScreenshot = true;
-            //(CreatePhysic2dforboard());
         }
     }
-
     IEnumerator CycleLoad()
-    {
+    {      
         PrepareGame();
         LevelController.Instance.screenshotcamera.captureScreenshot = true;
-        yield return new WaitForSeconds(1);
-        CreatePhysic2dforboard();
-        CheckBoardSetupMap();
+        yield return new WaitForSeconds(0.25f);
+        try
+        {
+            CreatePhysic2dforboard();
+            CheckBoardSetupMap();
+            checkgameloadingRun = false;
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+            Debug.Log("hehehehehehehe");
+            Controller.Instance.nailLayerController.ClearLayer();
+            Controller.Instance.rootlevel?.ClearRoot(() =>
+            {
+                for (int i = 0; i < Controller.Instance.transform.childCount; i++)
+                {
+                    Destroy(Controller.Instance.transform.GetChild(i).gameObject);
+                }
+                checkgameloadingRun = false;
+                SceneManager.LoadScene("Level");
+            });
+        }
     }
-
-
 
     public void PrepareGame() {
         if (Controller.Instance.rootlevel.listHand.Count != 0)
@@ -468,58 +495,50 @@ public class LoadDataBase : MonoBehaviour
         }
     }
 
-    public void CheckAdAwaitBad(){
-        for (int i=0; i < Controller.Instance.rootlevel.litsslot.Count; i++)
-        {
-            
-            Controller.Instance.rootlevel.Findsadforslot(Controller.Instance.rootlevel.litsslot[i]);
+    public void CheckAdAwaitBad(){       
+        foreach (Slot_Item slot_tiem in Controller.Instance.rootlevel.litsslot_mydictionary.Values)
+        {        
+            Controller.Instance.rootlevel.Findsadforslot(slot_tiem);
         }
     }
 
     private void CheckBoardSetupMap()
-    {     
-        //while (boardCount != 0)
-        //{
-        //    yield return null;
-        //}     
+    {
         ActivePhysic2dforboard();    
     }
 
     private void CreatePhysic2dforboard()
     {
-        //yield return new WaitForSeconds(1);
-        CheckAdAwaitBad();
-
-        //boardCount = 0;
-        for (int i=0; i < Controller.Instance.rootlevel.litsnail.Count; i++)
-        {     
-            Bounds boundnail = Controller.Instance.rootlevel.litsnail[i].ColiderNail.bounds;
+        CheckAdAwaitBad();      
+        foreach (Nail_Item nailItem in Controller.Instance.rootlevel.litsnail_mydictionary.Values)
+        {
+            if (nailItem == null) return;
+            Bounds boundnail = nailItem.ColiderNail.bounds;
             Vector2 size = boundnail.size;
-            List<int> layerboard = new List<int>();       
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(Controller.Instance.rootlevel.litsnail[i].transform.position, size, 0);                      
+            List<int> layerboard = new List<int>();
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(nailItem.transform.position, size, 0);      
             foreach (Collider2D collider in colliders)
-            {              
+            {            
                 Bounds bounds1 = collider.bounds;
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
-                {                
+                {
+                   
                     bool fullyOverlap = bounds1.Contains(boundnail.min) && bounds1.Contains(boundnail.max);
-                    if(fullyOverlap == true){                    
-                        Board_Item board = collider.GetComponent<Board_Item>();
-                        //boardCount++;
-                        LoadSlotBoardAddressAble(board, Controller.Instance.rootlevel.litsnail[i]);
+                    if (fullyOverlap == true)
+                    {
+                        Board_Item board = collider.GetComponent<Board_Item>();                  
+                        LoadSlotBoardAddressAble(board, nailItem);
                         layerboard.Add(collider.gameObject.layer - 6);
-                    }
+                    }                  
                 }
-            }           
-            Controller.Instance.rootlevel.litsnail[i].gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
-        }
-
-        //StartCoroutine(CheckBoardSetupMap());
+            }
+            nailItem.gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
+        }       
     }
 
     public void ActivePhysic2dforboard()
     {
-        for(int i=0; i< Controller.Instance.rootlevel.listboard.Count; i++)
+        for (int i=0; i< Controller.Instance.rootlevel.listboard.Count; i++)
         {
             Controller.Instance.rootlevel.listboard[i].SetupRb();
         }
@@ -529,6 +548,8 @@ public class LoadDataBase : MonoBehaviour
     public void LoadSlotBoardAddressAble(Board_Item board, Nail_Item nail_item)
     {
         Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
+        if (slotboarditem == null) return;
+
         slotboarditem.transform.position = nail_item.transform.position;
         slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.x, nail_item.nail.rot.y, nail_item.nail.rot.z));
        
@@ -541,6 +562,7 @@ public class LoadDataBase : MonoBehaviour
         nail_item.listHingeJoin.Add(hingeJoint);     
         boardCount--;
         slotboarditem.hingeJointInSlot = hingeJoint;
+       
     }
 
 
@@ -580,9 +602,10 @@ public class LoadDataBase : MonoBehaviour
     public void LoadHintAddressAble(string str, Hint hint)
     {
         Hint_Item hintItem = Hint_Spawner.Instance._pool.Get();
+        if (hintItem == null) return;
         hintItem.transform.position = new Vector3(hint.pos.x, hint.pos.y, hint.pos.z);
         hintItem.transform.rotation = Quaternion.Euler(new Vector3(hint.rot.x, hint.rot.y, hint.rot.z));
-        hintItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
+        hintItem.transform.SetParent(LevelControllerPlay.MainLevelSetupCreateMap);
         hintItem.transform.localScale = new Vector3(hint.scale.x, hint.scale.y, hint.scale.z);
         hintItem.SetUpTextIdHint(hint.hintId.ToString());
         Controller.Instance.rootlevel.listHint.Add(hintItem);
@@ -629,9 +652,10 @@ public class LoadDataBase : MonoBehaviour
     public void LoadKeyAddressAble(Key key)
     {
         Key_Item keyItem = KeySpawner.Instance._pool.Get();
+        if (keyItem == null) return;
         keyItem.transform.position = new Vector3(key.pos.x, key.pos.y, key.pos.z);
         keyItem.transform.rotation = Quaternion.Euler(new Vector3(key.rot.x, key.rot.y, key.rot.z));
-        keyItem.transform.SetParent(levelController.MainLevelSetupCreateMap);
+        keyItem.transform.SetParent(LevelControllerPlay.MainLevelSetupCreateMap);
         keyItem.transform.localScale = new Vector3(key.scale.x, key.scale.y, key.scale.z);
         SpriteRenderer spriteRenderer = keyItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = key.layer;
@@ -643,17 +667,31 @@ public class LoadDataBase : MonoBehaviour
     public void LoadLockAddressAble(string str, Lock lock1)
     {
         Lock_Item lockItem = LockSpawner.Instance._pool.Get();
+        if (lockItem == null) return;
         lockItem.transform.position = new Vector3(lock1.pos.x, lock1.pos.y, lock1.pos.z);
-        lockItem.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.x, lock1.rot.y, lock1.rot.z));
+        lockItem.spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(lock1.rot.x, lock1.rot.y, lock1.rot.z));
         lockItem.spriteRenderer.transform.localScale = new Vector3(lock1.scale.x, lock1.scale.y, lock1.scale.z);      
         lockItem.spriteRenderer.sortingOrder = lock1.layer;
         lockItem.spriteRenderer.color = new Color(lock1.color.r, lock1.color.g, lock1.color.b, lock1.color.a);
-        if (Controller.Instance.rootlevel.Findslotforlock(lockItem) == false)
-        {
-            Controller.Instance.rootlevel.litslock.Add(lockItem);
-        }
+        //if (Controller.Instance.rootlevel.Findslotforlock(lockItem) == false)
+        //{
+        //    Controller.Instance.rootlevel.litslock.Add(lockItem);
+        //}
 
-        Controller.Instance.rootlevel.litslock.Add(lockItem);
+        //Controller.Instance.rootlevel.litslock.Add(lockItem);
+        Controller.Instance.rootlevel.Findslotforlock(lockItem);
+
+        if (Controller.Instance.rootlevel.litslock_mydictionary.ContainsKey(lockItem.transform.position.ToString()))
+        {
+            Controller.Instance.rootlevel.litslock_mydictionary[lockItem.transform.position.ToString()].ResetPool();
+            Controller.Instance.rootlevel.litslock_mydictionary.Remove(lockItem.transform.position.ToString());
+        }
+        //else
+        //{
+        Controller.Instance.rootlevel.litslock_mydictionary.Add(lockItem.transform.position.ToString(), lockItem);
+        //}
+
+
         CheckTimeSetUpMap();
     }
 
@@ -762,138 +800,45 @@ public class LoadDataBase : MonoBehaviour
                 break;
         }
         if (boardItem == null) return;
+        boardItem.boardinfomation = board;
         boardItem.transform.position = new Vector3(board.pos.x, board.pos.y, board.pos.z);
         boardItem.transform.rotation = Quaternion.Euler(new Vector3(board.rot.x, board.rot.y, board.rot.z));
-        boardItem.transform.parent = levelController.MainLevelSetupCreateMap;
+        boardItem.transform.parent = LevelControllerPlay.MainLevelSetupCreateMap;
         boardItem.transform.localScale = new Vector3(board.scale.x, board.scale.y, board.scale.z);
         SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = board.layer + 5;
         boardItem.gameObject.layer = 6 + board.layer;
         spriteRenderer.color = new Color(board.color.r, board.color.g, board.color.b, board.color.a);
-
-
-
-
-        //AsyncOperationHandle<GameObject> asyncOperationHandle2 = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("bomb"));
-        //asyncOperationHandle2.Completed += (handle2) =>
-        //{
-        //    GameObject bomb = Instantiate(handle2.Result, new Vector3(board.bomb.pos.X, board.bomb.pos.Y, board.bomb.pos.Z), Quaternion.Euler(new Vector3(board.bomb.rot.X, board.bomb.rot.Y, board.bomb.rot.Z)));
-        //    bomb.transform.localScale = new Vector3(board.bomb.scale.X, board.bomb.scale.Y, board.bomb.scale.Z);
-        //    bomb.transform.parent = a.transform;
-        //};
-        //Board_Item board_Item = a.GetComponent<Board_Item>();
-
-
-
         Controller.Instance.rootlevel.listboard.Add(boardItem);
         CheckTimeSetUpMap();
-        //try
-        //{
-        //    AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        //    asyncOperationHandle.Completed += (handle) =>
-        //    {
-        //        if (handle.Status == AsyncOperationStatus.Succeeded)
-        //        {
-        //            try
-        //            {
-        //                GameObject a = Instantiate(handle.Result, new Vector3(board.pos.X, board.pos.Y, board.pos.Z), Quaternion.Euler(new Vector3(board.rot.X, board.rot.Y, board.rot.Z)), levelController.MainLevelSetupCreateMap);
-        //                a.transform.localScale = new Vector3(board.scale.X, board.scale.Y, board.scale.Z);
-        //                SpriteRenderer spriteRenderer = a.GetComponent<SpriteRenderer>();
-        //                spriteRenderer.sortingOrder = board.layer;
-
-        //                a.layer = 6 + board.layer;
-        //                spriteRenderer.color = new Color(board.color.R, board.color.G, board.color.B, board.color.A);
-        //                AsyncOperationHandle<GameObject> asyncOperationHandle2 = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress("bomb"));
-        //                asyncOperationHandle2.Completed += (handle2) =>
-        //                {
-        //                    GameObject bomb = Instantiate(handle2.Result, new Vector3(board.bomb.pos.X, board.bomb.pos.Y, board.bomb.pos.Z), Quaternion.Euler(new Vector3(board.bomb.rot.X, board.bomb.rot.Y, board.bomb.rot.Z)));
-        //                    bomb.transform.localScale = new Vector3(board.bomb.scale.X, board.bomb.scale.Y, board.bomb.scale.Z);
-        //                    bomb.transform.parent = a.transform;
-        //                };
-        //                Board_Item board_Item = a.GetComponent<Board_Item>();
-        //                levelController.rootlevel.listboard.Add(board_Item);
-
-        //            }
-        //            catch
-        //            {
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Debug.Log("loi roi hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-        //        }
-
-
-        //        CheckTimeSetUpMap();
-        //    };
-        //}
-        //catch
-        //{
-
-        //}
     }
 
 
     public void LoadSlotAddressAble(string str, Slot slot)
     {
         Slot_Item slot_Item = slot_Spawner.Instance._pool.Get();
+        if (slot_Item == null) return;
         slot_Item.transform.position = new Vector3(slot.pos.x, slot.pos.y, slot.pos.z);
         slot_Item.transform.rotation = Quaternion.Euler(new Vector3(slot.rot.x, slot.rot.y, slot.rot.z));
-        slot_Item.transform.parent = levelController.MainLevelSetupCreateMap;
+        slot_Item.transform.parent = LevelControllerPlay.MainLevelSetupCreateMap;
         slot_Item.transform.localScale = new Vector3(slot.scale.x, slot.scale.y, slot.scale.z);
         slot_Item.hasNail = slot.hasNail;
         slot_Item.hasLock = slot.hasLock;
-        Controller.Instance.rootlevel.litsslot.Add(slot_Item);
-        if (slot_Item.hasNail == true || slot_Item.hasLock == true)
-        {
-            if (slot_Item.hasNail == true)
-            {
-                Controller.Instance.rootlevel.Findsnailforslot(slot_Item);
-            }
-            if (slot_Item.hasLock == true)
-            {
-                Controller.Instance.rootlevel.Findslockforslot(slot_Item);
-            }
-
+     
+        if (Controller.Instance.rootlevel.litsslot_mydictionary.ContainsKey(slot_Item.transform.position.ToString())){
+            Controller.Instance.rootlevel.litsslot_mydictionary[slot_Item.transform.position.ToString()].ResetPool();
+            Controller.Instance.rootlevel.litsslot_mydictionary.Remove(slot_Item.transform.position.ToString());
         }
-
-        //Controller.Instance.rootlevel.Findsadforslot(slot_Item);
+        Controller.Instance.rootlevel.litsslot_mydictionary.Add(slot_Item.transform.position.ToString(), slot_Item);     
+        if (slot_Item.hasNail == true)
+        {
+            Controller.Instance.rootlevel.Findsnailforslot(slot_Item);
+        }
+        if (slot_Item.hasLock == true)
+        {
+            Controller.Instance.rootlevel.Findslockforslot(slot_Item);
+        }    
         CheckTimeSetUpMap();
-
-        //AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        //asyncOperationHandle.Completed += (handle) =>
-        //{
-        //    if (handle.Status == AsyncOperationStatus.Succeeded)
-        //    {
-        //        GameObject a = Instantiate(handle.Result, new Vector3(slot.pos.X, slot.pos.Y, slot.pos.Z), Quaternion.Euler(new Vector3(slot.rot.X, slot.rot.Y, slot.rot.Z)), levelController.MainLevelSetupCreateMap);
-        //        a.transform.localScale = new Vector3(slot.scale.X, slot.scale.Y, slot.scale.Z);
-        //        Slot_Item slot_Item = a.GetComponent<Slot_Item>();
-        //        slot_Item.hasNail = slot.hasNail;
-        //        slot_Item.hasLock = slot.hasLock;
-        //        levelController.rootlevel.litsslot.Add(slot_Item);
-        //        if (slot_Item.hasNail == true || slot_Item.hasLock == true)
-        //        {
-        //            if (slot_Item.hasNail == true)
-        //            {
-        //                levelController.rootlevel.Findsnailforslot(slot_Item);
-        //            }
-        //            if (slot_Item.hasLock == true)
-        //            {
-        //                levelController.rootlevel.Findslockforslot(slot_Item);
-        //            }
-
-        //        }
-
-        //        levelController.rootlevel.Findsadforslot(slot_Item);
-        //    }
-        //    else
-        //    {
-        //        // Handle the failure case
-        //    }
-
-        //    CheckTimeSetUpMap();
-        //};
     }
 
     public void LoadNailAddressAble(string str,  Nail nail)
@@ -926,13 +871,25 @@ public class LoadDataBase : MonoBehaviour
             nail_Item.transform.position = new Vector3(nail.pos.x, nail.pos.y, nail.pos.z);
             nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.x, nail.rot.y, nail.rot.z));
             Controller.Instance.rootlevel.Findslotfornail(nail_Item);
-            Controller.Instance.rootlevel.litsnail.Add(nail_Item);
+            //Controller.Instance.rootlevel.litsnail.Add(nail_Item);
+            //Controller.Instance.rootlevel.litsnail_mydictionary.Add(nail_Item.transform.position.ToString(), nail_Item);
+
+            if (Controller.Instance.rootlevel.litsnail_mydictionary.ContainsKey(nail_Item.transform.position.ToString()))
+            {
+                Controller.Instance.rootlevel.litsnail_mydictionary.Remove(nail_Item.transform.position.ToString());
+            }
+            //else
+            //{
+            Controller.Instance.rootlevel.litsnail_mydictionary.Add(nail_Item.transform.position.ToString(), nail_Item);
+
+            //}
             CheckTimeSetUpMap();
         }
     }
     public void LoadAdAddressAble(string str, Ad ad)
     {
         Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
+        if (aditem == null) return;
         aditem.transform.position = new Vector3(ad.pos.x, ad.pos.y, ad.pos.z);
         aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.x, ad.rot.y, ad.rot.z));
         aditem.spriteRenderer.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
@@ -944,9 +901,10 @@ public class LoadDataBase : MonoBehaviour
     public void LoadBgAddressAble(Bg bg)
     {
         Bg_Item bg_Item = bg_Spawner.Instance._pool.Get();
+        if (bg_Item == null) return;
         bg_Item.transform.position = new Vector3(bg.pos.x, bg.pos.y, bg.pos.z);
         bg_Item.transform.rotation = Quaternion.Euler(new Vector3(bg.rot.x, bg.rot.y, bg.rot.z));
-        bg_Item.transform.SetParent(levelController.MainLevelSetupCreateMap);   
+        bg_Item.transform.SetParent(LevelControllerPlay.MainLevelSetupCreateMap);   
         bg_Item.transform.localScale = new Vector3(bg.scale.x, bg.scale.y, bg.scale.z);
         Controller.Instance.rootlevel.bgItem = bg_Item;        
         CheckTimeSetUpMap();

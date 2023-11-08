@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 public class Board_Item : MonoBehaviour, TInterface<Board_Item>
 {
@@ -11,13 +12,16 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     public List<Slot_board_Item> listslot;
     public SpriteRenderer spritemain;
     public Rigidbody2D rb;
-    // Start is called before the first frame update
+    public Board boardinfomation;
+    public Vector3 rotationPre;
 
     private void Awake()
-    {
+    {      
         spritemain = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
     }
+  
+
     //void Start()
     //{
 
@@ -27,7 +31,6 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     //    //}      
     //}
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -68,10 +71,10 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
 
     public void ResetPool()
     {
-        if(_pool == null)
-        {       
-            return;
-        }
+        //if(_pool == null)
+        //{       
+        //    return;
+        //}
         _pool.Release(this);
     }
 
@@ -80,8 +83,12 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         return this;
     }
     public void ResetAfterRelease()
-    {   
-        rb.bodyType = RigidbodyType2D.Kinematic;   
+    {
+        NotRb();
+    }
+
+    public void StartCreate()
+    {
         HingeJoint2D[] hingeJoints = gameObject.GetComponents<HingeJoint2D>();
 
         foreach (HingeJoint2D hingeJoint in hingeJoints)
@@ -94,11 +101,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
             slot_board_item.ResetPool();
         }
         listslot.Clear();
-    }
-
-    public void StartCreate()
-    {
-        rb.bodyType = RigidbodyType2D.Kinematic;
+        NotRb();
     }
 
     public void WhenTriggerandBoardCheck()
@@ -122,14 +125,69 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     public Slot_board_Item FindOtherSlotBoard(Slot_board_Item a){
     
         int Index = 0;
-        while (listslot[Index] == a && Index < listslot.Count)
-        {           
-            Index++;
-        }       
+
+        for(int i = 0; i < listslot.Count; i++)
+        {
+            if(listslot[Index] == a)
+            {
+                break;
+            }
+        }
+
+        //while (listslot[Index] == a && Index < listslot.Count)
+        //{           
+        //    Index++;
+        //}       
         return listslot[Index];
     }
 
     public virtual void DetermineCenterPoint(Slot_board_Item a){
 
     }
+    public bool CompareVectors()
+    {
+        if (Mathf.Abs(transform.rotation.eulerAngles.x - boardinfomation.rot.x) <=0.1f && Mathf.Abs(transform.rotation.eulerAngles.y - boardinfomation.rot.y) <= 0.1f && Mathf.Abs(transform.rotation.eulerAngles.z - boardinfomation.rot.z) <= 0.1f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+     public virtual void AutoRotate(Slot_board_Item slotboardItem, Slot_board_Item findanySlotBoardIteminboard, Slot_Item slotItem)
+     {
+        Slot_board_Item parentt = FindOtherSlotBoard(slotboardItem);
+        Vector2 dirboard = findanySlotBoardIteminboard.transform.position - slotItem.transform.position;
+        Vector2 dir3 = findanySlotBoardIteminboard.transform.position - slotboardItem.transform.position;
+        findanySlotBoardIteminboard.transform.SetParent(this.transform.parent);
+        this.transform.SetParent(findanySlotBoardIteminboard.transform);
+        float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);     
+        if (this.transform.eulerAngles.z < 180)
+        {
+            if (this.transform.eulerAngles.z < 60f)
+            {
+                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+            }
+            else
+            {
+                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+            }
+        }
+        else
+        {
+            if (this.transform.eulerAngles.z < 300f)
+            {
+                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+            }
+            else
+            {
+                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+            }
+        }
+        this.transform.SetParent(findanySlotBoardIteminboard.transform.parent);
+        findanySlotBoardIteminboard.transform.SetParent(transform);
+     }
+
 }

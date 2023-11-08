@@ -8,6 +8,7 @@ public class TextLevel : MonoBehaviour
 {
     // Start is called before the first frame update
     public TextMeshProUGUI textLevel;
+   
     void Start()
     {
         textLevel.text = "Level " + Controller.Instance.LevelIDInt;

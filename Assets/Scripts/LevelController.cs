@@ -9,7 +9,6 @@ public class LevelController : MonoBehaviour
     public delegate void CheckActionUser();
     public event CheckActionUser checkActionUser;
 
-
     public List<int> LevelDacbiet = new List<int>(){9,19,29};
     public ParticleSystem paritcleSystemWin;
     private static LevelController instance;
@@ -31,22 +30,17 @@ public class LevelController : MonoBehaviour
 
 
 
-    public LoadDataBase loadDataBase;
+    //public LoadDataBase loadDataBase;
     public Transform MainLevelSetupCreateMap;
 
     public ScreenShotCamera screenshotcamera;
 
     public Transform HelpHandTurtorial;
     public TxTScaleAuto TxtTur;
-    void Start()
-    {
-        // Physics2D.IgnoreLayerCollision(17, 17, false);    
-
-
-        //rootlevel = new RootLevel();
-        //loadDataBase.LoadLevelGame("Assets/_GameAssets/data_2.json");
-        
-        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+    public void StartGame()
+    {           
+        LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());
+        CanvasManagerGamePlay.Instance.IngameUI.gameObject.SetActive(true);
         Controller.Instance.background_ui.Notdacbiet();
     }
 
@@ -62,10 +56,15 @@ public class LevelController : MonoBehaviour
         if(LevelDacbiet.Contains(Controller.Instance.LevelIDInt)){
             CanvasManagerGamePlay.Instance.levelDacbietUI.gameObject.SetActive(true);
         }else{
-            CleanMap();
-            Controller.Instance.rootlevel?.ClearRoot();
-     
-            loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+            if (LoadDataBase.checkgameloadingRun == false)
+            {
+                CleanMap();
+                Controller.Instance.rootlevel?.ClearRoot(() =>
+                {
+                    LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());
+                });
+            }
+            
         }
         Controller.Instance.nailLayerController.ClearLayer();    
     } 
@@ -84,26 +83,70 @@ public class LevelController : MonoBehaviour
 
     public void ResetLevel()
     {
+        if (LoadDataBase.checkgameloadingRun == true)
+        {         
+            return;
+        }
         CleanMap();
-        Controller.Instance.rootlevel?.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
-        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
-       
+        Controller.Instance.rootlevel?.ClearRoot(() => {
+            if (ButtonLevel.LevelPlaying == "")
+            {
+                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());
+                Debug.Log("CHAY 1");
+            }
+            else
+            {
+                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.LevelPlaying);
+                Debug.Log("CHAY 2");
+            }
+        }); 
+    }
+
+    public void ResetLevel2()
+    {
+        //CleanMap();
+        //Controller.Instance.nailLayerController.ClearLayer();
+        //Controller.Instance.rootlevel?.ClearRoot(() =>
+        //{
+        //    for (int i = 0; i < Controller.Instance.transform.childCount; i++)
+        //    {
+        //        Destroy(Controller.Instance.transform.GetChild(i).gameObject);
+        //    }
+        //    if (ButtonLevel.LevelPlaying == "")
+        //    {
+        //        LoadDataBase.Instance.LoadLevelGame2(ButtonLevel.GetLevelString());
+        //        Debug.Log("CHAY 1");
+        //    }
+        //    else
+        //    {
+        //        LoadDataBase.Instance.LoadLevelGame2(ButtonLevel.LevelPlaying);
+        //        Debug.Log("CHAY 2");
+        //    }
+        //});
     }
 
     public void NextLevelNotDacbiet()
     {
-        if(Background.statusbg == "dacbiet")
+        if (LoadDataBase.checkgameloadingRun == true)
+        {      
+            return;
+        }
+        if (Background.statusbg == "dacbiet")
         {
             Controller.Instance.background_ui.Notdacbiet();
         }
-
         CleanMap();
         Controller.Instance.LevelIDInt++;
-        Controller.Instance.rootlevel?.ClearRoot();
         Controller.Instance.nailLayerController.ClearLayer();
-        loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
-      
+        Controller.Instance.rootlevel.ClearRoot(() =>
+        {
+            LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());
+        });
+    
+        //Debug.Log(Controller.Instance.LevelIDInt+"eiiiiiiiiiiiiii");
+        //Controller.Instance.nailLayerController.ClearLayer();
+        //loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
     }
 
 

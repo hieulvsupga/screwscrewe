@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using DG.Tweening;
+using System.Linq;
+
 public class Key_Item : MonoBehaviour, TInterface<Key_Item>
 {
     //pool
@@ -40,9 +42,11 @@ public class Key_Item : MonoBehaviour, TInterface<Key_Item>
     }
 
     public void FindLock(){
-        if(checkRunning == true || Controller.Instance.rootlevel.litslock.Count == 0) return;
-        Lock_Item lock_Item = Controller.Instance.rootlevel.litslock[0];
-        if(lock_Item == null){
+        //(checkRunning == true || Controller.Instance.rootlevel.litslock.Count == 0) return;
+        if (checkRunning == true || Controller.Instance.rootlevel.litslock_mydictionary.Count == 0) return;
+        //Lock_Item lock_Item = Controller.Instance.rootlevel.litslock[0];
+        Lock_Item lock_Item = Controller.Instance.rootlevel.litslock_mydictionary.First().Value;
+        if (lock_Item == null){
             return;
         }
         checkRunning = true;

@@ -4,11 +4,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+public enum StateButtonLevel
+{
+    Active, Await
+}
 public class ButtonLevel : MonoBehaviour
 {
+    public static string LevelPlaying="";
     public TextMeshProUGUI textLevel;
     public Image backgroudImage;
     public Image statusImage;
+    public StateButtonLevel state = StateButtonLevel.Await;
     private int level;
     public int Level
     {
@@ -29,39 +35,39 @@ public class ButtonLevel : MonoBehaviour
     }
     public void ClickLevel()
     {    
+        if(state == StateButtonLevel.Await) {
+            Debug.Log("chua den level nay");
+            return;
+        }
         Controller.Instance.LevelIDInt = level;
         Controller.Instance.StartLevel();
     }
     public static string GetLevelString()
     {
+        LevelPlaying = $"Assets/_GameAssets/data_{Controller.Instance.LevelIDInt}.json";
         return $"Assets/_GameAssets/data_{Controller.Instance.LevelIDInt}.json";
     }
     public static string GetLevelDacbietString(){
+        LevelPlaying = $"Assets/_GameAssets/data_b_{Controller.Instance.LevelIDInt}.json";
         return $"Assets/_GameAssets/data_b_{Controller.Instance.LevelIDInt}.json";
     }
 
-    //private void Start() {
-    //    if(Level < Controller.Instance.LevelIDInt){
-    //        Actived();
-    //    }else if (Level == Controller.Instance.LevelIDInt){
-    //        Activing();
-    //    }else{
-    //        AwaitActive();
-    //    }
-    //}
     public void SetUp()
     {
         if (Level < PlayerPrefs.GetInt("Playinglevel"))
         {
             Actived();
+            state = StateButtonLevel.Active;
         }
         else if (Level == PlayerPrefs.GetInt("Playinglevel"))
         {
             Activing();
+            state = StateButtonLevel.Active;
         }
         else
         {
             AwaitActive();
+            state = StateButtonLevel.Await;
         }
     }
 

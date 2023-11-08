@@ -2078,7 +2078,7 @@ namespace EnhancedUI.EnhancedScroller
         //HIEULAICHUYENDOI
         public int jumpdesire = 0;
 
-        void OnEnable()
+        void Start()
         {
             // when the scroller is enabled, add a listener to the onValueChanged handler
             _scrollRect.onValueChanged.AddListener(_ScrollRect_OnValueChanged);

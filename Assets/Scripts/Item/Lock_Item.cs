@@ -39,7 +39,8 @@ public class Lock_Item : MonoBehaviour, TInterface<Lock_Item>
     public void ResetPool2()
     {
         ResetPool();
-        Controller.Instance.rootlevel.litslock.Remove(this);
+        //Controller.Instance.rootlevel.litslock.Remove(this);
+        Controller.Instance.rootlevel.litslock_mydictionary.Remove(transform.position.ToString());
     }
 
     private void OnTriggerEnter2D(Collider2D other)

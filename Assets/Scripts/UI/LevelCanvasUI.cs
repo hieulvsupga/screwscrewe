@@ -11,16 +11,9 @@ public class LevelCanvasUI : MonoBehaviour
     void Start()
     {
         if(flag == 1) { return; }
-        //GetIndexJumpLevel(PlayerPrefs.GetInt("Playinglevel"));
+       
         GetIndexJumpLevel(Controller.Instance.LevelIDInt);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GetIndexJumpLevel(int level)
     {
         flag = 1;

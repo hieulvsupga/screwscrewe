@@ -40,9 +40,14 @@ public class ButtonFunction : MonoBehaviour
     }
 
     public void HomeBtn(){
-        Controller.Instance.rootlevel?.ClearRoot();
-        SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();
+        Controller.Instance.rootlevel?.ClearRoot(() =>
+        {
+            //SceneManager.LoadScene("Level");
+            CanvasManagerGamePlay.Instance.IngameUI.gameObject.SetActive(false);
+            Timer.instance.uiText.gameObject.SetActive(false);
+            CanvasManagerGamePlay.Instance.SelectLevelUI.gameObject.SetActive(true);
+        });
     }
 
     public void AddTimeBtn(){

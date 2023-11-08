@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3268058185806036298}
   - component: {fileID: 8971097244591394631}
   - component: {fileID: 687804617825132400}
-  - component: {fileID: 2497858786144012284}
   - component: {fileID: 1040654200483001792}
+  - component: {fileID: 2229217682096120923}
   m_Layer: 6
   m_Name: 275x100
   m_TagString: Board
@@ -113,21 +113,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.81, y: 1.06}
   m_EdgeRadius: 0
---- !u!114 &2497858786144012284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5933808433255059705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28d7641bd6b6d644ab14de7101be81fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listslot: []
-  spritemain: {fileID: 0}
-  rb: {fileID: 0}
 --- !u!50 &1040654200483001792
 Rigidbody2D:
   serializedVersion: 4
@@ -149,3 +134,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2229217682096120923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5933808433255059705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7ec4d685250214c918e3ae14fadb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listslot: []
+  spritemain: {fileID: 0}
+  rb: {fileID: 0}
+  boardinfomation:
+    pos:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 0
+      y: 0
+      z: 0
+    rot:
+      x: 0
+      y: 0
+      z: 0
+    layer: 0
+    color:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    bomb:
+      pos:
+        x: 0
+        y: 0
+        z: 0
+      scale:
+        x: 0
+        y: 0
+        z: 0
+      rot:
+        x: 0
+        y: 0
+        z: 0
+  rotationPre: {x: 0, y: 0, z: 0}

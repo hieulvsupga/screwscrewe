@@ -24,16 +24,19 @@ public class CanvasManagerGamePlay : MonoBehaviour
         }
     }
     public void Home(){
-        Controller.Instance.rootlevel?.ClearRoot();
-        SceneManager.LoadScene("Level");
         Controller.Instance.nailLayerController.ClearLayer();
+        Controller.Instance.rootlevel?.ClearRoot(() =>
+        {
+            SceneManager.LoadScene("Level");
+        });
     }
     public TextLevel textLevel;
     public Transform DefaultUI;
     public Transform HintUI;
     public Transform WinUI;
     public LevelDacbiet levelDacbietUI;
-
+    public Transform SelectLevelUI;
+    public Transform IngameUI;
     public void Test2()
     {
         Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
@@ -44,6 +47,6 @@ public class CanvasManagerGamePlay : MonoBehaviour
 
     public void Test3()
     {
-        LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
+       // LevelController.Instance.loadDataBase.LoadLevelGame(ButtonLevel.GetLevelString());
     }
 }
