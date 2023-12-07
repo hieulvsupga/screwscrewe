@@ -21,6 +21,10 @@ public class LoadingBar : MonoBehaviour
             ladingBar.fillAmount = Mathf.Clamp01(elapsedTime / 3f);
             yield return null;
         }
-        SceneManager.LoadSceneAsync("Level");
+        while (Controller.Instance.LoadDataIndex < 17 && Controller.Instance.LoadDataIndex >= 0)
+        {
+            yield return 0;
+        }
+        SceneManager.LoadSceneAsync("GamePlay");
     }
 }
