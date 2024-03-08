@@ -39,7 +39,15 @@ public class NailLayerController : MonoBehaviour
         int m = 6;
         while(m <= 12)
         {
-            Physics2D.IgnoreLayerCollision(layer, m, false);
+            try
+            {
+                Physics2D.IgnoreLayerCollision(layer, m, false);
+            }
+            catch
+            {
+                Debug.Log("goa tri loi gap phai la" + m);
+            }
+           
             m++;
         }
     }

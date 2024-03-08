@@ -37,10 +37,6 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/ItemInMap/bomb.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: b3892ca55280cbb4db32e935f1932043
-    m_Address: Assets/Prefabs/ItemInMap/bg.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: d858671c461cd974b996e9cdde6a6531
     m_Address: Assets/Prefabs/ItemInMap/275x100.prefab
     m_ReadOnly: 0
@@ -545,6 +541,22 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 68b4c7e399ee1b84283f6d8b1dc1ce4e
     m_Address: Assets/Audio/Confetti.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3d724f687d1dc2f4c97381a1821243ef
+    m_Address: Assets/Audio/etfx_target_hit.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7969c6142aa52b64cb85dadea10f687c
+    m_Address: Assets/Audio/etfx_screw_break.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 017e84c220687b141bb32b65121e3bbc
+    m_Address: Assets/Prefabs/ItemInMap/bg.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 51769cd492b5b5e4d90e37d3986476eb
+    m_Address: Assets/Prefabs/ItemInMap/New/bar.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

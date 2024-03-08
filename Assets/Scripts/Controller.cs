@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 
 public class Controller : MonoBehaviour
@@ -85,7 +86,7 @@ public class Controller : MonoBehaviour
 
     public void StartLevel(){
         //LoadLevelScene("GamePlay");
-        CanvasManagerGamePlay.Instance.SelectLevelUI.gameObject.SetActive(false);
+        CanvasManagerGamePlay.Instance.SelectLevelUI.DisableLevel();
         LevelController.Instance.StartGame();
     }
     
@@ -103,11 +104,32 @@ public class Controller : MonoBehaviour
             
         }
     }
-
-
-
     public void TimeRemotetoController(int a)
     {
         TimeEvent?.Invoke(a);
+    }
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(Vector3.zero, 30);
+    }
+
+    void DrawCircle(Vector3 center, float radius)
+    {
+        float theta = 0;
+        float x = radius * Mathf.Cos(theta);
+        float y = radius * Mathf.Sin(theta);
+        Vector3 startPos = center + new Vector3(x, 0, y);
+        Vector3 endPos = Vector3.zero;
+
+        for (int i = 1; i <= 360; i++)
+        {
+            theta = (i * Mathf.PI) / 180;
+            x = radius * Mathf.Cos(theta);
+            y = radius * Mathf.Sin(theta);
+            endPos = center + new Vector3(x, 0, y);
+            Debug.DrawLine(startPos, endPos, Color.red);
+            startPos = endPos;
+        }
     }
 }

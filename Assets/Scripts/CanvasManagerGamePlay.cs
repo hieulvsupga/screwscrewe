@@ -35,7 +35,8 @@ public class CanvasManagerGamePlay : MonoBehaviour
     public Transform HintUI;
     public Transform WinUI;
     public LevelDacbiet levelDacbietUI;
-    public Transform SelectLevelUI;
+    public LevelCanvasUI SelectLevelUI;
+
     public Transform IngameUI;
     public void Test2()
     {

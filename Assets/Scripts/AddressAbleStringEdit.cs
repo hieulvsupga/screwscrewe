@@ -80,6 +80,10 @@ public static class AddressAbleStringEdit
             case "hint":
                 url = "Assets/Prefabs/ItemInMap/hint.prefab";
                 break;
+            case "bar":
+                Debug.Log("Hehehehehehehhehehehhehehehehehehhehehe");
+                url = "Assets/Prefabs/ItemInMap/New/bar.prefab";
+                break;
         }
         return url;
    }

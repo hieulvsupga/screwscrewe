@@ -72,8 +72,6 @@ public class LevelController : MonoBehaviour
     public void CleanMap()
     {
         ControllPlayGame.Instance.targetNail = null;
-
-        //Debug.Log(ListUIEffectControll.Count+"so luong la");
         for(int i=0; i< ListUIEffectControll.Count; i++)
         {
             ListUIEffectControll[i].ResetPool();
@@ -92,13 +90,11 @@ public class LevelController : MonoBehaviour
         Controller.Instance.rootlevel?.ClearRoot(() => {
             if (ButtonLevel.LevelPlaying == "")
             {
-                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());
-                Debug.Log("CHAY 1");
+                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.GetLevelString());           
             }
             else
             {
-                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.LevelPlaying);
-                Debug.Log("CHAY 2");
+                LoadDataBase.Instance.LoadLevelGame(ButtonLevel.LevelPlaying);             
             }
         }); 
     }

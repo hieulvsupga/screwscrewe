@@ -47,7 +47,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.2
 --- !u!1 &7366862771831928363
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasNail: 0
   hasLock: 0
+  Aditem: {fileID: 0}
   nail_item: {fileID: 0}
   mainCheckCollider: {fileID: 2715764962259619631}
 --- !u!61 &-3336137368973036998

@@ -1,10 +1,30 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class board275x100 : Board_Item
 {
+    public override bool Define_intersection(Vector3 positionM)
+    {
+        Vector2 am = new Vector2(positionM.x - positionAnchor[0].position.x, positionM.y - positionAnchor[0].position.y);
+        Vector2 ab = new Vector2(positionAnchor[1].position.x - positionAnchor[0].position.x, positionAnchor[1].position.y - positionAnchor[0].position.y);
+        Vector2 ad = new Vector2(positionAnchor[3].position.x - positionAnchor[0].position.x, positionAnchor[3].position.y - positionAnchor[0].position.y);
+        float amab = Vector3.Dot(am, ab);
+        float abab = Vector3.Dot(ab,ab);
+        float amad = Vector3.Dot(am, ad);
+        float adad = Vector3.Dot(ad,ad);
+        if(amab > 0 && abab > amab && amad >0 && adad > amad)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     //test 14 - 6
     public override void AutoRotate(Slot_board_Item slotboardItem, Slot_board_Item findanySlotBoardIteminboard, Slot_Item slotItem)
     {
@@ -13,9 +33,9 @@ public class board275x100 : Board_Item
         Vector2 dir3 = findanySlotBoardIteminboard.transform.position - slotboardItem.transform.position;
         findanySlotBoardIteminboard.transform.SetParent(this.transform.parent);
         this.transform.SetParent(findanySlotBoardIteminboard.transform);
-        float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);
-        //Debug.Log(slotItem.transform.position.y + "=======================" + slotboardItem.transform.position.y);
-        float bb = slotItem.transform.position.y - slotboardItem.transform.position.y;
+        //float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);
+        ////Debug.Log(slotItem.transform.position.y + "=======================" + slotboardItem.transform.position.y);
+        //float bb = slotItem.transform.position.y - slotboardItem.transform.position.y;
 
         //Debug.Log(bb + "fffffffffffffff");
         //if (bb > 0)
@@ -33,8 +53,6 @@ public class board275x100 : Board_Item
         Vector3 axis = Vector3.Cross(dir3, dirboard);
         float angle = Vector3.Angle(dir3, dirboard);
         Quaternion rotation = Quaternion.AngleAxis(angle, axis);
-
-        // Áp dụng phép quay cho đường thẳng a
         findanySlotBoardIteminboard.transform.rotation = rotation * findanySlotBoardIteminboard.transform.rotation;
 
 

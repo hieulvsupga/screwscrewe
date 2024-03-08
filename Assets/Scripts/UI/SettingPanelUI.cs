@@ -38,7 +38,9 @@ public class SettingPanelUI : MonoBehaviour
         Controller.Instance.nailLayerController.ClearLayer();
         Controller.Instance.rootlevel?.ClearRoot(() =>
         {
-            SceneManager.LoadScene("Level");
+            CanvasManagerGamePlay.Instance.IngameUI.gameObject.SetActive(false);
+            Timer.instance.uiText.gameObject.SetActive(false);
+            CanvasManagerGamePlay.Instance.SelectLevelUI.HienCanvasLevel();
         });
     }
 }

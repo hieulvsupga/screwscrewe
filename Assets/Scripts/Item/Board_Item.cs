@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 public class Board_Item : MonoBehaviour, TInterface<Board_Item>
 {
+    public Transform[] positionAnchor;
     //pool
     private ObjectPool<Board_Item> _pool;
 
@@ -20,16 +20,6 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
         spritemain = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
     }
-  
-
-    //void Start()
-    //{
-
-    //    //if(mask != null)
-    //    //{
-    //    //    mask.frontSortingLayerID = spritemain.sortingLayerID + 1;
-    //    //}      
-    //}
 
     void Update()
     {
@@ -71,10 +61,6 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
 
     public void ResetPool()
     {
-        //if(_pool == null)
-        //{       
-        //    return;
-        //}
         _pool.Release(this);
     }
 
@@ -118,8 +104,24 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
     {
         if(other.gameObject.layer == 31){
             Key_Item key_Item = other.transform.GetComponent<Key_Item>();
-            key_Item.FindLock();
+
+            if(key_Item != null)
+            {
+                key_Item.FindLock();
+            }
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Board")){
+
+            AudioController.Instance.PlayClip("vacham");
+        }
+        else if (collision.gameObject.CompareTag("Nail"))
+        {
+            AudioController.Instance.PlayClip("vachamdinh");
+        }     
     }
 
     public Slot_board_Item FindOtherSlotBoard(Slot_board_Item a){
@@ -132,12 +134,7 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
             {
                 break;
             }
-        }
-
-        //while (listslot[Index] == a && Index < listslot.Count)
-        //{           
-        //    Index++;
-        //}       
+        }       
         return listslot[Index];
     }
 
@@ -158,36 +155,55 @@ public class Board_Item : MonoBehaviour, TInterface<Board_Item>
 
      public virtual void AutoRotate(Slot_board_Item slotboardItem, Slot_board_Item findanySlotBoardIteminboard, Slot_Item slotItem)
      {
+        //Slot_board_Item parentt = FindOtherSlotBoard(slotboardItem);
+        //Vector2 dirboard = findanySlotBoardIteminboard.transform.position - slotItem.transform.position;
+        //Vector2 dir3 = findanySlotBoardIteminboard.transform.position - slotboardItem.transform.position;
+        //findanySlotBoardIteminboard.transform.SetParent(this.transform.parent);
+        //this.transform.SetParent(findanySlotBoardIteminboard.transform);
+        //float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);     
+        //if (this.transform.eulerAngles.z < 180)
+        //{
+        //    if (this.transform.eulerAngles.z < 60f)
+        //    {
+        //        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+        //    }
+        //    else
+        //    {
+        //        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+        //    }
+        //}
+        //else
+        //{
+        //    if (this.transform.eulerAngles.z < 300f)
+        //    {
+        //        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
+        //    }
+        //    else
+        //    {
+        //        findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
+        //    }
+        //}
+        //this.transform.SetParent(findanySlotBoardIteminboard.transform.parent);
+        //findanySlotBoardIteminboard.transform.SetParent(transform);
         Slot_board_Item parentt = FindOtherSlotBoard(slotboardItem);
         Vector2 dirboard = findanySlotBoardIteminboard.transform.position - slotItem.transform.position;
         Vector2 dir3 = findanySlotBoardIteminboard.transform.position - slotboardItem.transform.position;
         findanySlotBoardIteminboard.transform.SetParent(this.transform.parent);
         this.transform.SetParent(findanySlotBoardIteminboard.transform);
-        float a = findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard);     
-        if (this.transform.eulerAngles.z < 180)
-        {
-            if (this.transform.eulerAngles.z < 60f)
-            {
-                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
-            }
-            else
-            {
-                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
-            }
-        }
-        else
-        {
-            if (this.transform.eulerAngles.z < 300f)
-            {
-                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z + Vector2.Angle(dir3, dirboard));
-            }
-            else
-            {
-                findanySlotBoardIteminboard.transform.rotation = Quaternion.Euler(0, 0, findanySlotBoardIteminboard.transform.rotation.eulerAngles.z - Vector2.Angle(dir3, dirboard));
-            }
-        }
+
+        Vector3 axis = Vector3.Cross(dir3, dirboard);
+        float angle = Vector3.Angle(dir3, dirboard);
+        Quaternion rotation = Quaternion.AngleAxis(angle, axis);
+        findanySlotBoardIteminboard.transform.rotation = rotation * findanySlotBoardIteminboard.transform.rotation;
+
+
         this.transform.SetParent(findanySlotBoardIteminboard.transform.parent);
         findanySlotBoardIteminboard.transform.SetParent(transform);
      }
+
+    public virtual bool Define_intersection(Vector3 positionM)
+    {
+        return true;
+    }
 
 }

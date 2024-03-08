@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 806007959271058569}
   m_Layer: 17
   m_Name: nail
-  m_TagString: Untagged
+  m_TagString: Nail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.3
 --- !u!1 &7996325270031685163
 GameObject:
   m_ObjectHideFlags: 0

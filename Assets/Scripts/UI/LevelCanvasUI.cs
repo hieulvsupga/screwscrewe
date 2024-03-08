@@ -2,11 +2,14 @@ using EnhancedUI.EnhancedScroller;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelCanvasUI : MonoBehaviour
 {
     public EnhancedScroller enhancedscroller_Level;
+    public Transform SettingText;
     public static int flag = 0;
+    public Image imagePannel;
 
     void Start()
     {
@@ -30,5 +33,22 @@ public class LevelCanvasUI : MonoBehaviour
             }
         }
         enhancedscroller_Level.jumpdesire = m;
+    }
+
+    public void DisableLevel()
+    {
+        enhancedscroller_Level._container.gameObject.SetActive(false);
+        SettingText.gameObject.SetActive(false);
+        imagePannel.enabled = false;
+        Controller.Instance.background_ui.imageBackground.gameObject.SetActive(true);
+    }
+
+
+    public void HienCanvasLevel()
+    {
+        enhancedscroller_Level._container.gameObject.SetActive(true);
+        SettingText.gameObject.SetActive(true);
+        imagePannel.enabled = true;
+        Controller.Instance.background_ui.imageBackground.gameObject.SetActive(false);
     }
 }

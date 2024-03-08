@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Board
   - Slot
+  - Nail
   layers:
   - Default
   - TransparentFX

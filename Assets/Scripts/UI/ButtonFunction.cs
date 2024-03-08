@@ -46,7 +46,7 @@ public class ButtonFunction : MonoBehaviour
             //SceneManager.LoadScene("Level");
             CanvasManagerGamePlay.Instance.IngameUI.gameObject.SetActive(false);
             Timer.instance.uiText.gameObject.SetActive(false);
-            CanvasManagerGamePlay.Instance.SelectLevelUI.gameObject.SetActive(true);
+            CanvasManagerGamePlay.Instance.SelectLevelUI.HienCanvasLevel();
         });
     }
 

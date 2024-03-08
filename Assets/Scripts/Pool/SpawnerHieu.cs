@@ -10,6 +10,7 @@ using System;
 public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U : MonoBehaviour,TInterface<X> where X : MonoBehaviour
 {
     public string name="";
+    public string _name = "";
     private static T instance;
     public static T Instance
     {
@@ -34,7 +35,7 @@ public class SpawnerHieu<T,U,X> : MonoBehaviour where T : MonoBehaviour where U 
         {
             instance = this.GetComponent<T>();
             DontDestroyOnLoad(this);
-            if (name == null || name == "") return;
+            if (_name == null || _name == "") return;
             AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(name));
             asyncOperationHandle.Completed += (handle) =>
             {

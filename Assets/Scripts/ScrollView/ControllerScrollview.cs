@@ -44,19 +44,12 @@ namespace EnhancedScrollerDemos.GridSelection
         /// 
         public int MaxCellLevel = 500;
         void Start()
-        {
-            // set the application frame rate.
-            // this improves smoothness on some devices
+        {          
             Application.targetFrameRate = 60;
-
-            // tell the scroller that this script will be its delegate
             scroller.Delegate = this;
-
-            // load in a large set of data
-
         }
         private void OnEnable()
-        {
+        {          
             LoadData();
         }
         /// <summary>
@@ -79,7 +72,7 @@ namespace EnhancedScrollerDemos.GridSelection
             // set up some simple data
             _data = new SmallList<Data>();
             for (var i = 0; i < MaxCellLevel; i++)
-            {
+            {             
                 _data.Add(new Data() { someText = i.ToString() });
             }
 

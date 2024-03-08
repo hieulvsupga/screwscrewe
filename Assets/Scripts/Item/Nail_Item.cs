@@ -13,12 +13,12 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
     public Sprite[] spriteRange;
     public Nail nail;
     public Slot_Item slot_item;
-    public Collider2D ColiderNail;
+    public CircleCollider2D ColiderNail;
     public List<HingeJoint2D> listHingeJoin;
     private Board_Item boardItemBeforeandAfter;
     private void Awake()
     {
-        ColiderNail = GetComponent<Collider2D>();
+        ColiderNail = GetComponent<CircleCollider2D>();
     }
     //private void OnMouseDown()
     //{
@@ -61,26 +61,43 @@ public class Nail_Item : MonoBehaviour, TInterface<Nail_Item>
             {
                 if (collider.gameObject.layer == 29)
                 {
+                    CircleCollider2D circleCollider = collider as CircleCollider2D;
+                    //Debug.Log("dang dinh cai cc gi di riouf ádfa"+circleCollider.radius+"=================hehehehe"+ ColiderNail.radius);
+                    //Debug.Log("khoang cach giua 2 tam cua vong tron la"+Vector3.Distance(transform.position, collider.gameObject.transform.position));
+                    //Debug.Log("tong ban kinh 2 cai kia la" + (circleCollider.radius + ColiderNail.radius));
+                    //Debug.Log("râticuoicung"+CicleandCicle.Dientichgiaonhauhaihinhtron(Vector3.Distance(transform.position, collider.gameObject.transform.position), circleCollider.radius, ColiderNail.radius));
+                    //Debug.Log("râticuoicung2" + CicleandCicle.CalculateOverlapArea(Vector3.Distance(transform.position, collider.gameObject.transform.position), circleCollider.radius, ColiderNail.radius));
+                    float distanceCicle = Vector3.Distance(transform.position, collider.gameObject.transform.position);
+                    if(distanceCicle < circleCollider.radius && distanceCicle < ColiderNail.radius) { 
+                        Board_Item boarditem = collider.transform.parent.GetComponent<Board_Item>();
+                        Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
 
-                    Board_Item boarditem = collider.transform.parent.GetComponent<Board_Item>();
-                    Slot_board_Item slotboardItem = collider.GetComponent<Slot_board_Item>();
-                    Slot_board_Item findanySlotBoardIteminboard = CheckHingleInBoard(boarditem);
-                    if (findanySlotBoardIteminboard == null)
-                    {
-                        Vector3 positionchange = slotItem.transform.position - slotboardItem.transform.position;
-                        boarditem.transform.position += positionchange;
-                        listHingeJoin.Add(slotboardItem.hingeJointInSlot);
-                        slotboardItem.hingeJointInSlot.enabled = true;
-                        layerboard.Add(collider.transform.parent.gameObject.layer - 6);
-                    }
-                    else
-                    {
+                        if(boarditem == null)
+                        {
+                            Debug.Log("board item == null");
+                        }
+                        else
+                        {
+                            Slot_board_Item findanySlotBoardIteminboard = CheckHingleInBoard(boarditem);
+                            if (findanySlotBoardIteminboard == null)
+                            {
+                                Vector3 positionchange = slotItem.transform.position - slotboardItem.transform.position;
+                                boarditem.transform.position += positionchange;
+                                listHingeJoin.Add(slotboardItem.hingeJointInSlot);
+                                slotboardItem.hingeJointInSlot.enabled = true;
+                                layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+                            }
+                            else
+                            {
 
-                        listHingeJoin.Add(slotboardItem.hingeJointInSlot);
-                        slotboardItem.hingeJointInSlot.enabled = true;
-                        layerboard.Add(collider.transform.parent.gameObject.layer - 6);
-                        //dich chuyen doi tuong
-                        boarditem.AutoRotate(slotboardItem, findanySlotBoardIteminboard, slotItem);
+                                listHingeJoin.Add(slotboardItem.hingeJointInSlot);
+                                slotboardItem.hingeJointInSlot.enabled = true;
+                                layerboard.Add(collider.transform.parent.gameObject.layer - 6);
+                                //dich chuyen doi tuong
+                                boarditem.AutoRotate(slotboardItem, findanySlotBoardIteminboard, slotItem);
+                            }
+                        }
+
                     }
                 }
             }

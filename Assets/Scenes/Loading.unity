@@ -315,6 +315,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!82 &520711295 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 246380650195012817, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+  m_PrefabInstance: {fileID: 919757606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &615156763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 246380650195012791, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+  m_PrefabInstance: {fileID: 919757606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &615156764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615156763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454d218740a04a04d83c06cc6af053bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: bar
+  _name: bar
+  _poolItemPrefab: {fileID: 0}
 --- !u!1 &860923423
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +441,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 246380650195012768, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_400x400
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012769, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_400x100
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012770, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_150x150
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012771, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_275x100
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012772, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012774, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: slot_board
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012775, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: key
+      objectReference: {fileID: 0}
     - target: {fileID: 246380650195012776, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -460,14 +513,74 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012777, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: nail
+      objectReference: {fileID: 0}
     - target: {fileID: 246380650195012778, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
       propertyPath: cameraMain
       value: 
       objectReference: {fileID: 1803726889}
+    - target: {fileID: 246380650195012779, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_550x100
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012780, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_400x175
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012781, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_700x100
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012782, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_W
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012783, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_L
+      objectReference: {fileID: 0}
     - target: {fileID: 246380650195012791, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
       propertyPath: m_Name
       value: Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012816, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: locked
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012824, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: lock
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012825, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: ad
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012826, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: hint
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012827, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: bg
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012828, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_U
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012829, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: board_tam_giac
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012830, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: _name
+      value: nail_particle
+      objectReference: {fileID: 0}
+    - target: {fileID: 246380650195012831, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 520711295}
     - target: {fileID: 6039727284332211800, guid: 9b49f2a7007cb8740a927937bef79f4e, type: 3}
       propertyPath: m_Camera
       value: 
@@ -802,6 +915,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6590179086458218320, guid: 616f1694965ef1847b45716b2f38a72e, type: 3}
+      propertyPath: orthographic size
+      value: 5.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6590179086458218321, guid: 616f1694965ef1847b45716b2f38a72e, type: 3}
       propertyPath: m_RootOrder
       value: 3

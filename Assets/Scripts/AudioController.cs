@@ -26,7 +26,7 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    Dictionary<string, AudioClip> myDictionary = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> myDictionary = new Dictionary<string, AudioClip>();
 
     public AudioSource audioSource;
     public AudioSource audioSourceBackGround;
@@ -65,7 +65,7 @@ public class AudioController : MonoBehaviour
                         myDictionary[clipstring] = handle.Result;
                         if ((DateTime.Now - datecheck).TotalSeconds <= 1)
                         {
-                            audioSource.PlayOneShot(handle.Result);
+                           audioSource.PlayOneShot(handle.Result);
                         }
                     }
                 };
@@ -85,6 +85,12 @@ public class AudioController : MonoBehaviour
                 break;
             case "win":
                 h = "Assets/Audio/Confetti.wav";
+                break;
+            case "vacham":
+                h = "Assets/Audio/etfx_target_hit.ogg";
+                break;
+            case "vachamdinh":
+                h = "Assets/Audio/etfx_screw_break.ogg";
                 break;
         }
         return h;

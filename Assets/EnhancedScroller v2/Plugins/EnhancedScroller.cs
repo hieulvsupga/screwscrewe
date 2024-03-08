@@ -1198,7 +1198,7 @@ namespace EnhancedUI.EnhancedScroller
         /// <summary>
         /// Cached reference to the active cell view container
         /// </summary>
-        private RectTransform _container;
+        public RectTransform _container;
 
         /// <summary>
         /// Cached reference to the layout group that handles view positioning

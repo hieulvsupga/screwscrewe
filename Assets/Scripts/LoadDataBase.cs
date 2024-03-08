@@ -1,14 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
 using System;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Unity.VisualScripting;
-using Sirenix.OdinInspector.Editor;
-using UnityEditor;
-using System.Linq;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -364,7 +359,6 @@ public class LoadDataBase : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.Log("co chay nay heheehe");
             instance = this;
             DontDestroyOnLoad(this);
         }
@@ -413,6 +407,7 @@ public class LoadDataBase : MonoBehaviour
     }
    private void TextProcess(string str)
    {
+        Debug.Log(str + "Fawefawefawfawfawefawefawfawfaefawfawefawfawefawfea");
         if (str.StartsWith("tut:"))
         {
             HandTutEditString(str);
@@ -427,6 +422,7 @@ public class LoadDataBase : MonoBehaviour
         }
         else if (str.StartsWith("savable:"))
         {
+            Debug.Log(str + "hihihihihihihi");
             HandSavableEditString(str);
         }
         else if (str.StartsWith("hint:"))
@@ -470,7 +466,6 @@ public class LoadDataBase : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogException(e);
-            Debug.Log("hehehehehehehe");
             Controller.Instance.nailLayerController.ClearLayer();
             Controller.Instance.rootlevel?.ClearRoot(() =>
             {
@@ -522,14 +517,17 @@ public class LoadDataBase : MonoBehaviour
                 Bounds bounds1 = collider.bounds;
                 if (bounds1.Intersects(boundnail) && collider.CompareTag("Board"))
                 {
-                   
-                    bool fullyOverlap = bounds1.Contains(boundnail.min) && bounds1.Contains(boundnail.max);
-                    if (fullyOverlap == true)
+                    Board_Item board_item = collider.gameObject.GetComponent<Board_Item>();
+                    if (board_item.Define_intersection(nailItem.transform.position))
                     {
-                        Board_Item board = collider.GetComponent<Board_Item>();                  
-                        LoadSlotBoardAddressAble(board, nailItem);
-                        layerboard.Add(collider.gameObject.layer - 6);
-                    }                  
+                        bool fullyOverlap = bounds1.Contains(boundnail.min) && bounds1.Contains(boundnail.max);
+                        if (fullyOverlap == true)
+                        {
+                            Board_Item board = collider.GetComponent<Board_Item>();
+                            LoadSlotBoardAddressAble(board, nailItem);
+                            layerboard.Add(collider.gameObject.layer - 6);
+                        }
+                    }              
                 }
             }
             nailItem.gameObject.layer = Controller.Instance.nailLayerController.InputNumber(layerboard);
@@ -571,6 +569,7 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandBoaEditString(string str)
     {
+        Debug.Log(str+"fffffffffffffffffffffffffffffffffffff");
         string[] strings = DoubleStringEditNameandValue(str);
         Board board = JsonUtility.FromJson<Board>(strings[1]);
         //Debug.Log("string[1]" + strings[1]);
@@ -705,7 +704,8 @@ public class LoadDataBase : MonoBehaviour
             case "nail":
                 HandSavableEditString_Nail(strings[1]);
                 break;
-            case "bg":        
+            case "bg":
+                Debug.Log("co chay bacjground nay " + str);
                 HandSavableEditString_Bg(strings[1]);
                 break;
             case "txt":
@@ -763,6 +763,7 @@ public class LoadDataBase : MonoBehaviour
 
 
         Board_Item boardItem = null;
+        Debug.Log(str+"fawefawehfaiwuehfiuawhefiuhaweifhagbabehfuiawehui");
         switch (str)
         {
             case "board_550x100":
@@ -797,6 +798,11 @@ public class LoadDataBase : MonoBehaviour
                 break;
             case "board_tam_giac":
                 boardItem = boardtamgiacSpawner.Instance._pool.Get();
+                break;
+            //new
+            case "bar":
+                Debug.Log(str + "f=================i");
+                boardItem = BarSpawner.Instance._pool.Get();
                 break;
         }
         if (boardItem == null) return;

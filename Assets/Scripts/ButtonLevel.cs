@@ -54,12 +54,12 @@ public class ButtonLevel : MonoBehaviour
 
     public void SetUp()
     {
-        if (Level < PlayerPrefs.GetInt("Playinglevel"))
+        if (Level-1 < PlayerPrefs.GetInt("Playinglevel"))
         {
             Actived();
             state = StateButtonLevel.Active;
         }
-        else if (Level == PlayerPrefs.GetInt("Playinglevel"))
+        else if (Level-1 == PlayerPrefs.GetInt("Playinglevel"))
         {
             Activing();
             state = StateButtonLevel.Active;

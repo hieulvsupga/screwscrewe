@@ -91,6 +91,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     IEnumerator Checkboardinslot()
     {
+        
         yield return new WaitForSeconds(0.0f);
         if (ControllPlayGame.Instance.targetNail != null)
         {
@@ -115,7 +116,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
             if (check != 0)
             {
-                ControllPlayGame.Instance.targetNail.testKinematicBoardParent();
+                ControllPlayGame.Instance.targetNail.testKinematicBoardParent();           
             }
             else
             {
