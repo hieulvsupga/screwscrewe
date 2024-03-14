@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -72,7 +73,6 @@ public static class AddressAbleStringEdit
                 break;
             case "bg":
                 url = "Assets/Prefabs/ItemInMap/bg.prefab";
-                //url = "Assets/Prefabs/Sphere.prefab";
                 break;
             case "txt":
                 url = "Assets/Prefabs/ItemInMap/text.prefab";
@@ -80,9 +80,26 @@ public static class AddressAbleStringEdit
             case "hint":
                 url = "Assets/Prefabs/ItemInMap/hint.prefab";
                 break;
-            case "bar":
-                Debug.Log("Hehehehehehehhehehehhehehehehehehhehehe");
+            case "bar":               
                 url = "Assets/Prefabs/ItemInMap/New/bar.prefab";
+                break;
+            case "bracket_1":
+                url = "Assets/Material/Board/bracket_1.mat";
+                break;
+            case "wavy":
+                url = "Assets/Prefabs/ItemInMap/New/wavy.prefab";
+                break;
+            case "solidcicle":
+                url = "Assets/Prefabs/ItemInMap/New/solidcicle.prefab";
+                break;
+            case "eshape":
+                url = "Assets/Prefabs/ItemInMap/New/eshape.prefab";
+                break;
+            case "square":
+                url = "Assets/Prefabs/ItemInMap/New/square.prefab";
+                break;
+            case "plusshape":
+                url = "Assets/Prefabs/ItemInMap/New/plusshape.prefab";
                 break;
         }
         return url;

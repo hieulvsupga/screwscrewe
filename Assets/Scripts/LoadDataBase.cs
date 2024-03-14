@@ -57,7 +57,8 @@ public struct Board
     public Scale scale;
     public Rot rot;
     public int layer;
-    public ColorHieu color;
+    public string material;
+    //public ColorHieu color;
     public Bomb bomb;
 }
 
@@ -69,6 +70,10 @@ public struct Slot
     public Rot rot;
     public bool hasNail;
     public bool hasLock;
+    public bool hasLockAds;
+    public bool hasIce;
+    public bool canPutScrew;
+    public int iceUnlockNumber;
 }
 [System.Serializable]
 public struct Nail
@@ -206,6 +211,7 @@ public class RootLevel
     {
         try
         {
+            if (!litsslot_mydictionary.ContainsKey(nail.transform.position.ToString())) return false;
             Slot_Item slotItem = litsslot_mydictionary[nail.transform.position.ToString()];
             if (slotItem != null && slotItem.hasNail == true)
             {
@@ -221,6 +227,7 @@ public class RootLevel
         }
         catch (Exception ex)
         {
+            Debug.LogError(ex);
             return false;
         }
     }
@@ -242,24 +249,25 @@ public class RootLevel
         }
         catch (Exception ex)
         {
+            Debug.LogError(ex);
             return false;
         }
     }
 
-    public bool Findsadforlock(Ad_Item aditem)
-    {
-        Bounds bounds1 = aditem.GetComponent<Collider2D>().bounds;
-        foreach (Slot_Item slot_item in litsslot_mydictionary.Values)
-        {
-            Bounds bounds2 = slot_item.GetComponent<Collider2D>().bounds;
-            if (bounds1.Intersects(bounds2))
-            {
-                aditem.transform.parent = slot_item.transform;
-                return true;
-            }
-        }
-        return false;
-    }
+    //public bool Findsadforlock(Ad_Item aditem)
+    //{
+    //    Bounds bounds1 = aditem.GetComponent<Collider2D>().bounds;
+    //    foreach (Slot_Item slot_item in litsslot_mydictionary.Values)
+    //    {
+    //        Bounds bounds2 = slot_item.GetComponent<Collider2D>().bounds;
+    //        if (bounds1.Intersects(bounds2))
+    //        {
+    //            aditem.transform.parent = slot_item.transform;
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
 
     public void Findsnailforslot(Slot_Item slot)
@@ -276,6 +284,7 @@ public class RootLevel
         }
         catch (Exception ex)
         {
+          //  Debug.LogError(ex);
         }
     }
 
@@ -288,37 +297,39 @@ public class RootLevel
             {
                 lockItem.transform.parent = slot.transform;
             }
-        }catch(Exception ex)
-        {                
+        }
+        catch (Exception ex)
+        {
+           // Debug.LogError(ex);
         }
     }
+    
+    //public void Findsadforslot(Slot_Item slot)
+    //{
+    //    if(slot == null)
+    //    {
+    //        return;
+    //    }
+    //    List<Ad_Item> fakelistad = listad;
+    //    Bounds bounds1 = slot.GetComponent<Collider2D>().bounds;
+    //    for (int i = 0; i < fakelistad.Count; i++)
+    //    {
+    //        Bounds bounds2 = fakelistad[i].GetComponent<Collider2D>().bounds;
 
-    public void Findsadforslot(Slot_Item slot)
-    {
-        if(slot == null)
-        {
-            return;
-        }
-        List<Ad_Item> fakelistad = listad;
-        Bounds bounds1 = slot.GetComponent<Collider2D>().bounds;
-        for (int i = 0; i < fakelistad.Count; i++)
-        {
-            Bounds bounds2 = fakelistad[i].GetComponent<Collider2D>().bounds;
-
-            if (bounds1.Intersects(bounds2))
-            {
-                fakelistad[i].transform.parent = slot.transform;
-                slot.Aditem = fakelistad[i];
-            }
-        }
-    }
+    //        if (bounds1.Intersects(bounds2))
+    //        {
+    //            fakelistad[i].transform.parent = slot.transform;
+    //            slot.Aditem = fakelistad[i];
+    //        }
+    //    }
+    //}
 }
 
 
 
 public class LoadDataBase : MonoBehaviour
 {
-
+    private Dictionary<int, Color> dictionaryColor = new Dictionary<int, Color>();
     private int itemCount;
     private int boardCount;
     private LevelController levelController;
@@ -397,8 +408,8 @@ public class LoadDataBase : MonoBehaviour
         asyncOperationHandle.Completed += (handle) =>
         {
             string jsonLevel = handle.Result.text;
-            string[] strings = jsonLevel.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);
-            itemCount = strings.Length;
+            string[] strings = jsonLevel.Split(new string[] { "||" }, StringSplitOptions.RemoveEmptyEntries);                 
+            itemCount = strings.Length;       
             foreach (string str in strings)
             {
                 TextProcess(str);
@@ -407,7 +418,7 @@ public class LoadDataBase : MonoBehaviour
     }
    private void TextProcess(string str)
    {
-        Debug.Log(str + "Fawefawefawfawfawefawefawfawfaefawfawefawfawefawfea");
+     
         if (str.StartsWith("tut:"))
         {
             HandTutEditString(str);
@@ -422,7 +433,6 @@ public class LoadDataBase : MonoBehaviour
         }
         else if (str.StartsWith("savable:"))
         {
-            Debug.Log(str + "hihihihihihihi");
             HandSavableEditString(str);
         }
         else if (str.StartsWith("hint:"))
@@ -445,7 +455,8 @@ public class LoadDataBase : MonoBehaviour
 
     public void CheckTimeSetUpMap()
     {
-        itemCount--;     
+        itemCount--;
+       
         if (itemCount == 0)
         {
             CoroutineCycleGame = CycleLoad();
@@ -457,6 +468,7 @@ public class LoadDataBase : MonoBehaviour
         PrepareGame();
         LevelController.Instance.screenshotcamera.captureScreenshot = true;
         yield return new WaitForSeconds(0.25f);
+        Debug.Log("FAEFAWEFAWEFAWEFAWE");
         try
         {
             CreatePhysic2dforboard();
@@ -490,12 +502,12 @@ public class LoadDataBase : MonoBehaviour
         }
     }
 
-    public void CheckAdAwaitBad(){       
-        foreach (Slot_Item slot_tiem in Controller.Instance.rootlevel.litsslot_mydictionary.Values)
-        {        
-            Controller.Instance.rootlevel.Findsadforslot(slot_tiem);
-        }
-    }
+    //public void CheckAdAwaitBad(){       
+    //    foreach (Slot_Item slot_tiem in Controller.Instance.rootlevel.litsslot_mydictionary.Values)
+    //    {        
+    //        Controller.Instance.rootlevel.Findsadforslot(slot_tiem);
+    //    }
+    //}
 
     private void CheckBoardSetupMap()
     {
@@ -504,9 +516,11 @@ public class LoadDataBase : MonoBehaviour
 
     private void CreatePhysic2dforboard()
     {
-        CheckAdAwaitBad();      
+        // CheckAdAwaitBad();
+      
         foreach (Nail_Item nailItem in Controller.Instance.rootlevel.litsnail_mydictionary.Values)
         {
+          
             if (nailItem == null) return;
             Bounds boundnail = nailItem.ColiderNail.bounds;
             Vector2 size = boundnail.size;
@@ -525,6 +539,7 @@ public class LoadDataBase : MonoBehaviour
                         {
                             Board_Item board = collider.GetComponent<Board_Item>();
                             LoadSlotBoardAddressAble(board, nailItem);
+                          
                             layerboard.Add(collider.gameObject.layer - 6);
                         }
                     }              
@@ -547,7 +562,8 @@ public class LoadDataBase : MonoBehaviour
     {
         Slot_board_Item slotboarditem = slotboard_Spawn.Instance._pool.Get();
         if (slotboarditem == null) return;
-
+      
+        slotboarditem.spriteBorder.sortingOrder = board.boardinfomation.layer + 5;
         slotboarditem.transform.position = nail_item.transform.position;
         slotboarditem.transform.rotation = Quaternion.Euler(new Vector3(nail_item.nail.rot.x, nail_item.nail.rot.y, nail_item.nail.rot.z));
        
@@ -569,11 +585,9 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandBoaEditString(string str)
     {
-        Debug.Log(str+"fffffffffffffffffffffffffffffffffffff");
         string[] strings = DoubleStringEditNameandValue(str);
         Board board = JsonUtility.FromJson<Board>(strings[1]);
-        //Debug.Log("string[1]" + strings[1]);
-        //     Debug.Log("string[0]" + strings[0]);
+    
         LoadBoardAddressAble(strings[0],board);
     }
 
@@ -587,7 +601,7 @@ public class LoadDataBase : MonoBehaviour
 
     private void HandSlotEditString(string str)
     {
-        string[] strings = DoubleStringEditNameandValue(str);
+        string[] strings = DoubleStringEditNameandValue(str);     
         Slot slot = JsonUtility.FromJson<Slot>(strings[1]);
         LoadSlotAddressAble(strings[0], slot);
     }
@@ -704,8 +718,7 @@ public class LoadDataBase : MonoBehaviour
             case "nail":
                 HandSavableEditString_Nail(strings[1]);
                 break;
-            case "bg":
-                Debug.Log("co chay bacjground nay " + str);
+            case "bg":           
                 HandSavableEditString_Bg(strings[1]);
                 break;
             case "txt":
@@ -719,7 +732,7 @@ public class LoadDataBase : MonoBehaviour
     private void HandSavableEditString_Ad(string str)
     {
         Ad ad = JsonUtility.FromJson<Ad>(str);   
-        LoadAdAddressAble("ad", ad);
+      //  LoadAdAddressAble("ad", ad);
     }
     private void HandSavableEditString_Nail(string str)
     {
@@ -761,9 +774,8 @@ public class LoadDataBase : MonoBehaviour
     public void LoadBoardAddressAble(string str, Board board)
     {
 
-
         Board_Item boardItem = null;
-        Debug.Log(str+"fawefawehfaiwuehfiuawhefiuhaweifhagbabehfuiawehui");
+      
         switch (str)
         {
             case "board_550x100":
@@ -801,8 +813,22 @@ public class LoadDataBase : MonoBehaviour
                 break;
             //new
             case "bar":
-                Debug.Log(str + "f=================i");
                 boardItem = BarSpawner.Instance._pool.Get();
+                break;
+            case "wavy":
+               boardItem = WavySpawner.Instance._pool.Get();
+                break;
+            case "solidcicle":
+                boardItem = SolidCicleSpawner.Instance._pool.Get();
+                break;
+            case "eshaped":
+                boardItem = EShapeSpawner.Instance._pool.Get();
+                break;
+            case "square":
+                boardItem = SquareSpawner.Instance._pool.Get();
+                break;
+            case "plusshaped":
+                boardItem = PlusShapeSpawner.Instance._pool.Get();
                 break;
         }
         if (boardItem == null) return;
@@ -814,7 +840,17 @@ public class LoadDataBase : MonoBehaviour
         SpriteRenderer spriteRenderer = boardItem.GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = board.layer + 5;
         boardItem.gameObject.layer = 6 + board.layer;
-        spriteRenderer.color = new Color(board.color.r, board.color.g, board.color.b, board.color.a);
+        //spriteRenderer.color = new Color(board.color.r, board.color.g, board.color.b, board.color.a);
+        spriteRenderer.color = HandleColorForBoard(board.layer);
+       
+        //AsyncOperationHandle<Material> asyncOperationHandle = Addressables.LoadAssetAsync<Material>(AddressAbleStringEdit.URLAddress(boardItem.boardinfomation.material));
+        //asyncOperationHandle.Completed += (handle) =>
+        //{
+        //    if (handle.Status == AsyncOperationStatus.Succeeded)
+        //    {
+        //        spriteRenderer.material = handle.Result;
+        //    }
+        //};
         Controller.Instance.rootlevel.listboard.Add(boardItem);
         CheckTimeSetUpMap();
     }
@@ -830,11 +866,13 @@ public class LoadDataBase : MonoBehaviour
         slot_Item.transform.localScale = new Vector3(slot.scale.x, slot.scale.y, slot.scale.z);
         slot_Item.hasNail = slot.hasNail;
         slot_Item.hasLock = slot.hasLock;
+        slot_Item.hasLockAds = slot.hasLockAds;
      
         if (Controller.Instance.rootlevel.litsslot_mydictionary.ContainsKey(slot_Item.transform.position.ToString())){
             Controller.Instance.rootlevel.litsslot_mydictionary[slot_Item.transform.position.ToString()].ResetPool();
             Controller.Instance.rootlevel.litsslot_mydictionary.Remove(slot_Item.transform.position.ToString());
         }
+     
         Controller.Instance.rootlevel.litsslot_mydictionary.Add(slot_Item.transform.position.ToString(), slot_Item);     
         if (slot_Item.hasNail == true)
         {
@@ -842,67 +880,51 @@ public class LoadDataBase : MonoBehaviour
         }
         if (slot_Item.hasLock == true)
         {
-            Controller.Instance.rootlevel.Findslockforslot(slot_Item);
+             Controller.Instance.rootlevel.Findslockforslot(slot_Item);
         }    
+        if(slot_Item.hasLockAds == true)
+        {
+            Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
+            if (aditem == null) return;
+            aditem.transform.position = new Vector3(slot.pos.x+0.1f, slot.pos.y+0.1f, slot.pos.z);
+            aditem.transform.rotation = Quaternion.Euler(new Vector3(slot.rot.x, slot.rot.y, slot.rot.z));
+            aditem.spriteRenderer.transform.localScale = new Vector3(slot.scale.x, slot.scale.y, slot.scale.z);
+            aditem.transform.parent = slot_Item.transform;
+            slot_Item.Aditem = aditem;
+            Controller.Instance.rootlevel.listad.Add(aditem);
+        }
+
         CheckTimeSetUpMap();
     }
 
     public void LoadNailAddressAble(string str,  Nail nail)
     {
-        // AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.LoadAssetAsync<GameObject>(AddressAbleStringEdit.URLAddress(str));
-        // asyncOperationHandle.Completed += (handle) =>
-        // {
-        //     if (handle.Status == AsyncOperationStatus.Succeeded)
-        //     {
-        //         GameObject a = Instantiate(handle.Result, new Vector3(nail.pos.X, nail.pos.Y, nail.pos.Z), Quaternion.Euler(new Vector3(nail.rot.X, nail.rot.Y, nail.rot.Z)));
-        //         a.transform.localScale = new Vector3(nail.scale.X, nail.scale.Y, nail.scale.Z);
-        //         Nail_Item nail_Item = a.GetComponent<Nail_Item>();
-        //         nail_Item.nail = nail;
-        //         levelController.rootlevel.Findslotfornail(nail_Item);
-        //         levelController.rootlevel.litsnail.Add(nail_Item);
-        //     }
-        //     else
-        //     {
-        //         // Handle the failure case
-        //     }
-        //     CheckTimeSetUpMap();
-        // };
-
-
-    
         Nail_Item nail_Item = Controller.Instance.nailSpawner._pool.Get();
         if(nail_Item != null){
-            nail_Item.nail = nail;
-            nail_Item.transform.localScale = new Vector3(nail.scale.x, nail.scale.y, nail.scale.z);
+            nail_Item.nail = nail;      
+            nail_Item.transform.localScale = new Vector3(nail.scale.x *1.4f, nail.scale.y *1.4f, nail.scale.z);
             nail_Item.transform.position = new Vector3(nail.pos.x, nail.pos.y, nail.pos.z);
             nail_Item.transform.rotation = Quaternion.Euler(new Vector3(nail.rot.x, nail.rot.y, nail.rot.z));
-            Controller.Instance.rootlevel.Findslotfornail(nail_Item);
-            //Controller.Instance.rootlevel.litsnail.Add(nail_Item);
-            //Controller.Instance.rootlevel.litsnail_mydictionary.Add(nail_Item.transform.position.ToString(), nail_Item);
-
+            Controller.Instance.rootlevel.Findslotfornail(nail_Item);     
             if (Controller.Instance.rootlevel.litsnail_mydictionary.ContainsKey(nail_Item.transform.position.ToString()))
             {
                 Controller.Instance.rootlevel.litsnail_mydictionary.Remove(nail_Item.transform.position.ToString());
-            }
-            //else
-            //{
+            }         
             Controller.Instance.rootlevel.litsnail_mydictionary.Add(nail_Item.transform.position.ToString(), nail_Item);
-
-            //}
             CheckTimeSetUpMap();
         }
     }
-    public void LoadAdAddressAble(string str, Ad ad)
-    {
-        Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
-        if (aditem == null) return;
-        aditem.transform.position = new Vector3(ad.pos.x, ad.pos.y, ad.pos.z);
-        aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.x, ad.rot.y, ad.rot.z));
-        aditem.spriteRenderer.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
-        Controller.Instance.rootlevel.listad.Add(aditem);
+    //public void LoadAdAddressAble(string str, Ad ad)
+    //{
+    //    Ad_Item aditem = Ad_Spawner.Instance._pool.Get();
+    //    if (aditem == null) return;
+    //    aditem.transform.position = new Vector3(ad.pos.x, ad.pos.y, ad.pos.z);
+    //    aditem.transform.rotation = Quaternion.Euler(new Vector3(ad.rot.x, ad.rot.y, ad.rot.z));
+    //    aditem.spriteRenderer.transform.localScale = new Vector3(ad.scale.x, ad.scale.y, ad.scale.z);
+    //    Controller.Instance.rootlevel.listad.Add(aditem);
         
-        CheckTimeSetUpMap();    
-    }
+    //    CheckTimeSetUpMap();    
+    //}
 
     public void LoadBgAddressAble(Bg bg)
     {
@@ -914,6 +936,31 @@ public class LoadDataBase : MonoBehaviour
         bg_Item.transform.localScale = new Vector3(bg.scale.x, bg.scale.y, bg.scale.z);
         Controller.Instance.rootlevel.bgItem = bg_Item;        
         CheckTimeSetUpMap();
+    }
+    Color GetRandomColor()
+    {
+        Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value); // Sinh màu ngẫu nhiên
+
+        // Kiểm tra và điều chỉnh màu để tránh các màu quá tối
+        while (randomColor.r < 0.2f && randomColor.g < 0.2f && randomColor.b < 0.2f)
+        {
+            randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        }
+
+        return randomColor;
+    }
+    public Color HandleColorForBoard(int index)
+    {
+        if(dictionaryColor.ContainsKey(index))
+        {
+            return dictionaryColor[index];
+        }
+        else
+        {
+            Color color = GetRandomColor();
+            dictionaryColor.Add(index, color);
+            return color;
+        }
     }
 }
 

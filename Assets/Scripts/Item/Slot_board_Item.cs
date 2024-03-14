@@ -8,7 +8,7 @@ public class Slot_board_Item : MonoBehaviour, TInterface<Slot_board_Item>
     private ObjectPool<Slot_board_Item> _pool;
     public SpriteMask mask;
     public HingeJoint2D hingeJointInSlot;
-
+    public SpriteRenderer spriteBorder;
     public void SetPool(ObjectPool<Slot_board_Item> pool)
     {
         _pool = pool;

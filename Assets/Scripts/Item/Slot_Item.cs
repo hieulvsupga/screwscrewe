@@ -13,6 +13,7 @@ public class Slot_Item : MonoBehaviour, TInterface<Slot_Item>
 
     public bool hasNail;
     public bool hasLock;
+    public bool hasLockAds;
     public Ad_Item Aditem;
     public Nail_Item nail_item;
 

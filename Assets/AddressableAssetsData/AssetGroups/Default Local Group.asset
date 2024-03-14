@@ -559,6 +559,26 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/ItemInMap/New/bar.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 33069882f6b29bf47845e578b6250f96
+    m_Address: Assets/Prefabs/ItemInMap/New/wavy.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 35250f26d170fb841a7632c49f134509
+    m_Address: Assets/Prefabs/ItemInMap/New/solidcicle.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9c1f24fe754918042804524338ec5779
+    m_Address: Assets/Prefabs/ItemInMap/New/eshape.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9b211f2bd2e98c845986942daab5a139
+    m_Address: Assets/Prefabs/ItemInMap/New/square.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c9f593574ce05e442a3bc3d66204cdca
+    m_Address: Assets/Prefabs/ItemInMap/New/plusshape.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9614d789b0cdf164f9d0f3535372ac79, type: 2}
   m_SchemaSet:
